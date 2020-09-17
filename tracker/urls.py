@@ -12,6 +12,8 @@ urlpatterns = [
     path('handle_new_activity_creation', views.handle_new_activity_creation, name='handle_new_activity_creation'),
     path('user_gear', views.GearViewSet.as_view({'get': 'list'}), name='user_gear'),
     path('toggle_gear_tracking/<str:gear_name>', views.toggle_gear_tracking, name='toggle_gear_tracking'),
+    path('delete_gear/<str:gear_name>', views.delete_gear, name='delete_gear'),
+    path('add_gear/<str:gear_name>', views.add_gear, name='add_gear'),
     path('', views.react, name='react'),
     
     

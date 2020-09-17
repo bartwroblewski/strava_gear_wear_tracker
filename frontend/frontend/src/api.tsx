@@ -60,4 +60,18 @@ const toggleGearTracking: (arg: string) => Promise<any> = async(gearName: string
     return text
 }
 
-export { fetchUserGear, toggleGearTracking }
+const deleteGearUrl: string = domain + '/delete_gear'
+const deleteGear: (arg: string) => Promise<any> = async(gearName: string) => {
+    const response = await fetch(deleteGearUrl + `/${gearName}`)
+    const text = await response.text()
+    return text
+}
+
+const addGearUrl: string = domain + '/add_gear'
+const addGear: (arg: string) => Promise<any> = async(gearName: string) => {
+    const response = await fetch(addGearUrl + `/${gearName}`)
+    const text = await response.text()
+    return text
+}
+
+export { fetchUserGear, toggleGearTracking, deleteGear, addGear }

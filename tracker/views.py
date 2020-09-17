@@ -47,6 +47,7 @@ def show_activity(request):
 def handle_new_activity_creation(request):
     access_token = request.session['tokendata']['access_token']
     activity_id = request.GET.get('object_id')
+    
     activity = get_activity(activity_id, access_token)
     
     #increase the mileage of all tracked gear by the activity distance
@@ -82,4 +83,16 @@ def toggle_gear_tracking(request, gear_name):
     gear = Gear.objects.get(user=user, name=gear_name)
     gear.is_tracked = not gear.is_tracked
     gear.save()
-    return HttpResponse(gear.is_tracked)
+    return HttpResponse('OK')
+
+def delete_gear(request, gear_name):
+    user = request.user
+    gear = Gear.objects.get(user=user, name=gear_name)
+    gear.delete()
+    return HttpResponse('OK')
+
+def add_gear(request, gear_name):
+    user = request.user
+    gear = Gear(name=gear_name)
+    gear.save()
+    return HttpResponse('OK')

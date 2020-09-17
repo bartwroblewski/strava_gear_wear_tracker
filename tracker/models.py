@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 # Create your models here.
 class Gear(models.Model):
     name = models.CharField(max_length=200)
-    mileage = models.FloatField()#(decimal_places=2, max_digits=8)
+    mileage = models.FloatField(default=0)#(decimal_places=2, max_digits=8)
     is_tracked = models.BooleanField(default=True)
     user = models.ForeignKey(
         get_user_model(),

@@ -3,7 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import GearSelect from './components/GearSelect'
 import GearWidget from './components/GearWidget'
-import { fetchUserGear, Gear, toggleGearTracking } from './api'
+import AddGearButton from './components/AddGearButton'
+import { fetchUserGear, Gear, toggleGearTracking, deleteGear, addGear } from './api'
 
 function App() {
 
@@ -24,6 +25,8 @@ function App() {
               toggleGearTracking={toggleGearTracking} 
               is_tracked={g.is_tracked}
               getGear={getGear}
+              deleteGear={deleteGear}
+              addGear={addGear}
             />
   })
   
@@ -32,6 +35,10 @@ function App() {
   return (
     <div>
       {gearWidgets}
+      <AddGearButton 
+        addGear={addGear}
+        getGear={getGear}
+      />
     </div>
   );
 }
