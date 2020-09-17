@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+    <head>
+    </head>
+    <body>
+        APP
+    </body>
+    <script>
+
+    const getGear = async() => {
+        const response = await fetch('http://127.0.0.1:8000/user_gear')
+        const json = await response.json()
+        return json
+    }
+
+    getGear().then(gear => console.log(gear, typeof gear))
+
+    </script>
+</html>
