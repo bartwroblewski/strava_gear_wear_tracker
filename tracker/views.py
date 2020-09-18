@@ -94,5 +94,7 @@ def delete_gear(request, gear_name):
 def add_gear(request, gear_name):
     user = request.user
     gear = Gear(name=gear_name)
+    gear.full_clean() # validate gear uniqueness
     gear.save()
     return HttpResponse('OK')
+    
