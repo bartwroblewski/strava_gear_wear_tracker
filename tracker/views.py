@@ -93,8 +93,11 @@ def delete_gear(request, gear_name):
 
 def add_gear(request, gear_name):
     user = request.user
-    gear = Gear(name=gear_name)
-    gear.full_clean() # validate gear uniqueness
+    gear = Gear(name=gear_name, user=user)
+    try:
+        gear.full_clean() # validate gear uniqueness
+    except:
+        return HttpResponse('Gear name already exists. Please use a unique name.')
     gear.save()
     return HttpResponse('OK')
     
