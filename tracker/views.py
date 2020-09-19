@@ -1,7 +1,7 @@
 import os
 
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseServerError
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.core.serializers import serialize
@@ -97,7 +97,7 @@ def add_gear(request, gear_name):
     try:
         gear.full_clean() # validate gear uniqueness
     except:
-        return HttpResponse('Gear name already exists. Please use a unique name.')
+        return HttpResponseServerError('Gear name already exists. Please use a unique name.')
     gear.save()
     return HttpResponse('OK')
     

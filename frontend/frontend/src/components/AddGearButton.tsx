@@ -10,7 +10,6 @@ const AddGearButton = ({addGear, getGear}: AddGearButtonProps) => {
 
     const handleClick = async() => {
         const response_text = await addGear('Some new gear!')
-        alert(response_text)
         getGear()
     }
     

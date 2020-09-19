@@ -71,6 +71,9 @@ const addGearUrl: string = domain + '/add_gear'
 const addGear: (arg: string) => Promise<any> = async(gearName: string) => {
     const response = await fetch(addGearUrl + `/${gearName}`)
     const text = await response.text()
+    if (!response.ok) {
+        alert(text)
+    }
     return text
 }
 
