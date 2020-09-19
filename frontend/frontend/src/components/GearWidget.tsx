@@ -8,11 +8,9 @@ interface GearWidgetProps {
     is_tracked: boolean,
     getGear: () => void,
     deleteGear: (arg: string) => Promise<any>,
-    addGear: (arg: string) => Promise<any>,
-    
 }
 
-const GearWidget = ({gearName, gearMileage, toggleGearTracking, is_tracked, getGear, deleteGear, addGear}: GearWidgetProps) => {
+const GearWidget = ({gearName, gearMileage, toggleGearTracking, is_tracked, getGear, deleteGear}: GearWidgetProps) => {
 
     const handleCheckboxChange = async() => {
         await toggleGearTracking(gearName) // change is_tracked value in database

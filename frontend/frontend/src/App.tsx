@@ -4,7 +4,9 @@ import './App.css';
 import GearSelect from './components/GearSelect'
 import GearWidget from './components/GearWidget'
 import AddGearButton from './components/AddGearButton'
-import { fetchUserGear, Gear, toggleGearTracking, deleteGear, addGear } from './api'
+import AddGearWidget from './components/AddGearWidget'
+
+import { fetchUserGear, Gear, toggleGearTracking, deleteGear } from './api'
 
 function App() {
 
@@ -26,7 +28,6 @@ function App() {
               is_tracked={g.is_tracked}
               getGear={getGear}
               deleteGear={deleteGear}
-              addGear={addGear}
             />
   })
   
@@ -35,10 +36,7 @@ function App() {
   return (
     <div>
       {gearWidgets}
-      <AddGearButton 
-        addGear={addGear}
-        getGear={getGear}
-      />
+      <AddGearWidget getGear={getGear}/>
     </div>
   );
 }
