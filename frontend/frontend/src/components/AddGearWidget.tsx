@@ -10,9 +10,19 @@ interface AddGearWidgetProps {
 const AddGearWidget = ({getGear}: AddGearWidgetProps) => {
 
     const [showModal, setShowModal] = React.useState(false)
+    const [gearName, setGearName] = React.useState('')
+    const [mileage, setMileage] = React.useState('')
+
+    const handleGearNameInputChange = (e: any) => {
+        setGearName(e.target.value)
+    }
+
+    const handleMileageInputChange = (e: any) => {
+        setMileage(e.target.value)
+    }
 
     const handleOkButtonClick = async() => {
-        const response_text = await addGear('Some new gear!')
+        const response_text = await addGear(gearName)
         setShowModal(false)
         getGear()
     }
@@ -26,8 +36,8 @@ const AddGearWidget = ({getGear}: AddGearWidgetProps) => {
             {showModal ? 
                 <div className="modal">
                     <div>
-                        Gear name: <input type="text"/>
-                        Initial mileage: <input type="number"/>
+                        Gear name: <input type="text" onChange={handleGearNameInputChange} value={gearName}/>
+                        Initial mileage: <input type="number" onChange={handleMileageInputChange} value={mileage}/>
                         Track: <input type="checkbox"/>
                     </div>
                     <div>
