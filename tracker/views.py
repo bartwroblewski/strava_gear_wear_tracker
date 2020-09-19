@@ -1,6 +1,8 @@
 import os
 import json
 
+import requests
+
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseServerError
 from django.shortcuts import render, redirect
@@ -9,6 +11,7 @@ from django.core.serializers import serialize
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import viewsets
 from rest_framework.exceptions import NotAuthenticated
@@ -16,7 +19,7 @@ from rest_framework.exceptions import NotAuthenticated
 from .models import Gear
 from .serializers import GearSerializer
 
-from .api import get_authorization_url, exchange_code_for_tokendata, get_activity
+from .api import get_authorization_url, exchange_code_for_tokendata, get_activity, CLIENT_ID, CLIENT_SECRET
 
 # Create your views here.
 def index(request):
@@ -111,4 +114,36 @@ def add_gear(request):
     gear.is_tracked = track
     gear.save()
     return HttpResponse('OK')
-    
+
+def subscribe(request):
+    url = 'https://www.strava.com/api/v3/push_subscriptions'
+    params = {
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+        'callback_url': 'http://e7ba08f76534.ngrok.io/callback',
+        'verify_token': 'STRAVA',
+    }
+    r = requests.post(url, params=params)
+    print(r.__dict__)
+    return HttpResponse('OK')
+
+@csrf_exempt
+def callback(request):
+    hub_challenge = request.GET.get('hub.challenge')
+    verify_token = request.GET.get('hub.verify_token')
+    print(f'VERIFY TOKEN: {verify_token}')
+    response = {
+        'hub.challenge': hub_challenge,
+    }
+    return redirect(reverse('tracker:handle_new_activity_creation'))#JsonResponse(response)
+
+def view_subscription(request):
+    url = 'https://www.strava.com/api/v3/push_subscriptions'
+    params = {
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+    }
+    r = requests.get(url, params=params)
+    for k, v in r.__dict__.items():
+        print(k, v)
+    return HttpResponse('OK')

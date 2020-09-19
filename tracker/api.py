@@ -2,7 +2,7 @@ import requests
 
 CLIENT_ID = 53702
 CLIENT_SECRET = '44ffd69ab0611f846b7970b3806640c617eb8127'
-DOMAIN = 'http://localhost:8000'
+DOMAIN = 'e7ba08f76534.ngrok.io'#'http://localhost:8000'
 SCOPE = 'activity:read_all,read_all'
 
 def get_authorization_url(after_auth_url):
