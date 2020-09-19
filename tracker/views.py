@@ -1,4 +1,5 @@
 import os
+import json
 
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseServerError
@@ -91,13 +92,23 @@ def delete_gear(request, gear_name):
     gear.delete()
     return HttpResponse('OK')
 
-def add_gear(request, gear_name):
+def add_gear(request):
     user = request.user
-    gear = Gear(name=gear_name, user=user)
+    gear_name = request.GET.get('gear_name')
+    mileage = float(request.GET.get('mileage'))
+    track = json.loads(request.GET.get('track'))
+    print(gear_name, mileage, track)
+    gear = Gear(
+        name=gear_name,
+        user=user,
+    )
     try:
-        gear.full_clean() # validate gear uniqueness
+        gear.full_clean() # validate gear uniqueness per user
     except:
+        #raise
         return HttpResponseServerError('Gear name already exists. Please use a unique name.')
+    gear.mileage = mileage
+    gear.is_tracked = track
     gear.save()
     return HttpResponse('OK')
     
