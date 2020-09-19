@@ -1,6 +1,5 @@
 import React from 'react'
 import { getGeneratedNameForNode, isPropertySignature, textChangeRangeIsUnchanged } from 'typescript'
-import AddGearButton from './AddGearButton'
 import { addGear } from '../api'
 import './css/AddGearWidget.css'
 
@@ -11,7 +10,16 @@ interface AddGearWidgetProps {
 const AddGearWidget = ({getGear}: AddGearWidgetProps) => {
 
     const [showModal, setShowModal] = React.useState(false)
-    const onClick = () => setShowModal(prev => !prev)
+
+    const handleOkButtonClick = async() => {
+        const response_text = await addGear('Some new gear!')
+        setShowModal(false)
+        getGear()
+    }
+
+    const handleCancelButtonClick = () => {
+        setShowModal(false)
+    }
 
     return (
         <div>
@@ -23,16 +31,12 @@ const AddGearWidget = ({getGear}: AddGearWidgetProps) => {
                         Track: <input type="checkbox"/>
                     </div>
                     <div>
-                        <button>OK</button>
-                        <button>Cancel</button>
+                        <button onClick={handleOkButtonClick}>OK</button>
+                        <button onClick={handleCancelButtonClick}>Cancel</button>
                     </div>
                 </div>
             : null}
-            <AddGearButton 
-                addGear={addGear}
-                getGear={getGear}
-            />
-            <button onClick={() => onClick()}>Show modal</button>
+            <button onClick={() => setShowModal(true)}>Add gear</button>
         </div>
     )
 }

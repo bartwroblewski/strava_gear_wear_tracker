@@ -1,6 +1,5 @@
 import React from 'react'
 import { isPropertySignature } from 'typescript'
-import { fetchUserGear } from '../api'
 
 interface GearSelectProps {
     options: string[],

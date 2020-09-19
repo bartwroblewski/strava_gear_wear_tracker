@@ -3,7 +3,6 @@ import logo from './logo.svg';
 import './App.css';
 import GearSelect from './components/GearSelect'
 import GearWidget from './components/GearWidget'
-import AddGearButton from './components/AddGearButton'
 import AddGearWidget from './components/AddGearWidget'
 
 import { fetchUserGear, Gear, toggleGearTracking, deleteGear } from './api'
