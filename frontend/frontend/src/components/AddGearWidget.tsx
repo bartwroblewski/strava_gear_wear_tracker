@@ -27,9 +27,11 @@ const AddGearWidget = ({getGear}: AddGearWidgetProps) => {
     }
 
     const handleOkButtonClick = async() => {
-        const response_text = await addGear(gearName, mileage, track)
-        setShowModal(false)
-        getGear()
+        const success_callback = () => {
+            setShowModal(false)
+            getGear()
+        }
+        const response_text = await addGear(gearName, mileage, track, success_callback)
     }
 
     const handleCancelButtonClick = () => {
