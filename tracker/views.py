@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
+
 from rest_framework import viewsets
 from rest_framework.exceptions import NotAuthenticated
 
@@ -49,17 +50,6 @@ def show_activity(request):
 
 # this is where Strava webhook event will post activity id once activity is created
 def handle_new_activity_creation(request):
-    access_token = request.session['tokendata']['access_token']
-    activity_id = request.GET.get('object_id')
-    
-    activity = get_activity(activity_id, access_token)
-    
-    #increase the mileage of all tracked gear by the activity distance
-    user = request.user
-    tracked_user_gear = Gear.objects.filter(user=user, is_tracked=True)
-    for gear in tracked_user_gear:
-        gear.mileage += activity['distance']
-        gear.save()
     return HttpResponse('OK')
 
 def react(request):
@@ -120,22 +110,41 @@ def subscribe(request):
     params = {
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
-        'callback_url': 'http://e7ba08f76534.ngrok.io/callback',
+        'callback_url': f'http://{settings.DOMAIN}/callback',
         'verify_token': 'STRAVA',
     }
     r = requests.post(url, params=params)
-    print(r.__dict__)
-    return HttpResponse('OK')
+    return HttpResponse(r.text)
 
-@csrf_exempt
+@csrf_exempt # allow Strava webhook event POST request
 def callback(request):
-    hub_challenge = request.GET.get('hub.challenge')
-    verify_token = request.GET.get('hub.verify_token')
-    print(f'VERIFY TOKEN: {verify_token}')
-    response = {
-        'hub.challenge': hub_challenge,
-    }
-    return redirect(reverse('tracker:handle_new_activity_creation'))#JsonResponse(response)
+    # This url is called by Strava either on creating the subscription 
+    # or when webhook event occurs
+    if request.method == 'GET':
+        hub_challenge = request.GET.get('hub.challenge')
+        # if callback called while creating a webhook subsription,
+        # just echo hub.challenge in the response
+        verify_token = request.GET.get('hub.verify_token')
+        print(f'VERIFY TOKEN: {verify_token}')
+        response = {
+            'hub.challenge': hub_challenge,
+        }
+        return JsonResponse(response)
+    if request.method == 'POST':
+        print(request.POST, request.GET, request.__dict__)
+        # if callback is responding to subscribed webhook event
+        access_token = request.session['tokendata']['access_token']
+        activity_id = request.GET.get('object_id')
+    
+        activity = get_activity(activity_id, access_token)
+
+        #increase the mileage of all tracked gear by the activity distance
+        user = request.user
+        tracked_user_gear = Gear.objects.filter(user=user, is_tracked=True)
+        for gear in tracked_user_gear:
+            gear.mileage += activity['distance']
+            gear.save()
+        return HttpResponse('OK')
 
 def view_subscription(request):
     url = 'https://www.strava.com/api/v3/push_subscriptions'
@@ -144,6 +153,16 @@ def view_subscription(request):
         'client_secret': CLIENT_SECRET,
     }
     r = requests.get(url, params=params)
-    for k, v in r.__dict__.items():
-        print(k, v)
-    return HttpResponse('OK')
+    return HttpResponse(r.json())
+
+def delete_subscription(request):
+    id = request.GET.get('id')
+    url = f'https://www.strava.com/api/v3/push_subscriptions/{id}'
+    params = {
+        'id': id,
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+    }
+    r = requests.delete(url, params=params)
+    return HttpResponse(r.text)
+

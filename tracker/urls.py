@@ -17,6 +17,7 @@ urlpatterns = [
     path('subscribe', views.subscribe, name='subscribe'),
     path('callback', views.callback, name='callback'),
     path('view_subscription', views.view_subscription, name='view_subscription'),
+    path('delete_subscription', views.delete_subscription, name='delete_subscription'),
     path('', views.react, name='react'),
     
     

@@ -1,15 +1,20 @@
 import requests
 
+from django.conf import settings
+
 CLIENT_ID = 53702
 CLIENT_SECRET = '44ffd69ab0611f846b7970b3806640c617eb8127'
-DOMAIN = 'e7ba08f76534.ngrok.io'#'http://localhost:8000'
 SCOPE = 'activity:read_all,read_all'
 
 def get_authorization_url(after_auth_url):
+    if settings.DOMAIN == 'localhost':
+        domain = f'http://{settings.DOMAIN}:8000'
+    else:
+        domain = f'http://{settings.DOMAIN}'
     return (
         'http://www.strava.com/oauth/authorize?'
         f'client_id={CLIENT_ID}&response_type=code&'
-        f'redirect_uri={DOMAIN}{after_auth_url}&approval_prompt=force&'
+        f'redirect_uri={domain}{after_auth_url}&approval_prompt=force&'
         f'scope={SCOPE}'
     )
 
