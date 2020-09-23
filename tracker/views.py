@@ -15,7 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 from rest_framework import viewsets
-from rest_framework.exceptions import NotAuthenticated
+from rest_framework.exceptions import NotAuthenticated, NotFound, PermissionDenied
 
 from .models import Gear, Athlete, TokenData
 from .serializers import GearSerializer
@@ -85,7 +85,7 @@ class GearViewSet(viewsets.ModelViewSet):
         try:
             athlete_id = self.request.session['tokendata']['athlete']['id']
         except KeyError:
-            # if no token in session
+            # if no token in session, athlete did not authorize with Strava yet
             raise NotAuthenticated
         athlete = Athlete.objects.get(ref_id=athlete_id)
         athlete_gear = Gear.objects.filter(athlete=athlete)

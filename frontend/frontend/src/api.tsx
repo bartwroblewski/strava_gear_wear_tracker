@@ -19,12 +19,13 @@ const ErrorEnabledFetch: Promised<any> = async(fetchFunc: () => {}) => {
         const result = await fetchFunc()
         return result
     } catch(e)  {
-        handleResponseError(e)
+        return handleResponseError(e)
     }
 }
 
 const handleResponseError = (e: ResponseError) => {
     alert(e.message)
+    return new Promise((resolve, reject) => resolve({a: 'b'}))
 }
 
 const fetchJson: Promised<any> = async(url: string) => {
@@ -48,7 +49,7 @@ const fetchJson: Promised<any> = async(url: string) => {
 
 const fetchJsonWithErrorHandling = async(url:string) => ErrorEnabledFetch(() => fetchJson(url))
 
-const domain: string = 'http://cd08b6755f74.ngrok.io'//'http://localhost:8000' //
+const domain: string = 'http://89249c82bc67.ngrok.io'//'http://localhost:8000' //
 
 const userGearUrl: string = domain + '/user_gear'
 const fetchUserGear: Promised<Gear[]> = () => fetchJsonWithErrorHandling(userGearUrl)

@@ -14,6 +14,7 @@ function App() {
   const getGear = () => {
     const run = async() => {
       const json = await fetchUserGear()
+      console.log(json)
       setGear(json)
     }
     run()
