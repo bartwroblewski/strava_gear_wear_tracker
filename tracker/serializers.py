@@ -5,4 +5,4 @@ from .models import Gear
 class GearSerializer(serializers.ModelSerializer):
     class Meta:
         model = Gear
-        fields = ['name', 'mileage', 'is_tracked', 'user']
+        fields = ['name', 'mileage', 'is_tracked', 'athlete']

@@ -29,7 +29,7 @@ function App() {
               deleteGear={deleteGear}
             />
   })
-  
+
   React.useEffect(getGear, [])
 
   return (

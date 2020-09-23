@@ -4,7 +4,7 @@ export interface Gear {
     name: string,
     mileage: number,
     is_tracked: boolean,
-    user: string,
+    athlete: string,
 }
 
 interface ResponseError {

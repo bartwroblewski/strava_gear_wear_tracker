@@ -17,7 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.exceptions import NotAuthenticated
 
-from .models import Gear
+from .models import Gear, Athlete
 from .serializers import GearSerializer
 
 from .api import get_authorization_url, exchange_code_for_tokendata, get_activity, CLIENT_ID, CLIENT_SECRET
@@ -35,7 +35,16 @@ def sessionize_tokendata(request):
     code = request.GET.get('code')
     tokendata = exchange_code_for_tokendata(code)
     request.session['tokendata'] = tokendata
+    print(tokendata)
+
+    # create or get athlete
+    athlete = Athlete.objects.get_or_create(
+        ref_id=tokendata['athlete']['id'],
+        firstname=tokendata['athlete']['firstname'],
+        lastname=tokendata['athlete']['lastname'],
+    )
     return redirect(reverse('tracker:react'))
+
 
 def tokendata(request):
     response = {'tokendata': request.session['tokendata']}
@@ -65,38 +74,46 @@ class GearViewSet(viewsets.ModelViewSet):
     serializer_class = GearSerializer
 
     def get_queryset(self):
-        user = self.request.user
-        if user.is_authenticated:
-            user_gear = Gear.objects.filter(user=user)
-            return user_gear
-        else:
+        try:
+            athlete_id = self.request.session['tokendata']['athlete']['id']
+        except KeyError:
+            # if no token in session
             raise NotAuthenticated
-
+        athlete = Athlete.objects.get(ref_id=athlete_id)
+        athlete_gear = Gear.objects.filter(athlete=athlete)
+        return athlete_gear
+        
 def toggle_gear_tracking(request, gear_name):
-    user = request.user
-    gear = Gear.objects.get(user=user, name=gear_name)
+    athlete_id = request.session['tokendata']['athlete']['id']
+    athlete = Athlete.objects.get(ref_id=athlete_id)
+
+    gear = Gear.objects.get(athlete=athlete, name=gear_name)
     gear.is_tracked = not gear.is_tracked
     gear.save()
     return HttpResponse('OK')
 
 def delete_gear(request, gear_name):
-    user = request.user
-    gear = Gear.objects.get(user=user, name=gear_name)
+    athlete_id = request.session['tokendata']['athlete']['id']
+    athlete = Athlete.objects.get(ref_id=athlete_id)
+
+    gear = Gear.objects.get(athlete=athlete, name=gear_name)
     gear.delete()
     return HttpResponse('OK')
 
 def add_gear(request):
-    user = request.user
+    athlete_id = request.session['tokendata']['athlete']['id']
+    athlete = Athlete.objects.get(ref_id=athlete_id)
+
     gear_name = request.GET.get('gear_name')
     mileage = float(request.GET.get('mileage'))
     track = json.loads(request.GET.get('track'))
     print(gear_name, mileage, track)
     gear = Gear(
         name=gear_name,
-        user=user,
+        athlete=athlete,
     )
     try:
-        gear.full_clean() # validate gear uniqueness per user
+        gear.full_clean() # validate gear uniqueness per athlete
     except:
         #raise
         return HttpResponseServerError('Gear name already exists. Please use a unique name.')
