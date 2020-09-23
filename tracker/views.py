@@ -24,7 +24,7 @@ from .api import get_authorization_url, exchange_code_for_tokendata, get_activit
 
 # Create your views here.
 def index(request):
-    return render(request, 'frontend/index.html')
+    return HttpResponse('ok')#render(request, 'frontend/index.html')
 
 def authorize(request):
     after_auth_url=reverse('tracker:sessionize_tokendata')

@@ -48,7 +48,7 @@ const fetchJson: Promised<any> = async(url: string) => {
 
 const fetchJsonWithErrorHandling = async(url:string) => ErrorEnabledFetch(() => fetchJson(url))
 
-const domain: string = 'http://9277b453cd46.ngrok.io'//'http://localhost:8000'
+const domain: string = 'http://localhost:8000' //'http://9277b453cd46.ngrok.io'
 
 const userGearUrl: string = domain + '/user_gear'
 const fetchUserGear: Promised<Gear[]> = () => fetchJsonWithErrorHandling(userGearUrl)
