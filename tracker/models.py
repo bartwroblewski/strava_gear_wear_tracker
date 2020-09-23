@@ -23,3 +23,10 @@ class Gear(models.Model):
     class Meta:
         unique_together = ('name', 'athlete')
 
+class TokenData(models.Model):
+    expires_at = models.IntegerField()
+    expires_in = models.IntegerField()
+    access_token = models.TextField()
+    refresh_token = models.TextField()
+    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, default=1)
+

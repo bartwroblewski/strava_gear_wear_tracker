@@ -17,7 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.exceptions import NotAuthenticated
 
-from .models import Gear, Athlete
+from .models import Gear, Athlete, TokenData
 from .serializers import GearSerializer
 
 from .api import get_authorization_url, exchange_code_for_tokendata, get_activity, CLIENT_ID, CLIENT_SECRET
@@ -35,14 +35,25 @@ def sessionize_tokendata(request):
     code = request.GET.get('code')
     tokendata = exchange_code_for_tokendata(code)
     request.session['tokendata'] = tokendata
+
     print(tokendata)
 
     # create or get athlete
-    athlete = Athlete.objects.get_or_create(
+    athlete, created = Athlete.objects.get_or_create(
         ref_id=tokendata['athlete']['id'],
         firstname=tokendata['athlete']['firstname'],
         lastname=tokendata['athlete']['lastname'],
     )
+
+    tokendata_db = TokenData(
+        expires_at=tokendata['expires_in'],
+        expires_in=tokendata['expires_at'],
+        access_token=tokendata['access_token'],
+        refresh_token=tokendata['refresh_token'],
+        athlete=athlete
+    )
+    tokendata_db.save()
+
     return redirect(reverse('tracker:react'))
 
 
@@ -168,9 +179,11 @@ def callback(request):
         activity = get_activity(activity_id, access_token)
 
         #increase the mileage of all tracked gear by the activity distance
-        user = request.user
-        tracked_user_gear = Gear.objects.filter(user=user, is_tracked=True)
-        for gear in tracked_user_gear:
+        athlete_id = request.session['tokendata']['athlete']['id']
+        athlete = Athlete.objects.get(ref_id=athlete_id)
+
+        tracked_athlete_gear = Gear.objects.filter(athlete=athlete, is_tracked=True)
+        for gear in tracked_athlete_gear:
             gear.mileage += activity['distance']
             gear.save()
         return HttpResponse('OK')
