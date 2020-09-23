@@ -1,0 +1,6 @@
+- add method to TokenData model to refresh it (cron)
+- on Strava webhook callback increase the mileage only if the event is new activity creation
+- add hours tracking
+- associate gear with Strava bikes
+- add gear categories and alerts for each categories
+- visuals/dashboard to show the wear of particular components/categories?

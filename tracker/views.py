@@ -168,18 +168,15 @@ def callback(request):
         }
         return JsonResponse(response)
     if request.method == 'POST':
-        print(request.body)
         body = json.loads(request.body)
-        # if callback is responding to subscribed webhook event
+
         access_token = TokenData.objects.first().access_token
         activity_id = body['object_id']
-    
         activity = get_activity(activity_id, access_token)
 
         #increase the mileage of all tracked gear by the activity distance
         athlete_id = body['owner_id']
         athlete = Athlete.objects.get(ref_id=athlete_id)
-
         tracked_athlete_gear = Gear.objects.filter(athlete=athlete, is_tracked=True)
         for gear in tracked_athlete_gear:
             gear.mileage += activity['distance']
