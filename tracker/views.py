@@ -34,10 +34,15 @@ def authorize(request):
 def sessionize_tokendata(request):
     code = request.GET.get('code')
     tokendata = exchange_code_for_tokendata(code)
-    request.session['tokendata'] = tokendata
 
-    print(tokendata)
-
+    # update tokendata pseudo-singleton
+    tokendata_db = TokenData.objects.first()
+    tokendata_db.expires_in=tokendata['expires_in']
+    tokendata_db.expires_at=tokendata['expires_at']
+    tokendata_db.access_token=tokendata['access_token']
+    tokendata_db.refresh_token=tokendata['refresh_token']
+    tokendata_db.save()
+    
     # create or get athlete
     athlete, created = Athlete.objects.get_or_create(
         ref_id=tokendata['athlete']['id'],
@@ -45,17 +50,9 @@ def sessionize_tokendata(request):
         lastname=tokendata['athlete']['lastname'],
     )
 
-    tokendata_db = TokenData(
-        expires_at=tokendata['expires_in'],
-        expires_in=tokendata['expires_at'],
-        access_token=tokendata['access_token'],
-        refresh_token=tokendata['refresh_token'],
-        athlete=athlete
-    )
-    tokendata_db.save()
+    request.session['tokendata'] = tokendata
 
     return redirect(reverse('tracker:react'))
-
 
 def tokendata(request):
     response = {'tokendata': request.session['tokendata']}
@@ -147,7 +144,7 @@ def subscribe(request):
 def mock_callback_post(request):
     url = request.build_absolute_uri(reverse('tracker:receive_mock'))
     print(url)
-    r = requests.post(url, params={'object_id': 'some_id'})
+    r = requests.post(url, data={'object_id': 'some_id'})
     return HttpResponse(r.text)
 
 @csrf_exempt
@@ -172,14 +169,15 @@ def callback(request):
         return JsonResponse(response)
     if request.method == 'POST':
         print(request.body)
+        body = json.loads(request.body)
         # if callback is responding to subscribed webhook event
-        access_token = request.session['tokendata']['access_token']
-        activity_id = request.POST.get('object_id')
+        access_token = TokenData.objects.first().access_token
+        activity_id = body['object_id']
     
         activity = get_activity(activity_id, access_token)
 
         #increase the mileage of all tracked gear by the activity distance
-        athlete_id = request.session['tokendata']['athlete']['id']
+        athlete_id = body['owner_id']
         athlete = Athlete.objects.get(ref_id=athlete_id)
 
         tracked_athlete_gear = Gear.objects.filter(athlete=athlete, is_tracked=True)

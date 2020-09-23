@@ -28,5 +28,4 @@ class TokenData(models.Model):
     expires_in = models.IntegerField()
     access_token = models.TextField()
     refresh_token = models.TextField()
-    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, default=1)
 
