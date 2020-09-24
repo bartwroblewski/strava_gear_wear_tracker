@@ -4,7 +4,7 @@ from django.conf import settings
 
 CLIENT_ID = 53702
 CLIENT_SECRET = '44ffd69ab0611f846b7970b3806640c617eb8127'
-SCOPE = 'activity:read_all,read_all'
+SCOPE = 'activity:read_all,read_all,profile:read_all'
 
 def get_authorization_url(after_auth_url):
     if settings.DOMAIN == 'localhost':
@@ -38,3 +38,12 @@ def get_activity(activity_id, access_token):
     r = requests.get(url, headers=headers)
     activity = r.json()
     return activity
+
+def get_authenticated_athlete(access_token):
+    url = f'https://www.strava.com/api/v3/athlete'
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+    }
+    r = requests.get(url, headers=headers)
+    athlete = r.json()
+    return athlete

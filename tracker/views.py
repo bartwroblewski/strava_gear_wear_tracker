@@ -17,10 +17,17 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.exceptions import NotAuthenticated, NotFound, PermissionDenied
 
-from .models import Gear, Athlete, TokenData
+from .models import Gear, Athlete, TokenData, Bike
 from .serializers import GearSerializer
 
-from .api import get_authorization_url, exchange_code_for_tokendata, get_activity, CLIENT_ID, CLIENT_SECRET
+from .api import (
+    get_authorization_url,
+    exchange_code_for_tokendata, 
+    get_activity,
+    CLIENT_ID, 
+    CLIENT_SECRET,
+    get_authenticated_athlete,
+)
 
 # Create your views here.
 def index(request):
@@ -49,6 +56,18 @@ def sessionize_tokendata(request):
         firstname=tokendata['athlete']['firstname'],
         lastname=tokendata['athlete']['lastname'],
     )
+    athlete_data = get_authenticated_athlete(tokendata['access_token'])
+    athlete_bikes = athlete_data.get('bikes')
+    if athlete_bikes:
+        for b in athlete_bikes:
+            bike = Bike(
+                ref_id=b['id'],
+                name=b['name'],
+                athlete=athlete,
+            )
+            bike.save()
+        
+    print('BIKES', athlete_bikes)
 
     request.session['tokendata'] = tokendata
 

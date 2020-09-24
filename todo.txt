@@ -1,9 +1,9 @@
-- add method to TokenData model to refresh it (cron)
-- on Strava webhook callback increase the mileage only if the event is new activity creation
-- handle activity delete and distance change/time change
-- add hours tracking
 - associate gear with Strava bikes
-- only take cycling activities into account, no running etc.?19:48 23.09.2020
+- only take cycling activities into account, no running etc.?
+- on Strava webhook callback increase the mileage only if the event is new activity creation
+- handle activity deletion on strava
+- add hours tracking
+- add method to TokenData model to refresh it (cron)
 - add gear categories and alerts for each categories
 - visuals/dashboard to show the wear of particular components/categories?
 - napisac zmyślny system logowania zamiast sprawdzania, czy są już tokeny w sesji (użyc django login?)

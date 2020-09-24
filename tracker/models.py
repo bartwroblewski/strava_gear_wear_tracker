@@ -11,6 +11,9 @@ class Athlete(models.Model):
     firstname = models.CharField(max_length=255)
     lastname = models.CharField(max_length=255)
 
+    def __str__(self):
+        return f'{self.firstname} {self.lastname}'
+
 class Gear(models.Model):
     name = models.CharField(max_length=200)
     mileage = models.FloatField(default=0)
@@ -28,4 +31,9 @@ class TokenData(models.Model):
     expires_in = models.IntegerField()
     access_token = models.TextField()
     refresh_token = models.TextField()
+
+class Bike(models.Model):
+    ref_id = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE)
 

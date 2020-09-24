@@ -49,7 +49,7 @@ const fetchJson: Promised<any> = async(url: string) => {
 
 const fetchJsonWithErrorHandling = async(url:string) => ErrorEnabledFetch(() => fetchJson(url))
 
-const domain: string = 'http://adc390d1a737.ngrok.io'//'http://localhost:8000' //
+const domain: string = 'http://localhost:8000' // 'http://adc390d1a737.ngrok.io'//
 
 const authorizedUrl: string = domain + '/get_authorization_status'
 const fetchAuthorizationStatus: Promised<{authorized: boolean}> = () => fetchJsonWithErrorHandling(authorizedUrl)
