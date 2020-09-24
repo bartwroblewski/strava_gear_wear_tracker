@@ -60,12 +60,11 @@ def sessionize_tokendata(request):
     athlete_bikes = athlete_data.get('bikes')
     if athlete_bikes:
         for b in athlete_bikes:
-            bike = Bike(
+            bike, created = Bike.objects.get_or_create(
                 ref_id=b['id'],
                 name=b['name'],
                 athlete=athlete,
             )
-            bike.save()
         
     print('BIKES', athlete_bikes)
 
