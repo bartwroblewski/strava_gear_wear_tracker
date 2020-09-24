@@ -203,3 +203,11 @@ def delete_subscription(request):
     r = requests.delete(url, params=params)
     return HttpResponse(r.text)
 
+def get_authorization_status(request):
+    authorized = lambda x: JsonResponse({'authorized': x})
+    if request.session.get('tokendata'):
+        return authorized(True)
+    print(authorized)
+    return authorized(False)
+
+

@@ -25,7 +25,7 @@ const ErrorEnabledFetch: Promised<any> = async(fetchFunc: () => {}) => {
 
 const handleResponseError = (e: ResponseError) => {
     alert(e.message)
-    return new Promise((resolve, reject) => resolve({a: 'b'}))
+    return new Promise((resolve, reject) => resolve([]))
 }
 
 const fetchJson: Promised<any> = async(url: string) => {
@@ -49,7 +49,10 @@ const fetchJson: Promised<any> = async(url: string) => {
 
 const fetchJsonWithErrorHandling = async(url:string) => ErrorEnabledFetch(() => fetchJson(url))
 
-const domain: string = 'http://89249c82bc67.ngrok.io'//'http://localhost:8000' //
+const domain: string = 'http://adc390d1a737.ngrok.io'//'http://localhost:8000' //
+
+const authorizedUrl: string = domain + '/get_authorization_status'
+const fetchAuthorizationStatus: Promised<{authorized: boolean}> = () => fetchJsonWithErrorHandling(authorizedUrl)
 
 const userGearUrl: string = domain + '/user_gear'
 const fetchUserGear: Promised<Gear[]> = () => fetchJsonWithErrorHandling(userGearUrl)
@@ -81,4 +84,4 @@ const addGear: Promised<any>  = async(gearName: string, mileage: number, track: 
     
 }
 
-export { fetchUserGear, toggleGearTracking, deleteGear, addGear }
+export { fetchAuthorizationStatus, fetchUserGear, toggleGearTracking, deleteGear, addGear }

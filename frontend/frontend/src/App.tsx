@@ -5,16 +5,26 @@ import GearSelect from './components/GearSelect'
 import GearWidget from './components/GearWidget'
 import AddGearWidget from './components/AddGearWidget'
 
-import { fetchUserGear, Gear, toggleGearTracking, deleteGear } from './api'
+import { fetchAuthorizationStatus, fetchUserGear, Gear, toggleGearTracking, deleteGear } from './api'
 
 function App() {
 
   const [gear, setGear] = React.useState<Gear[]>([])
+  const [authorized, setAuthorized] = React.useState<boolean>()
+
+  const getAuthorizationStatus = () => {
+    const run = async() => {
+      const json = await fetchAuthorizationStatus()
+      console.log(json.authorized)
+      setAuthorized(json.authorized)
+    }
+    run()
+  }
 
   const getGear = () => {
     const run = async() => {
-      const json = await fetchUserGear()
-      console.log(json)
+      const json = await fetchUserGear()     
+      console.log('Authorized?: ', json)
       setGear(json)
     }
     run()
@@ -31,12 +41,19 @@ function App() {
             />
   })
 
+  React.useEffect(getAuthorizationStatus, [])
   React.useEffect(getGear, [])
 
   return (
     <div>
-      {gearWidgets}
-      <AddGearWidget getGear={getGear}/>
+      {authorized
+        ? <div>
+            {gearWidgets}
+            <AddGearWidget getGear={getGear}/>
+          </div>
+        : <button>Authorize</button>
+      }
+      
     </div>
   );
 }
