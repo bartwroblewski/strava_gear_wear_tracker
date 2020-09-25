@@ -7,6 +7,14 @@ export interface Gear {
     athlete: string,
 }
 
+export interface Bike {
+    id: string,
+    primary: boolean,
+    name: string,
+    resource_state: number,
+    distance: number,
+}
+
 interface ResponseError {
     type: string,
     message: string,
@@ -57,6 +65,9 @@ const fetchAuthorizationStatus: Promised<{authorized: boolean}> = () => fetchJso
 const userGearUrl: string = domain + '/user_gear'
 const fetchUserGear: Promised<Gear[]> = () => fetchJsonWithErrorHandling(userGearUrl)
 
+const refreshBikesUrl: string = domain + '/refresh_athlete_bikes'
+const refreshAthleteBikes: Promised<Bike[]> = () => fetchJsonWithErrorHandling(refreshBikesUrl)
+
 const toggleGearTrackingUrl: string = domain + '/toggle_gear_tracking'
 const toggleGearTracking: (arg: string) => Promise<any> = async(gearName: string) => {
     const response = await fetch(toggleGearTrackingUrl + `/${gearName}`)
@@ -84,4 +95,4 @@ const addGear: Promised<any>  = async(gearName: string, mileage: number, track: 
     
 }
 
-export { fetchAuthorizationStatus, fetchUserGear, toggleGearTracking, deleteGear, addGear }
+export { fetchAuthorizationStatus, fetchUserGear, refreshAthleteBikes, toggleGearTracking, deleteGear, addGear }

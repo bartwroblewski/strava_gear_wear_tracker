@@ -72,6 +72,28 @@ def sessionize_tokendata(request):
 
     return redirect(reverse('tracker:react'))
 
+def refresh_athlete_bikes(request):
+    tokendata = request.session['tokendata']
+    athlete, created = Athlete.objects.get_or_create(
+        ref_id=tokendata['athlete']['id'],
+        firstname=tokendata['athlete']['firstname'],
+        lastname=tokendata['athlete']['lastname'],
+    )
+    athlete_data = get_authenticated_athlete(tokendata['access_token'])
+    athlete_bikes = athlete_data.get('bikes')
+    if athlete_bikes:
+        for b in athlete_bikes:
+            bike, created = Bike.objects.get_or_create(
+                ref_id=b['id'],
+                name=b['name'],
+                athlete=athlete,
+            )
+        
+    response = {
+        'athlete_bikes': athlete_bikes,
+    }
+    return JsonResponse(response)
+
 def tokendata(request):
     response = {'tokendata': request.session['tokendata']}
     return JsonResponse(response)

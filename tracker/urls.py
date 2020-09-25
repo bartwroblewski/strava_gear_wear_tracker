@@ -21,6 +21,7 @@ urlpatterns = [
     path('mock_callback_post', views.mock_callback_post, name='mock_callback_post'),
     path('receive_mock', views.receive_mock, name='receive_mock'),
     path('get_authorization_status', views.get_authorization_status, name='get_authorization_status'),
+    path('refresh_athlete_bikes', views.refresh_athlete_bikes, name='refresh_athlete_bikes'),
     path('', views.react, name='react'),
     
     
