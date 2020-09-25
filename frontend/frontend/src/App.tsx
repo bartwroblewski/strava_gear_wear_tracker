@@ -44,7 +44,7 @@ function App() {
     return <GearWidget 
               gearName={g.name} 
               gearMileage={g.mileage}
-              gearBike={g.bike.name}
+              gearBike={g.bike}
               toggleGearTracking={toggleGearTracking} 
               is_tracked={g.is_tracked}
               getGear={getGear}
@@ -69,10 +69,13 @@ function App() {
       {authorized
         ? <div>
             {gearWidgets}
-            <AddGearWidget 
-              getGear={getGear} 
-              bikes={bikes}
-            />
+            {bikes.length
+             ? <AddGearWidget 
+                getGear={getGear} 
+                bikes={bikes}
+              />
+             : null
+            }
           </div>
         : <button>Authorize</button>
       }

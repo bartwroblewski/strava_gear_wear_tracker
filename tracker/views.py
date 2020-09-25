@@ -151,10 +151,15 @@ def add_gear(request):
     gear_name = request.GET.get('gear_name')
     mileage = float(request.GET.get('mileage'))
     track = json.loads(request.GET.get('track'))
-    print(gear_name, mileage, track)
+    bike_id = request.GET.get('bike_id')
+    print(request.GET)
+    print(gear_name, mileage, track, bike_id)
+    bike = Bike.objects.get(ref_id=bike_id)
     gear = Gear(
         name=gear_name,
         athlete=athlete,
+        bike=bike,
+
     )
     try:
         gear.full_clean() # validate gear uniqueness per athlete

@@ -14,6 +14,7 @@ const AddGearWidget = ({getGear, bikes}: AddGearWidgetProps) => {
     const [gearName, setGearName] = React.useState('')
     const [mileage, setMileage] = React.useState(0)
     const [track, setTrack] = React.useState(true)
+    const [bikeId, setBikeId] = React.useState<string>(bikes[0].id)
 
     const handleGearNameInputChange = (e: any) => {
         setGearName(e.target.value)
@@ -27,19 +28,29 @@ const AddGearWidget = ({getGear, bikes}: AddGearWidgetProps) => {
         setTrack(prev => !prev)
     }
 
+    const handleBikeSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setBikeId(e.target.value)
+    }
+
     const handleOkButtonClick = async() => {
         const success_callback = () => {
             setShowModal(false)
             getGear()
         }
-        const response_text = await addGear(gearName, mileage, track, success_callback)
+        const response_text = await addGear(
+            gearName, 
+            bikeId, 
+            mileage, 
+            track, 
+            success_callback,
+        )
     }
 
     const handleCancelButtonClick = () => {
         setShowModal(false)
     }
 
-    const bikeOptions = bikes.map(bike => <option>{bike.name}</option>)
+    const bikeOptions = bikes.map(bike => <option value={bike.id}>{bike.name}</option>)
 
     return (
         <div>
@@ -49,7 +60,7 @@ const AddGearWidget = ({getGear, bikes}: AddGearWidgetProps) => {
                         Gear name: <input type="text" onChange={handleGearNameInputChange} value={gearName}/>
                         Initial mileage: <input type="number" onChange={handleMileageInputChange} value={mileage}/>
                         Track: <input type="checkbox" onChange={handleTrackInputChange} checked={track}/>
-                        Bike: <select>{bikeOptions}</select>
+                        Bike: <select onChange={handleBikeSelectChange}>{bikeOptions}</select>
                     </div>
                     <div>
                         <button onClick={handleOkButtonClick}>OK</button>

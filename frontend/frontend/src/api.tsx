@@ -88,8 +88,8 @@ const deleteGear: (arg: string) => Promise<any> = async(gearName: string) => {
 }
 
 let addGearUrl: string = domain + '/add_gear'
-const addGear: Promised<any>  = async(gearName: string, mileage: number, track: boolean, success_callback: () => void) => {
-    let url = addGearUrl + `?gear_name=${gearName}` + `&mileage=${mileage}` + `&track=${track}`
+const addGear: Promised<any>  = async(gearName: string, bikeId: string,  mileage: number, track: boolean, success_callback: () => void) => {
+    let url = addGearUrl + `?gear_name=${gearName}` + `&bike_id=${bikeId}` + `&mileage=${mileage}` + `&track=${track}`
     const response = await fetch(url)
     const text = await response.text()
     if (response.ok) {

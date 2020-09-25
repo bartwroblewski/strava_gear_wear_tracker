@@ -4,7 +4,7 @@ import { isPropertySignature, textChangeRangeIsUnchanged } from 'typescript'
 interface GearWidgetProps {
     gearName: string,
     gearMileage: number,
-    gearBike: string,
+    gearBike: any,
     toggleGearTracking: (arg: string) => Promise<any>,
     is_tracked: boolean,
     getGear: () => void,
@@ -30,7 +30,7 @@ const GearWidget = ({gearName, gearMileage, gearBike, toggleGearTracking, is_tra
         }}>
             <div>Name: {gearName}</div>
             <div>Mileage: {gearMileage}</div>
-            <div>Bike: {gearBike}</div>
+            <div>Bike: {gearBike.name}</div>
             <div>
                 Track
                 <input 
