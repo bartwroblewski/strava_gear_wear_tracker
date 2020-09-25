@@ -4,13 +4,14 @@ import { isPropertySignature, textChangeRangeIsUnchanged } from 'typescript'
 interface GearWidgetProps {
     gearName: string,
     gearMileage: number,
+    gearBike: string,
     toggleGearTracking: (arg: string) => Promise<any>,
     is_tracked: boolean,
     getGear: () => void,
     deleteGear: (arg: string) => Promise<any>,
 }
 
-const GearWidget = ({gearName, gearMileage, toggleGearTracking, is_tracked, getGear, deleteGear}: GearWidgetProps) => {
+const GearWidget = ({gearName, gearMileage, gearBike, toggleGearTracking, is_tracked, getGear, deleteGear}: GearWidgetProps) => {
 
     const handleCheckboxChange = async() => {
         await toggleGearTracking(gearName) // change is_tracked value in database
@@ -29,6 +30,7 @@ const GearWidget = ({gearName, gearMileage, toggleGearTracking, is_tracked, getG
         }}>
             <div>Name: {gearName}</div>
             <div>Mileage: {gearMileage}</div>
+            <div>Bike: {gearBike}</div>
             <div>
                 Track
                 <input 

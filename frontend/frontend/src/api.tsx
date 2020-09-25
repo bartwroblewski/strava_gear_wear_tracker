@@ -5,6 +5,11 @@ export interface Gear {
     mileage: number,
     is_tracked: boolean,
     athlete: string,
+    bike: {
+        ref_id: number,
+        name: string,
+        athlete: number,
+    },
 }
 
 export interface Bike {

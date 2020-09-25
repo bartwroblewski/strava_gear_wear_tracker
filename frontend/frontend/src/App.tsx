@@ -44,6 +44,7 @@ function App() {
     return <GearWidget 
               gearName={g.name} 
               gearMileage={g.mileage}
+              gearBike={g.bike.name}
               toggleGearTracking={toggleGearTracking} 
               is_tracked={g.is_tracked}
               getGear={getGear}
