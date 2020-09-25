@@ -68,7 +68,10 @@ function App() {
       {authorized
         ? <div>
             {gearWidgets}
-            <AddGearWidget getGear={getGear}/>
+            <AddGearWidget 
+              getGear={getGear} 
+              bikes={bikes}
+            />
           </div>
         : <button>Authorize</button>
       }

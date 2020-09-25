@@ -1,13 +1,14 @@
 import React from 'react'
 import { getGeneratedNameForNode, isPropertySignature, textChangeRangeIsUnchanged } from 'typescript'
-import { addGear } from '../api'
+import { addGear, Bike } from '../api'
 import './css/AddGearWidget.css'
 
 interface AddGearWidgetProps {
     getGear: () => void,
+    bikes: Bike[],
 }
 
-const AddGearWidget = ({getGear}: AddGearWidgetProps) => {
+const AddGearWidget = ({getGear, bikes}: AddGearWidgetProps) => {
 
     const [showModal, setShowModal] = React.useState(false)
     const [gearName, setGearName] = React.useState('')
@@ -38,6 +39,8 @@ const AddGearWidget = ({getGear}: AddGearWidgetProps) => {
         setShowModal(false)
     }
 
+    const bikeOptions = bikes.map(bike => <option>{bike.name}</option>)
+
     return (
         <div>
             {showModal ? 
@@ -46,6 +49,7 @@ const AddGearWidget = ({getGear}: AddGearWidgetProps) => {
                         Gear name: <input type="text" onChange={handleGearNameInputChange} value={gearName}/>
                         Initial mileage: <input type="number" onChange={handleMileageInputChange} value={mileage}/>
                         Track: <input type="checkbox" onChange={handleTrackInputChange} checked={track}/>
+                        Bike: <select>{bikeOptions}</select>
                     </div>
                     <div>
                         <button onClick={handleOkButtonClick}>OK</button>

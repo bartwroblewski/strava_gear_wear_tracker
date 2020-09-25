@@ -88,11 +88,7 @@ def refresh_athlete_bikes(request):
                 name=b['name'],
                 athlete=athlete,
             )
-        
-    response = {
-        'athlete_bikes': athlete_bikes,
-    }
-    return JsonResponse(response)
+    return JsonResponse(athlete_bikes, safe=False)
 
 def tokendata(request):
     response = {'tokendata': request.session['tokendata']}
