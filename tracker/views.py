@@ -1,5 +1,6 @@
 import os
 import json
+import time
 
 import requests
 
@@ -245,10 +246,17 @@ def delete_subscription(request):
     return HttpResponse(r.text)
 
 def get_authorization_status(request):
+    '''Check if:
+        1. Token is in session (i.e. user has authorized already);
+        2. The token is not expired.
+    '''
     authorized = lambda x: JsonResponse({'authorized': x})
-    if request.session.get('tokendata'):
-        return authorized(True)
-    print(authorized)
+    tokendata = request.session.get('tokendata')
+    if tokendata:
+        expired = token_expired(tokendata)
+        if not expired:
+            return authorized(True)
     return authorized(False)
 
-
+def token_expired(tokendata):
+    return time.time() > tokendata['expires_at'] 
