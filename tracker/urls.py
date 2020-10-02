@@ -22,6 +22,8 @@ urlpatterns = [
     path('receive_mock', views.receive_mock, name='receive_mock'),
     path('get_authorization_status', views.get_authorization_status, name='get_authorization_status'),
     path('refresh_athlete_bikes', views.refresh_athlete_bikes, name='refresh_athlete_bikes'),
+    path('view_session', views.view_session, name='view_session'),
+    path('flush_session', views.flush_session, name='flush_session'),
     path('', views.react, name='react'),
     
     

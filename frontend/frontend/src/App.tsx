@@ -4,6 +4,7 @@ import './App.css';
 import GearSelect from './components/GearSelect'
 import GearWidget from './components/GearWidget'
 import AddGearWidget from './components/AddGearWidget'
+import { authorizeUrl } from './urls'
 
 import { fetchAuthorizationStatus, fetchUserGear, refreshAthleteBikes, Gear, Bike, toggleGearTracking, deleteGear } from './api'
 
@@ -18,6 +19,10 @@ function App() {
       const json = await fetchAuthorizationStatus()
       console.log('Authorized?: ',json.authorized)
       setAuthorized(json.authorized)
+      if (json.authorized) {
+        getGear()
+        refreshAthBikes()
+      }
     }
     run()
   }
@@ -53,16 +58,6 @@ function App() {
   })
 
   React.useEffect(getAuthorizationStatus, [])
-  React.useEffect(() => {
-    //if (authorized) {
-      refreshAthBikes()
-   // }
-  }, [])
-  React.useEffect(() => {
-    //if (authorized) {
-      getGear()
-  //  }
-  }, [])
 
   return (
     <div>
@@ -77,7 +72,7 @@ function App() {
              : null
             }
           </div>
-        : <button>Authorize</button>
+        : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>
       }
       
     </div>

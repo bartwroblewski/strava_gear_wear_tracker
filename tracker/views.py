@@ -74,7 +74,7 @@ def sessionize_tokendata(request):
     return redirect(reverse('tracker:react'))
 
 def refresh_athlete_bikes(request):
-    tokendata = request.session['tokendata']
+    tokendata = request.session['tokendata'] 
     athlete, created = Athlete.objects.get_or_create(
         ref_id=tokendata['athlete']['id'],
         firstname=tokendata['athlete']['firstname'],
@@ -260,3 +260,13 @@ def get_authorization_status(request):
 
 def token_expired(tokendata):
     return time.time() > tokendata['expires_at'] 
+
+def view_session(request):
+    response = dict(
+        session=dict(request.session.items())
+    )
+    return JsonResponse(response)
+
+def flush_session(request):
+    request.session.flush()
+    return redirect(reverse('tracker:view_session'))
