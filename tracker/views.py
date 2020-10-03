@@ -184,9 +184,9 @@ def subscribe(request):
     return HttpResponse(r.text)
 
 def mock_callback_post(request):
-    url = request.build_absolute_uri(reverse('tracker:receive_mock'))
+    url = request.build_absolute_uri(reverse('tracker:callback'))
     print(url)
-    r = requests.post(url, data={'object_id': 'some_id'})
+    r = requests.post(url, json={'object_id': '4142724359', 'owner_id': '5303167'})
     return HttpResponse(r.text)
 
 @csrf_exempt
@@ -218,8 +218,16 @@ def callback(request):
 
         #increase the mileage of all tracked gear by the activity distance
         athlete_id = body['owner_id']
+        bike_id = activity['gear_id']
+
         athlete = Athlete.objects.get(ref_id=athlete_id)
-        tracked_athlete_gear = Gear.objects.filter(athlete=athlete, is_tracked=True)
+        bike = Bike.objects.get(ref_id=bike_id)
+
+        tracked_athlete_gear = Gear.objects.filter(
+            athlete=athlete, 
+            is_tracked=True,
+            bike=bike,
+        )
         for gear in tracked_athlete_gear:
             gear.mileage += activity['distance']
             gear.save()
@@ -262,6 +270,7 @@ def token_expired(tokendata):
     return time.time() > tokendata['expires_at'] 
 
 def view_session(request):
+    print(request.body)
     response = dict(
         session=dict(request.session.items())
     )

@@ -19,6 +19,8 @@ function App() {
       const json = await fetchAuthorizationStatus()
       console.log('Authorized?: ',json.authorized)
       setAuthorized(json.authorized)
+
+      // refactor to separate functions?
       if (json.authorized) {
         getGear()
         refreshAthBikes()
