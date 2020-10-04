@@ -10,4 +10,5 @@
 - add gear categories and alerts for each categories
 - visuals/dashboard to show the wear of particular components/categories?
 - napisac zmyślny system logowania zamiast sprawdzania, czy są już tokeny w sesji (użyc django login?)
+- zmienic "success callback" w module api.tsx na rozwiazanie Promise'owe?
 

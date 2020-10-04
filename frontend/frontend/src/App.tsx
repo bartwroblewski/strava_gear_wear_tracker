@@ -53,8 +53,6 @@ function App() {
             />
   })
 
-  const deauthorize = () => setAuthorized(false)
-
   React.useEffect(getAuthorizationStatus, [])
   React.useEffect(() => {
     if (authorized) {
