@@ -19,12 +19,6 @@ function App() {
       const json = await fetchAuthorizationStatus()
       console.log('Authorized?: ',json.authorized)
       setAuthorized(json.authorized)
-
-      // refactor to separate functions?
-      if (json.authorized) {
-        getGear()
-        refreshAthBikes()
-      }
     }
     run()
   }
@@ -59,7 +53,15 @@ function App() {
             />
   })
 
+  const deauthorize = () => setAuthorized(false)
+
   React.useEffect(getAuthorizationStatus, [])
+  React.useEffect(() => {
+    if (authorized) {
+      getGear()
+      refreshAthBikes()
+    }
+  }, [authorized])
 
   return (
     <div>
