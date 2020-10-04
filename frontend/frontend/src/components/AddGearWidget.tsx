@@ -14,7 +14,7 @@ const AddGearWidget = ({getGear, bikes}: AddGearWidgetProps) => {
     const [gearName, setGearName] = React.useState('')
     const [mileage, setMileage] = React.useState(0)
     const [track, setTrack] = React.useState(true)
-    const [bikeId, setBikeId] = React.useState<string>(bikes[0].id)
+    const [bikeId, setBikeId] = React.useState<string>('')//(bikes[0].id)
 
     const handleGearNameInputChange = (e: any) => {
         setGearName(e.target.value)
@@ -60,7 +60,10 @@ const AddGearWidget = ({getGear, bikes}: AddGearWidgetProps) => {
                         Gear name: <input type="text" onChange={handleGearNameInputChange} value={gearName}/>
                         Initial mileage: <input type="number" onChange={handleMileageInputChange} value={mileage}/>
                         Track: <input type="checkbox" onChange={handleTrackInputChange} checked={track}/>
-                        Bike: <select onChange={handleBikeSelectChange}>{bikeOptions}</select>
+                        Bike: <select onChange={handleBikeSelectChange}>
+                            <option value='' selected>No bike</option>
+                            {bikeOptions}
+                        </select>
                     </div>
                     <div>
                         <button onClick={handleOkButtonClick}>OK</button>

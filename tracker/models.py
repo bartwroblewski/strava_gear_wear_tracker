@@ -30,6 +30,7 @@ class Gear(models.Model):
         Bike,
         on_delete=models.CASCADE,
         null=True,  # makes the field optional
+        blank=True,
     )
 
     def __str__(self):

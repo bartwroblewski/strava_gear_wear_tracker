@@ -66,13 +66,10 @@ function App() {
       {authorized
         ? <div>
             {gearWidgets}
-            {bikes.length
-             ? <AddGearWidget 
+            <AddGearWidget 
                 getGear={getGear} 
                 bikes={bikes}
-              />
-             : null
-            }
+            />
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>
       }

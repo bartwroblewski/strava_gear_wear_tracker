@@ -155,17 +155,22 @@ def add_gear(request):
     bike_id = request.GET.get('bike_id')
     print(request.GET)
     print(gear_name, mileage, track, bike_id)
-    bike = Bike.objects.get(ref_id=bike_id)
+
+    #allow creating gear with no bike assigned
+    try:
+        bike = Bike.objects.get(ref_id=bike_id)
+    except Bike.DoesNotExist:
+        bike = None
+
     gear = Gear(
         name=gear_name,
         athlete=athlete,
         bike=bike,
-
     )
     try:
         gear.full_clean() # validate gear uniqueness per athlete
     except:
-        #raise
+        raise
         return HttpResponseServerError('Gear name already exists. Please use a unique name.')
     gear.mileage = mileage
     gear.is_tracked = track
@@ -186,7 +191,7 @@ def subscribe(request):
 def mock_callback_post(request):
     url = request.build_absolute_uri(reverse('tracker:callback'))
     print(url)
-    r = requests.post(url, json={'object_id': '4142724359', 'owner_id': '5303167'})
+    r = requests.post(url, json={'object_id': '4148301665', 'owner_id': '5303167'})
     return HttpResponse(r.text)
 
 @csrf_exempt
@@ -218,16 +223,20 @@ def callback(request):
 
         #increase the mileage of all tracked gear by the activity distance
         athlete_id = body['owner_id']
-        bike_id = activity['gear_id']
-
         athlete = Athlete.objects.get(ref_id=athlete_id)
-        bike = Bike.objects.get(ref_id=bike_id)
+
+        bike_id = activity['gear_id']       
+        try:
+            bike = Bike.objects.get(ref_id=bike_id)
+        except Bike.DoesNotExist:
+            bike = None
 
         tracked_athlete_gear = Gear.objects.filter(
             athlete=athlete, 
             is_tracked=True,
             bike=bike,
         )
+
         for gear in tracked_athlete_gear:
             gear.mileage += activity['distance']
             gear.save()

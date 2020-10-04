@@ -30,7 +30,7 @@ const GearWidget = ({gearName, gearMileage, gearBike, toggleGearTracking, is_tra
         }}>
             <div>Name: {gearName}</div>
             <div>Mileage: {gearMileage}</div>
-            <div>Bike: {gearBike.name}</div>
+            <div>Bike: {gearBike ? gearBike.name : 'No bike assigned'}</div>
             <div>
                 Track
                 <input 
