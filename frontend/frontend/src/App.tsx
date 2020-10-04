@@ -4,6 +4,7 @@ import './App.css';
 import GearSelect from './components/GearSelect'
 import GearWidget from './components/GearWidget'
 import AddGearWidget from './components/AddGearWidget'
+import MultiSelect from './components/MultiSelect'
 import { authorizeUrl } from './urls'
 
 import { fetchAuthorizationStatus, fetchUserGear, refreshAthleteBikes, Gear, Bike, toggleGearTracking, deleteGear } from './api'
@@ -63,6 +64,7 @@ function App() {
 
   return (
     <div>
+      <MultiSelect options={['a', 'b', 'c']} />
       {authorized
         ? <div>
             {gearWidgets}

@@ -1,0 +1,8 @@
+.tag {
+    display: inline;
+    border: 1px solid black;
+  }
+  
+  .tag-delete {
+    margin: 5px;
+  }
