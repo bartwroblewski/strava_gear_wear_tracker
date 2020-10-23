@@ -117,7 +117,7 @@ const Form = ({bikes}: FormProps) => {
             </input> */}
             <MultiSelect
                 onChange={(e: any) => handleInputChange(e)}
-                options={bikes.map(bike => ({text: bike.name, value: bike.id}))}
+                options={bikes.map(bike => ({text: bike.name, id: bike.id}))}
                 placeholder_text="Placeholder text"
                 label="Select bike"
                 name="bikeName"

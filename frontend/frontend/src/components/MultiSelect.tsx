@@ -6,7 +6,7 @@ type Selected = Set<string>
 
 interface MultiSelectOption {
   text: string,
-  value: string,
+  id: string,
 }
 
 interface MultiSelectProps {
@@ -50,7 +50,7 @@ const MultiSelect = ({onChange, options, placeholder_text, label, name}: MultiSe
   const opts = [header].concat(options.map(o => 
     <option 
       className={selected.has(o.text) ? 'option-selected' : ''}
-      value={o.value}
+      id={o.id}
     >{o.text}</option>
   ))
   const tags = Array.from(selected).map(s => {
