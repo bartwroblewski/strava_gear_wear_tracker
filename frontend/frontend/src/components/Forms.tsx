@@ -45,9 +45,7 @@ const Form = ({bikes}: FormProps) => {
 
     const showAllErrors = () => setErrors((prev: any) => getVisibleErrors(prev))
 
-    const handleInputChange = (e: any, values?: string[]) => {
-        const value = values || e.target.value
-        const name = e.target.name
+    const handleInputChange = (name: string, value: string | string[]) => {
         console.log(name, value)
 
         // validate input
@@ -95,7 +93,7 @@ const Form = ({bikes}: FormProps) => {
             <label>Name: </label>
             <input
                 value={inputs.name}
-                onChange={(e: any) => handleInputChange(e)}
+                onChange={(e: any) => handleInputChange(e.target.name, e.target.value)}
                 name="name"
                 type="text"
                 placeholder={errors.name.visible ? errors.name.text : ''}>
@@ -103,7 +101,7 @@ const Form = ({bikes}: FormProps) => {
             <label>Mileage: </label>
             <input 
                 value={inputs.mileage}
-                onChange={(e: any) => handleInputChange(e)}
+                onChange={(e: any) => handleInputChange(e.target.name, e.target.value)}
                 name="mileage"
                 type="number"
                 min="0">
@@ -117,7 +115,7 @@ const Form = ({bikes}: FormProps) => {
                 placeholder={errors.bikeName.visible ? errors.bikeName.text : ''}>
             </input> */}
             <MultiSelect
-                onChange={(e: any, values: string[]) => handleInputChange(e, values)}
+                onChange={handleInputChange}
                 options={bikes.map(bike => ({text: bike.name, id: bike.id}))}
                 placeholder_text="Placeholder text"
                 label="Select bike"

@@ -39,9 +39,7 @@ const MultiSelect = ({onChange, options, placeholder_text, label, name}: MultiSe
     const optionText = e.target.value
     const optionId = getOptionIdFromOptionText(optionText)
     addSelected(optionId)
-    setValue(optionText)
-    onChange(e, Array.from(selected))
-    
+    setValue(optionText)    
   }
 
   const addSelected = (id: string) => {
@@ -71,6 +69,7 @@ const MultiSelect = ({onChange, options, placeholder_text, label, name}: MultiSe
     if (selected.size === 0) {
       resetValue()
     }
+    onChange(name, Array.from(selected))
   }, [selected])
 
   return (
