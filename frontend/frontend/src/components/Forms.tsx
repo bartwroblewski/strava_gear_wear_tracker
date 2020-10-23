@@ -6,7 +6,7 @@ import MultiSelect from './MultiSelect'
 const errorTexts = {
     name: 'Name cannot be empty!',
     mileage: 'Mileage cannot be less than 1!',
-    bikeName: 'Seems like a bike name error!',
+    //bikeName: 'Seems like a bike name error!',
 }
 
 interface ErrorContent {
@@ -21,9 +21,9 @@ interface FormProps {
 const Form = ({bikeNames}: FormProps) => {
 
     const handleSubmit = (e: any) => {
+        e.preventDefault()
         console.log('Valid: ', valid())    
         if (!valid()) {
-            e.preventDefault()
             showAllErrors()  
         }
     }
@@ -49,12 +49,12 @@ const Form = ({bikeNames}: FormProps) => {
             case 'name':
                 error_text = value ? '' : errorTexts.name
                 break
-            case 'mileage':
+           /*  case 'mileage':
                 error_text = value < 1 ? errorTexts.mileage : ''             
-                break
-            case 'bikeName':
+                break */
+/*             case 'bikeName':
                 error_text = value ? '' : errorTexts.bikeName
-                break
+                break */
         }
 
         const error = {text: error_text, visible: true}
@@ -75,8 +75,8 @@ const Form = ({bikeNames}: FormProps) => {
 
     const [errors, setErrors] = React.useState<any>({
         name: {text: errorTexts.name, visible: false},
-        mileage: {text: errorTexts.mileage, visible: false},
-        bikeName: {text: errorTexts.bikeName, visible: false},
+        //mileage: {text: errorTexts.mileage, visible: false},
+        //bikeName: {text: errorTexts.bikeName, visible: false},
 
     })
 
@@ -100,16 +100,16 @@ const Form = ({bikeNames}: FormProps) => {
                 onChange={(e: any) => handleInputChange(e)}
                 name="mileage"
                 type="number"
-                placeholder={errors.mileage.visible ? errors.mileage.text : ''}>
+                min="0">
             </input>
-            <label>Bike name: </label>
+           {/*  <label>Bike name: </label>
             <input 
                 value={inputs.bikeName}
                 onChange={(e: any) => handleInputChange(e)}
                 name="bikeName"
                 type="text"
                 placeholder={errors.bikeName.visible ? errors.bikeName.text : ''}>
-            </input>
+            </input> */}
             <MultiSelect
                 onChange={() => {}}
                 options={bikeNames}
