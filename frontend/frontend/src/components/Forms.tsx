@@ -25,8 +25,8 @@ const Form = ({bikes}: FormProps) => {
         e.preventDefault()
         console.log('Valid: ', valid())    
         if (valid()) {
-            const { name, mileage, bikeName } = inputs
-            console.log(name, mileage, bikeName)
+            const { name, mileage, bikeIds } = inputs
+            console.log('Sumbitting inputs: ', name, mileage, bikeIds)
         } else {
             showAllErrors()  
         }
@@ -45,8 +45,9 @@ const Form = ({bikes}: FormProps) => {
 
     const showAllErrors = () => setErrors((prev: any) => getVisibleErrors(prev))
 
-    const handleInputChange = (e: any) => {
-        const { name, value } = e.target
+    const handleInputChange = (e: any, values?: string[]) => {
+        const value = values || e.target.value
+        const name = e.target.name
         console.log(name, value)
 
         // validate input
@@ -75,7 +76,7 @@ const Form = ({bikes}: FormProps) => {
     const [inputs, setInputs] = React.useState({
         name: '',
         mileage: 0,
-        bikeName: '', 
+        bikeIds: [], 
     })
 
     const [errors, setErrors] = React.useState<any>({
@@ -116,11 +117,11 @@ const Form = ({bikes}: FormProps) => {
                 placeholder={errors.bikeName.visible ? errors.bikeName.text : ''}>
             </input> */}
             <MultiSelect
-                onChange={(e: any) => handleInputChange(e)}
+                onChange={(e: any, values: string[]) => handleInputChange(e, values)}
                 options={bikes.map(bike => ({text: bike.name, id: bike.id}))}
                 placeholder_text="Placeholder text"
                 label="Select bike"
-                name="bikeName"
+                name="bikeIds"
             />
             <button type="submit">Submit</button>
         </form>

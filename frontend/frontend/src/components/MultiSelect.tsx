@@ -40,7 +40,7 @@ const MultiSelect = ({onChange, options, placeholder_text, label, name}: MultiSe
     const optionId = getOptionIdFromOptionText(optionText)
     addSelected(optionId)
     setValue(optionText)
-    onChange(e)
+    onChange(e, Array.from(selected))
     
   }
 
