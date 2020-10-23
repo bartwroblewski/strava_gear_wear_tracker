@@ -23,7 +23,10 @@ const Form = ({bikeNames}: FormProps) => {
     const handleSubmit = (e: any) => {
         e.preventDefault()
         console.log('Valid: ', valid())    
-        if (!valid()) {
+        if (valid()) {
+            const { name, mileage, bikeName } = inputs
+            console.log(name, mileage, bikeName)
+        } else {
             showAllErrors()  
         }
     }
@@ -44,6 +47,9 @@ const Form = ({bikeNames}: FormProps) => {
 
     const handleInputChange = (e: any) => {
         const { name, value } = e.target
+        console.log(name, value)
+
+        // validate input
         let error_text = ''
         switch (name) {
             case 'name':
@@ -56,12 +62,11 @@ const Form = ({bikeNames}: FormProps) => {
                 error_text = value ? '' : errorTexts.bikeName
                 break */
         }
-
         const error = {text: error_text, visible: true}
-
         setErrors((prev: any) => 
             ({...prev, ...{[name]: error}})
         )
+
         setInputs(prev => 
             ({...prev, ...{[name]: value}})
         )
@@ -111,10 +116,11 @@ const Form = ({bikeNames}: FormProps) => {
                 placeholder={errors.bikeName.visible ? errors.bikeName.text : ''}>
             </input> */}
             <MultiSelect
-                onChange={() => {}}
+                onChange={(e: any) => handleInputChange(e)}
                 options={bikeNames}
                 placeholder_text="Placeholder text"
                 label="Select bike"
+                name="bikeName"
             />
             <button type="submit">Submit</button>
         </form>
