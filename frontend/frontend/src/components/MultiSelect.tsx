@@ -1,11 +1,14 @@
-import React from 'react';
+import React from 'react'
+import { isPropertySignature} from 'typescript'
 import './css/MultiSelect.css'
 
-type MultiSelectOption = string
 type Selected = Set<string>
 
 interface MultiSelectProps {
-  options: MultiSelectOption[],
+  onChange: any,
+  options: string[],
+  placeholder_text: string,
+  label: string,
 }
 
 interface TagProps {
@@ -13,32 +16,55 @@ interface TagProps {
   remove: (arg: any) => void
 }
 
-const MultiSelect = ({options}: MultiSelectProps) => {
-
+const MultiSelect = ({onChange, options, placeholder_text, label}: MultiSelectProps) => {
   const [selected, setSelected] = React.useState<Selected>(new Set([]))
+  const [value, setValue] = React.useState<string>()
   
   const handleSelectChange = (e: any) => {
-    addSelected(e)
+    //e.preventDefault()
+    addSelected(e.target.value)
+    setValue(e.target.value)
+    onChange(e)
+    
   }
 
-  const addSelected = (e: any) => {
-    const value = e.target.value
-    setSelected(prev => new Set(prev.add(value)))
+  const addSelected = (text: string) => {
+    setSelected(prev => new Set(prev.add(text)))
   }
 
   const removeSelected = (text: string) => {
     setSelected(prev => new Set(Array.from(prev).filter(x => x !== text)))
   }
 
-  const opts = options.map(o => <option>{o}</option>)
+  const resetValue = () => {
+    setValue(placeholder_text)
+  }
+
+  const header = <option disabled>{placeholder_text}</option>
+  const opts = [header].concat(options.map(o => 
+    <option 
+      className={selected.has(o) ? 'option-selected' : ''}
+    >{o}</option>
+  ))
   const tags = Array.from(selected).map(s => {
      return <Tag text={s} remove={removeSelected} />
   })
 
+  React.useEffect(() => {
+    if (selected.size === 0) {
+      resetValue()
+    }
+  }, [selected])
+
   return (
-    <div>
-      <select onChange={handleSelectChange}>{opts}</select>
-      {tags}
+    <div className="multi-select">
+      <label>{`${label}: `}</label>
+      <select value={value} onChange={handleSelectChange}>
+        {opts}
+      </select>
+      <div className='tags-container'>
+        {tags}
+      </div>
     </div>
   )
 }
@@ -49,20 +75,12 @@ const Tag = ({text, remove}: TagProps) => {
     remove(text)
   }
 
-
   return (
     <div className="tag">
-      {text}
-      <span onClick={handleCrossClick}className="tag-delete">X</span>
+      <span className="tag-text">{text}</span>
+      <span onClick={handleCrossClick} className="tag-delete">X</span>
     </div>
   )
 }
 
-const App = () => {
-
-  return (
-    <MultiSelect options={['aaaa', 'bbbb', 'cccccc']} />
-  );
-}
-
-export default MultiSelect;
+export default MultiSelect

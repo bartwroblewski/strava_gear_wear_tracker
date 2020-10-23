@@ -1,11 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 import GearSelect from './components/GearSelect'
 import GearWidget from './components/GearWidget'
 import AddGearWidget from './components/AddGearWidget'
 import MultiSelect from './components/MultiSelect'
 import { authorizeUrl } from './urls'
+import Modal from './components/Modals'
+import Form from './components/Forms'
 
 import { fetchAuthorizationStatus, fetchUserGear, refreshAthleteBikes, Gear, Bike, toggleGearTracking, deleteGear } from './api'
 
@@ -14,6 +14,7 @@ function App() {
   const [gear, setGear] = React.useState<Gear[]>([])
   const [authorized, setAuthorized] = React.useState<boolean>()
   const [bikes, setBikes] = React.useState<Bike[]>([])
+  const [addGearModalVisible, setAddGearModalVisible] = React.useState<boolean>(false)
 
   const getAuthorizationStatus = () => {
     const run = async() => {
@@ -64,18 +65,23 @@ function App() {
 
   return (
     <div>
-      <MultiSelect options={['a', 'b', 'c']} />
       {authorized
         ? <div>
             {gearWidgets}
-            <AddGearWidget 
-                getGear={getGear} 
-                bikes={bikes}
-            />
+            <button onClick={(e: any) => setAddGearModalVisible(true)}>Add gear</button>
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>
       }
-      
+      {addGearModalVisible
+        ? <Modal 
+            toggleModal={() => alert('toggle')}
+            content={
+              <Form
+                bikeNames={bikes.map(bike => bike.name)}
+              />}
+          />
+        : null
+      }
     </div>
   );
 }
