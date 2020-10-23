@@ -19,27 +19,37 @@ interface MultiSelectProps {
 
 interface TagProps {
   text: string,
-  remove: (arg: any) => void
+  remove: () => void
 }
 
 const MultiSelect = ({onChange, options, placeholder_text, label, name}: MultiSelectProps) => {
   const [selected, setSelected] = React.useState<Selected>(new Set([]))
   const [value, setValue] = React.useState<string>()
+
+  const getOptionIdFromOptionText = (text: string) => {
+    return options.filter(o => o.text === text)[0].id
+  }
+
+  const getOptionTextFromOptionId = (id: string) => {
+    return options.filter(o => o.id === id)[0].text
+  }
   
   const handleSelectChange = (e: any) => {
     //e.preventDefault()
-    addSelected(e.target.value)
-    setValue(e.target.value)
+    const optionText = e.target.value
+    const optionId = getOptionIdFromOptionText(optionText)
+    addSelected(optionId)
+    setValue(optionText)
     onChange(e)
     
   }
 
-  const addSelected = (text: string) => {
-    setSelected(prev => new Set(prev.add(text)))
+  const addSelected = (id: string) => {
+    setSelected(prev => new Set(prev.add(id)))
   }
 
-  const removeSelected = (text: string) => {
-    setSelected(prev => new Set(Array.from(prev).filter(x => x !== text)))
+  const removeSelected = (id: string) => {
+    setSelected(prev => new Set(Array.from(prev).filter(x => x !== id)))
   }
 
   const resetValue = () => {
@@ -49,12 +59,12 @@ const MultiSelect = ({onChange, options, placeholder_text, label, name}: MultiSe
   const header = <option disabled>{placeholder_text}</option>
   const opts = [header].concat(options.map(o => 
     <option 
-      className={selected.has(o.text) ? 'option-selected' : ''}
-      id={o.id}
-    >{o.text}</option>
+      className={selected.has(o.id) ? 'option-selected' : ''}
+      id={o.id}>{o.text}</option>
   ))
   const tags = Array.from(selected).map(s => {
-     return <Tag text={s} remove={removeSelected} />
+    const tagText = getOptionTextFromOptionId(s)
+    return <Tag text={tagText} remove={() => removeSelected(s)} />
   })
 
   React.useEffect(() => {
@@ -83,7 +93,7 @@ const MultiSelect = ({onChange, options, placeholder_text, label, name}: MultiSe
 const Tag = ({text, remove}: TagProps) => {
 
   const handleCrossClick = () => {
-    remove(text)
+    remove()
   }
 
   return (
