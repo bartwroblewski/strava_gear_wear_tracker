@@ -4,9 +4,14 @@ import './css/MultiSelect.css'
 
 type Selected = Set<string>
 
+interface MultiSelectOption {
+  text: string,
+  value: string,
+}
+
 interface MultiSelectProps {
   onChange: any,
-  options: string[],
+  options: MultiSelectOption[],
   placeholder_text: string,
   label: string,
   name: string,
@@ -44,8 +49,9 @@ const MultiSelect = ({onChange, options, placeholder_text, label, name}: MultiSe
   const header = <option disabled>{placeholder_text}</option>
   const opts = [header].concat(options.map(o => 
     <option 
-      className={selected.has(o) ? 'option-selected' : ''}
-    >{o}</option>
+      className={selected.has(o.text) ? 'option-selected' : ''}
+      value={o.value}
+    >{o.text}</option>
   ))
   const tags = Array.from(selected).map(s => {
      return <Tag text={s} remove={removeSelected} />

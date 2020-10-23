@@ -2,6 +2,7 @@ import { errorMonitor } from 'events'
 import React from 'react'
 import { setConstantValue } from 'typescript'
 import MultiSelect from './MultiSelect'
+import { Bike } from '../api'
 
 const errorTexts = {
     name: 'Name cannot be empty!',
@@ -15,10 +16,10 @@ interface ErrorContent {
 }
 
 interface FormProps {
-    bikeNames: string[],
+    bikes: Bike[],
 }
 
-const Form = ({bikeNames}: FormProps) => {
+const Form = ({bikes}: FormProps) => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
@@ -43,7 +44,6 @@ const Form = ({bikeNames}: FormProps) => {
     }
 
     const showAllErrors = () => setErrors((prev: any) => getVisibleErrors(prev))
-
 
     const handleInputChange = (e: any) => {
         const { name, value } = e.target
@@ -117,7 +117,7 @@ const Form = ({bikeNames}: FormProps) => {
             </input> */}
             <MultiSelect
                 onChange={(e: any) => handleInputChange(e)}
-                options={bikeNames}
+                options={bikes.map(bike => ({text: bike.name, value: bike.id}))}
                 placeholder_text="Placeholder text"
                 label="Select bike"
                 name="bikeName"

@@ -7,7 +7,7 @@ import { authorizeUrl } from './urls'
 import Modal from './components/Modals'
 import Form from './components/Forms'
 
-import { fetchAuthorizationStatus, fetchUserGear, refreshAthleteBikes, Gear, Bike, toggleGearTracking, deleteGear } from './api'
+import { fetchAuthorizationStatus, fetchUserGear, refreshAthleteBikes, Gear, Bike, toggleGearTracking, deleteGear, addGear } from './api'
 
 function App() {
 
@@ -43,6 +43,14 @@ function App() {
     run()
   }
 
+  const handleAddGearFormSubmit = (name: string, mileage: number, bikeName: string) => {
+    const run = async() => {
+      const json = await new Promise(resolve => resolve(1))//addGear()    
+    }
+    run()
+  }
+
+
   const gearWidgets = gear.map(g => {
     return <GearWidget 
               gearName={g.name} 
@@ -77,7 +85,7 @@ function App() {
             toggleModal={() => alert('toggle')}
             content={
               <Form
-                bikeNames={bikes.map(bike => bike.name)}
+                bikes={bikes}
               />}
           />
         : null
