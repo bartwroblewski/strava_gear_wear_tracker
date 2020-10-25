@@ -17,9 +17,10 @@ interface ErrorContent {
 
 interface FormProps {
     bikes: Bike[],
+    onSubmit: any,
 }
 
-const Form = ({bikes}: FormProps) => {
+const Form = ({bikes, onSubmit}: FormProps) => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
@@ -27,6 +28,7 @@ const Form = ({bikes}: FormProps) => {
         if (valid()) {
             const { name, mileage, bikeIds } = inputs
             console.log('Sumbitting inputs: ', name, mileage, bikeIds)
+            onSubmit(name, mileage, bikeIds[0])
         } else {
             showAllErrors()  
         }

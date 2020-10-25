@@ -43,9 +43,10 @@ function App() {
     run()
   }
 
-  const handleAddGearFormSubmit = (name: string, mileage: number, bikeName: string) => {
+  const handleAddGearFormSubmit = (gearName: string, gearMileage: number, bikeId: string) => {
     const run = async() => {
-      const json = await new Promise(resolve => resolve(1))//addGear()    
+      await addGear(gearName, bikeId, gearMileage, true)
+      getGear()
     }
     run()
   }
@@ -86,6 +87,7 @@ function App() {
             content={
               <Form
                 bikes={bikes}
+                onSubmit={handleAddGearFormSubmit}
               />}
           />
         : null
