@@ -153,31 +153,30 @@ def add_gear(request):
     mileage = float(request.GET.get('mileage'))
     track = json.loads(request.GET.get('track'))
     bike_ids = request.GET.get('bike_ids').split(',')
+
     print(request.GET)
-    print(gear_name, mileage, track, bike_ids, type(bike_ids))
-
-    bike_id = bike_ids[0]
-    print('BIKE ID', bike_id)
-
-    #allow creating gear with no bike assigned
-    try:
-        bike = Bike.objects.get(ref_id=bike_id)
-    except Bike.DoesNotExist:
-        bike = None
+    print(gear_name, mileage, track, bike_ids)
 
     gear = Gear(
         name=gear_name,
         athlete=athlete,
-        bike=bike,
     )
     try:
         gear.full_clean() # validate gear uniqueness per athlete
     except:
-        raise
+        #raise
         return HttpResponseServerError('Gear name already exists. Please use a unique name.')
     gear.mileage = mileage
     gear.is_tracked = track
     gear.save()
+
+    for bike_id in bike_ids:
+        try:
+            bike = Bike.objects.get(ref_id=bike_id)
+        except Bike.DoesNotExist:
+            bike = None
+        if bike:
+            gear.bikes.add(bike)
     return HttpResponse('OK')
 
 def subscribe(request):
