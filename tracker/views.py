@@ -236,7 +236,7 @@ def callback(request):
         tracked_athlete_gear = Gear.objects.filter(
             athlete=athlete, 
             is_tracked=True,
-            bike=bike,
+            bikes=bike,
         )
 
         for gear in tracked_athlete_gear:
