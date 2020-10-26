@@ -2,16 +2,18 @@ import * as urls from './urls'
 
 type Promised<T> = (...args: any[]) => Promise<T>
 
+export interface GearBike {
+    ref_id: number,
+    name: string,
+    athlete: number,
+}
+
 export interface Gear {
     name: string,
     mileage: number,
     is_tracked: boolean,
     athlete: string,
-    bike: {
-        ref_id: number,
-        name: string,
-        athlete: number,
-    },
+    bikes: GearBike[],
 }
 
 export interface Bike {
