@@ -43,9 +43,9 @@ function App() {
     run()
   }
 
-  const handleAddGearFormSubmit = (gearName: string, gearMileage: number, bikeId: string) => {
+  const handleAddGearFormSubmit = (gearName: string, gearMileage: number, bikeIds: string[]) => {
     const run = async() => {
-      await addGear(gearName, bikeId, gearMileage, true)
+      await addGear(gearName, bikeIds, gearMileage, true)
       getGear()
     }
     run()

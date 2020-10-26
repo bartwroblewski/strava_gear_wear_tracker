@@ -28,7 +28,7 @@ const Form = ({bikes, onSubmit}: FormProps) => {
         if (valid()) {
             const { name, mileage, bikeIds } = inputs
             console.log('Sumbitting inputs: ', name, mileage, bikeIds)
-            onSubmit(name, mileage, bikeIds[0])
+            onSubmit(name, mileage, bikeIds)
         } else {
             showAllErrors()  
         }

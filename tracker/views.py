@@ -152,9 +152,12 @@ def add_gear(request):
     gear_name = request.GET.get('gear_name')
     mileage = float(request.GET.get('mileage'))
     track = json.loads(request.GET.get('track'))
-    bike_id = request.GET.get('bike_id')
+    bike_ids = request.GET.get('bike_ids').split(',')
     print(request.GET)
-    print(gear_name, mileage, track, bike_id)
+    print(gear_name, mileage, track, bike_ids, type(bike_ids))
+
+    bike_id = bike_ids[0]
+    print('BIKE ID', bike_id)
 
     #allow creating gear with no bike assigned
     try:
