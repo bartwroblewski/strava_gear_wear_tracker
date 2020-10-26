@@ -1,6 +1,7 @@
 import React from 'react'
 import { isPropertySignature, textChangeRangeIsUnchanged } from 'typescript'
 import { GearBike } from '../api'
+import BikeList from './BikeList'
 
 interface GearWidgetProps {
     gearName: string,
@@ -32,6 +33,9 @@ const GearWidget = ({gearName, gearMileage, gearBikes, toggleGearTracking, is_tr
             <div>Name: {gearName}</div>
             <div>Mileage: {gearMileage}</div>
             <div>Bike(s): {gearBikes.length ? gearBikes.map(b => `${b.name}<br>`) : 'No bike assigned!'}</div>
+            <BikeList
+                bikes={gearBikes}
+            />
             <div>
                 Track
                 <input 
