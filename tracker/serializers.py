@@ -8,8 +8,8 @@ class BikeSerializer(serializers.ModelSerializer):
         fields = ['ref_id', 'name', 'athlete']
 
 class GearSerializer(serializers.ModelSerializer):
-    bike = BikeSerializer()
+    bikes = BikeSerializer(many=True)
     class Meta:
         model = Gear
-        fields = ['name', 'mileage', 'is_tracked', 'athlete', 'bike']
+        fields = ['name', 'mileage', 'is_tracked', 'athlete', 'bikes']
 

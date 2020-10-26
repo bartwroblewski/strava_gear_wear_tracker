@@ -26,15 +26,16 @@ class Gear(models.Model):
     mileage = models.FloatField(default=0)
     is_tracked = models.BooleanField(default=True)
     athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, default=1)
-    bike = models.ForeignKey(
+    bikes = models.ManyToManyField(Bike)
+    """ bike = models.ForeignKey(
         Bike,
         on_delete=models.CASCADE,
         null=True,  # makes the field optional
         blank=True,
-    )
+    ) """
 
     def __str__(self):
-        return f'{self.name}, athlete: {self.athlete.ref_id}, bike: {self.bike.name}, is tracked: {self.is_tracked}'
+        return f'{self.name}, athlete: {self.athlete.ref_id}, is tracked: {self.is_tracked}'
 
     class Meta:
         unique_together = ('name', 'athlete')
