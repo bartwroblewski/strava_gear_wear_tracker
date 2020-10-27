@@ -123,7 +123,10 @@ const Form = ({bikes, onSubmit}: FormProps) => {
                 label="Select bike"
                 name="bikeIds"
             />
-            <button type="submit">Submit</button>
+            <div className='form-buttons'>
+                <button type="submit">OK</button>
+                <button>Cancel</button>
+            </div>
         </form>
     )  
 }

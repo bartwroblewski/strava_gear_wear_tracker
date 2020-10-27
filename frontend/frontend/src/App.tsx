@@ -6,6 +6,7 @@ import MultiSelect from './components/MultiSelect'
 import { authorizeUrl } from './urls'
 import Modal from './components/Modals'
 import Form from './components/Forms'
+import './components/css/App.css'
 
 import { fetchAuthorizationStatus, fetchUserGear, refreshAthleteBikes, Gear, Bike, toggleGearTracking, deleteGear, addGear } from './api'
 
@@ -47,10 +48,12 @@ function App() {
     const run = async() => {
       await addGear(gearName, bikeIds, gearMileage, true)
       getGear()
+      toggleAddGearModal()
     }
     run()
   }
 
+  const toggleAddGearModal = () => setAddGearModalVisible(prev => !prev)
 
   const gearWidgets = gear.map(g => {
     return <GearWidget 
@@ -76,14 +79,16 @@ function App() {
     <div>
       {authorized
         ? <div>
-            {gearWidgets}
+            <div className="gear-widgets">
+              {gearWidgets}
+            </div>
             <button onClick={(e: any) => setAddGearModalVisible(true)}>Add gear</button>
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>
       }
       {addGearModalVisible
         ? <Modal 
-            toggleModal={() => alert('toggle')}
+            toggleModal={toggleAddGearModal}
             content={
               <Form
                 bikes={bikes}
