@@ -7,13 +7,14 @@ interface BikeListProps {
 
 const BikeList = ({bikes}: BikeListProps) => {
 
-    const bikeList = bikes.map(bike => {
-        return <div>{bike.name}</div>
-    })
+    const bikeNames = bikes.length 
+        ? bikes.map(bike => bike.name).join(', ')
+        : 'No bikes assigned!'
 
     return (
         <div>
-            {bikeList}
+            <label>Bike(s): </label>
+            {bikeNames}
         </div>
     )
 }

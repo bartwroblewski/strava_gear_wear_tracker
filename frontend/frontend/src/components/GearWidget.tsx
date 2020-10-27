@@ -32,10 +32,7 @@ const GearWidget = ({gearName, gearMileage, gearBikes, toggleGearTracking, is_tr
         }}>
             <div>Name: {gearName}</div>
             <div>Mileage: {gearMileage}</div>
-            <div>Bike(s): {gearBikes.length ? gearBikes.map(b => `${b.name}<br>`) : 'No bike assigned!'}</div>
-            <BikeList
-                bikes={gearBikes}
-            />
+            <BikeList bikes={gearBikes} />
             <div>
                 Track
                 <input 
