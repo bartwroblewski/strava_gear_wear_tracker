@@ -18,9 +18,10 @@ interface ErrorContent {
 interface FormProps {
     bikes: Bike[],
     onSubmit: any,
+    onCancel: any,
 }
 
-const Form = ({bikes, onSubmit}: FormProps) => {
+const Form = ({bikes, onSubmit, onCancel}: FormProps) => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
@@ -125,7 +126,7 @@ const Form = ({bikes, onSubmit}: FormProps) => {
             />
             <div className='form-buttons'>
                 <button type="submit">OK</button>
-                <button>Cancel</button>
+                <button type="button" onClick={onCancel}>Cancel</button>
             </div>
         </form>
     )  

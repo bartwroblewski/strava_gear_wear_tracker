@@ -44,6 +44,8 @@ function App() {
     run()
   }
 
+  const toggleAddGearModal = () => setAddGearModalVisible(prev => !prev)
+
   const handleAddGearFormSubmit = (gearName: string, gearMileage: number, bikeIds: string[]) => {
     const run = async() => {
       await addGear(gearName, bikeIds, gearMileage, true)
@@ -53,7 +55,7 @@ function App() {
     run()
   }
 
-  const toggleAddGearModal = () => setAddGearModalVisible(prev => !prev)
+  const handleAddGearFormCancel = () => toggleAddGearModal()
 
   const gearWidgets = gear.map(g => {
     return <GearWidget 
@@ -93,6 +95,7 @@ function App() {
               <Form
                 bikes={bikes}
                 onSubmit={handleAddGearFormSubmit}
+                onCancel={handleAddGearFormCancel}
               />}
           />
         : null
