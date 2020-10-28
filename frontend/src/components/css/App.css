@@ -1,5 +1,6 @@
 .gear-widgets {
-    display: flex;
-    justify-content: space-around;
-    align-items: space-around;
+    display: grid;
+    grid-template-columns: 10% 10% 10% 10% 10%;
+    row-gap: 1em;
+    column-gap: 1em;
 }
