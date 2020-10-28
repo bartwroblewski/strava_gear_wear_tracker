@@ -81,11 +81,14 @@ function App() {
   return (
     <div>
       {authorized
-        ? <div>
+        ? <div id="main-page">
             <div className="gear-widgets">
               {gearWidgets}
             </div>
-            <button onClick={(e: any) => setAddGearModalVisible(true)}>Add gear</button>
+            <button 
+              id="add-gear-button"
+              onClick={(e: any) => setAddGearModalVisible(true)}>Add gear
+            </button>
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>
       }

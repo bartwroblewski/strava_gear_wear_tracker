@@ -1,6 +1,16 @@
+#main-page {
+    display: grid;
+    grid-template-columns: 100%;
+    row-gap: .5em;
+}
+
 .gear-widgets {
     display: grid;
     grid-template-columns: 10% 10% 10% 10% 10%;
     row-gap: 1em;
     column-gap: 1em;
+}
+
+#add-gear-button {
+    width: 5%;
 }
