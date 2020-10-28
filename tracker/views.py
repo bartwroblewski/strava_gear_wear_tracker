@@ -107,13 +107,14 @@ def handle_new_activity_creation(request):
     return HttpResponse('OK')
 
 def react(request):
-    path = os.path.join(
+    return render(request, 'frontend/index.html')
+    """ path = os.path.join(
         settings.REACT_APP_DIR,
         'build',
         'index.html',
     )
     with open(path) as f:
-        return HttpResponse(f.read())
+        return HttpResponse(f.read()) """
 
 class GearViewSet(viewsets.ModelViewSet):
     serializer_class = GearSerializer

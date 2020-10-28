@@ -1,18 +1,15 @@
 <!DOCTYPE html>
-    <head>
-    </head>
-    <body>
-        APP
-    </body>
-    <script>
-
-    const getGear = async() => {
-        const response = await fetch('http://127.0.0.1:8000/user_gear')
-        const json = await response.json()
-        return json
-    }
-
-    getGear().then(gear => console.log(gear, typeof gear))
-
-    </script>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Django REST with React</title>
+</head>
+<body>
+<div id="app">
+    <!-- React will load here -->
+</div>
+</body>
+{% load static %}
+<script src="{% static 'frontend/main.js' %}"></script>
 </html>
