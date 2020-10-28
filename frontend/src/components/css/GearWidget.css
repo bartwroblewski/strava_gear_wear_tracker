@@ -1,4 +1,14 @@
 .gear-widget {
+    display: grid;
+    grid-template-columns: 100%;
     border: 1px solid black;
     padding: .25em;
+}
+
+.delete-gear-widget-button {
+    width: 50px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

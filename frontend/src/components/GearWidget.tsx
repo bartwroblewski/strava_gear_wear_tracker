@@ -39,7 +39,10 @@ const GearWidget = ({gearName, gearMileage, gearBikes, toggleGearTracking, is_tr
                     checked={is_tracked}
                 />
             </div>
-            <button onClick={handleButtonClick}>Delete</button>
+            <button 
+                className="delete-gear-widget-button"
+                onClick={handleButtonClick}>Delete
+            </button>
         </div>
     )
 }
