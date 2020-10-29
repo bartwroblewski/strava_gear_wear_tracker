@@ -75,7 +75,10 @@ const NameDisplay = ({gearName}: NameDisplayProps) => {
                                 type="text" 
                                 onChange={handleChange}
                             />
-                            <button type="submit">OK</button>
+                            <button 
+                                disabled={true}
+                                type="submit">OK
+                            </button>
                         </form>
                     </div> 
                 :   <div 
