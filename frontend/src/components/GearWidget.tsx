@@ -67,7 +67,7 @@ const NameDisplay = ({gearName}: NameDisplayProps) => {
     }
 
     return (
-        <div className="labeled-input">
+        <div className="labeled-element">
             <label>Name: </label>
             {editMode 
                 ?   <div>      
