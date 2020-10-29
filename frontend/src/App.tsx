@@ -8,6 +8,7 @@ import { authorizeUrl } from './urls'
 import Modal from './components/Modals'
 import Form from './components/Forms'
 import './components/css/App.css'
+import Test from './components/Test'
 
 import { fetchAuthorizationStatus, fetchUserGear, refreshAthleteBikes, Gear, Bike, toggleGearTracking, deleteGear, addGear } from './api'
 
@@ -104,6 +105,7 @@ function App() {
           />
         : null
       }
+      <Test />
     </div>
   );
 }

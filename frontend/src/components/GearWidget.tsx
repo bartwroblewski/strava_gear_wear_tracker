@@ -1,5 +1,4 @@
 import React from 'react'
-import { isPropertySignature, textChangeRangeIsUnchanged } from 'typescript'
 import { GearBike } from '../api'
 import BikeList from './BikeList'
 import './css/GearWidget.css'
@@ -43,6 +42,76 @@ const GearWidget = ({gearName, gearMileage, gearBikes, toggleGearTracking, is_tr
                 className="delete-gear-widget-button"
                 onClick={handleButtonClick}>Delete
             </button>
+        </div>
+    )
+}
+
+interface NameDisplayProps {
+    gearName: string,
+}
+
+interface MileageDisplayProps {
+    gearMileage: number,
+}
+
+const NameDisplay = ({gearName}: NameDisplayProps) => {
+
+    const [editMode, setEditMode] = React.useState<boolean>(Boolean(!gearName))
+    const [value, setValue] = React.useState<string>(gearName)
+
+    const handleChange = (e: any) => setValue(e.target.value)
+
+    return (
+        <div className="labeled-input">
+            <label>Name: </label>
+            {editMode 
+                ?   <div>         
+                        <input 
+                            type="text" 
+                        />
+                    </div> 
+                :   <div 
+                        onClick={() => setEditMode(true)} 
+                        onChange={handleChange}>
+                        {value}
+                    </div>
+            }
+        </div>
+    )
+}
+
+const MileageDisplay = ({gearMileage}: MileageDisplayProps) => {
+
+    const [editMode, setEditMode] = React.useState<boolean>(true)
+
+    return editMode
+        ?   <div>
+                <label>Mileage: </label>
+                <input type="number" min="0" />
+            </div>
+        :   <div>{gearMileage}</div>
+}
+
+interface EditableGearWidgetProps {
+    gearName?: string,
+    gearMileage?: number,
+    /*gearBikes: GearBike[],
+    toggleGearTracking: (arg: string) => Promise<any>,
+    is_tracked: boolean,
+    getGear: () => void,
+    deleteGear: (arg: string) => Promise<any> */
+}
+
+export const EditableGearWidget = ({gearName, gearMileage}: EditableGearWidgetProps) => {
+
+    return (
+        <div>
+            <NameDisplay
+                gearName={gearName}
+            />
+            <MileageDisplay
+                gearMileage={gearMileage}
+            />
         </div>
     )
 }

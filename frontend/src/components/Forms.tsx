@@ -1,6 +1,5 @@
 import { errorMonitor } from 'events'
 import React from 'react'
-import { setConstantValue } from 'typescript'
 import MultiSelect from './MultiSelect'
 import { Bike } from '../api'
 

@@ -3,3 +3,7 @@
     padding: 10px;
     background: rgb(108, 156, 158);
 }
+
+.labeled-input {
+    display: flex;
+}
