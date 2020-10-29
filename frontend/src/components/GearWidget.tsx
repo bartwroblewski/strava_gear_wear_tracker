@@ -60,10 +60,7 @@ const NameDisplay = ({gearName}: NameDisplayProps) => {
     const [value, setValue] = React.useState<string>(gearName)
 
     const handleChange = (e: any) => setValue(e.target.value)
-    const handleClick = (e: any) => {
-        setEditMode(true)
-        setValue(null)
-    }
+    const handleClick = (e: any) => setEditMode(true)
     const handleSubmit = (e: any) => {
         e.preventDefault()
         setEditMode(false)
@@ -77,10 +74,12 @@ const NameDisplay = ({gearName}: NameDisplayProps) => {
                         <form onSubmit={handleSubmit}>   
                             <input 
                                 type="text" 
+                                value={value}
                                 onChange={handleChange}
                             />
                             <button 
                                 disabled={!Boolean(value)}
+                                hidden
                                 type="submit">OK
                             </button>
                         </form>
