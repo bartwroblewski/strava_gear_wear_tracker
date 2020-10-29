@@ -76,14 +76,17 @@ const NameDisplay = ({gearName}: NameDisplayProps) => {
                                 onChange={handleChange}
                             />
                             <button 
-                                disabled={true}
+                                disabled={!Boolean(value)}
                                 type="submit">OK
                             </button>
                         </form>
                     </div> 
                 :   <div 
                         className='editable-value'
-                        onClick={() => setEditMode(true)}>
+                        onClick={() => {
+                            setEditMode(true)
+                            setValue(null)
+                        }}>
                         {value}
                     </div>
             }
