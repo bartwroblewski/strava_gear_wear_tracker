@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom'
 import GearSelect from './components/GearSelect'
 import GearWidget from './components/GearWidget'
 import AddGearWidget from './components/AddGearWidget'
@@ -80,11 +81,14 @@ function App() {
   return (
     <div>
       {authorized
-        ? <div>
+        ? <div id="main-page">
             <div className="gear-widgets">
               {gearWidgets}
             </div>
-            <button onClick={(e: any) => setAddGearModalVisible(true)}>Add gear</button>
+            <button 
+              id="add-gear-button"
+              onClick={(e: any) => setAddGearModalVisible(true)}>Add gear
+            </button>
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>
       }
@@ -103,5 +107,8 @@ function App() {
     </div>
   );
 }
+
+const container = document.getElementById('app')
+ReactDOM.render(<App />, container)
 
 export default App;
