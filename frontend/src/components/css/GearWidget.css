@@ -7,3 +7,7 @@
 .labeled-input {
     display: flex;
 }
+
+.editable-value:hover {
+    cursor: pointer;
+}

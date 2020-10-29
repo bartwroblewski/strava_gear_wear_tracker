@@ -60,19 +60,27 @@ const NameDisplay = ({gearName}: NameDisplayProps) => {
     const [value, setValue] = React.useState<string>(gearName)
 
     const handleChange = (e: any) => setValue(e.target.value)
+    const handleSubmit = (e: any) => {
+        e.preventDefault()
+        setEditMode(false)
+    }
 
     return (
         <div className="labeled-input">
             <label>Name: </label>
             {editMode 
-                ?   <div>         
-                        <input 
-                            type="text" 
-                        />
+                ?   <div>      
+                        <form onSubmit={handleSubmit}>   
+                            <input 
+                                type="text" 
+                                onChange={handleChange}
+                            />
+                            <button type="submit">OK</button>
+                        </form>
                     </div> 
                 :   <div 
-                        onClick={() => setEditMode(true)} 
-                        onChange={handleChange}>
+                        className='editable-value'
+                        onClick={() => setEditMode(true)}>
                         {value}
                     </div>
             }
