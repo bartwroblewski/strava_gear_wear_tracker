@@ -60,6 +60,10 @@ const NameDisplay = ({gearName}: NameDisplayProps) => {
     const [value, setValue] = React.useState<string>(gearName)
 
     const handleChange = (e: any) => setValue(e.target.value)
+    const handleClick = (e: any) => {
+        setEditMode(true)
+        setValue(null)
+    }
     const handleSubmit = (e: any) => {
         e.preventDefault()
         setEditMode(false)
@@ -83,10 +87,7 @@ const NameDisplay = ({gearName}: NameDisplayProps) => {
                     </div> 
                 :   <div 
                         className='editable-value'
-                        onClick={() => {
-                            setEditMode(true)
-                            setValue(null)
-                        }}>
+                        onClick={handleClick}>
                         {value}
                     </div>
             }
