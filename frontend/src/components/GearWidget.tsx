@@ -56,7 +56,7 @@ interface MileageDisplayProps {
 
 const NameDisplay = ({gearName}: NameDisplayProps) => {
 
-    const [editMode, setEditMode] = React.useState<boolean>(Boolean(!gearName))
+    const [editMode, setEditMode] = React.useState<boolean>(gearName === undefined)
     const [value, setValue] = React.useState<string>(gearName)
 
     const handleChange = (e: any) => setValue(e.target.value)
