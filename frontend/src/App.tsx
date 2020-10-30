@@ -9,6 +9,7 @@ import Modal from './components/Modals'
 import Form from './components/Forms'
 import './components/css/App.css'
 import Test from './components/Test'
+import { EditableGearWidget } from './components/GearWidget'
 
 import { fetchAuthorizationStatus, fetchUserGear, refreshAthleteBikes, Gear, Bike, toggleGearTracking, deleteGear, addGear } from './api'
 
@@ -71,6 +72,18 @@ function App() {
             />
   })
 
+  const editableGearWidgets = gear.map(g => {
+    return <EditableGearWidget 
+              gearName={g.name} 
+              gearMileage={g.mileage}
+             /*  gearBikes={g.bikes}
+              toggleGearTracking={toggleGearTracking} 
+              is_tracked={g.is_tracked}
+              getGear={getGear}
+              deleteGear={deleteGear} */
+            />
+  })
+
   React.useEffect(getAuthorizationStatus, [])
   React.useEffect(() => {
     if (authorized) {
@@ -84,7 +97,9 @@ function App() {
       {authorized
         ? <div id="main-page">
             <div className="gear-widgets">
-              {gearWidgets}
+              {/* {gearWidgets} */}
+              {editableGearWidgets}
+
             </div>
             <button 
               id="add-gear-button"
@@ -105,7 +120,6 @@ function App() {
           />
         : null
       }
-      <Test />
     </div>
   );
 }

@@ -51,7 +51,7 @@ interface NameDisplayProps {
 }
 
 interface MileageDisplayProps {
-    gearMileage: number,
+    gearMileage: string,
 }
 
 const NameDisplay = ({gearName}: NameDisplayProps) => {
@@ -96,19 +96,47 @@ const NameDisplay = ({gearName}: NameDisplayProps) => {
 
 const MileageDisplay = ({gearMileage}: MileageDisplayProps) => {
 
-    const [editMode, setEditMode] = React.useState<boolean>(true)
+    const [editMode, setEditMode] = React.useState<boolean>(gearMileage === undefined)
+    const [value, setValue] = React.useState<string>(gearMileage)
 
-    return editMode
-        ?   <div>
-                <label>Mileage: </label>
-                <input type="number" min="0" />
-            </div>
-        :   <div>{gearMileage}</div>
+    const handleChange = (e: any) => setValue(e.target.value)
+    const handleClick = (e: any) => setEditMode(true)
+    const handleSubmit = (e: any) => {
+        e.preventDefault()
+        setEditMode(false)
+    }
+
+    return (
+        <div className="labeled-element">
+            <label>Mileage: </label>
+            {editMode 
+                ?   <div>      
+                        <form onSubmit={handleSubmit}>   
+                            <input 
+                                type="number" 
+                                value={value}
+                                required="required"
+                                onChange={handleChange}
+                            />
+                            <input 
+                                type="submit"
+                                hidden
+                            />
+                        </form>
+                    </div> 
+                :   <div 
+                        className='editable-value'
+                        onClick={handleClick}>
+                        {value}
+                    </div>
+            }
+        </div>
+    )
 }
 
 interface EditableGearWidgetProps {
     gearName?: string,
-    gearMileage?: number,
+    gearMileage?: string,
     /*gearBikes: GearBike[],
     toggleGearTracking: (arg: string) => Promise<any>,
     is_tracked: boolean,
