@@ -1,5 +1,6 @@
 import React from 'react'
-import { GearBike } from '../api'
+import GearBike from './api'
+import { Bike } from '../api'
 import BikeList from './BikeList'
 import './css/GearWidget.css'
 
@@ -135,12 +136,12 @@ const MileageDisplay = ({gearMileage}: MileageDisplayProps) => {
 }
 
 interface BikeSelectProps {
-    gearBikes: GearBike[],
+    bikes: Bike[],
 }
 
-const BikeSelect = ({gearBikes}: BikeSelectProps) => {
+const BikeSelect = ({bikes}: BikeSelectProps) => {
     
-    const options = gearBikes.map(bike => <option>{bike.name}</option>)
+    const options = bikes.map(bike => <option>{bike.name}</option>)
 
     return (
         <select>
@@ -152,14 +153,14 @@ const BikeSelect = ({gearBikes}: BikeSelectProps) => {
 interface EditableGearWidgetProps {
     gearName?: string,
     gearMileage?: string,
-    gearBikes: GearBike[],
+    bikes: Bike[],
  /*    toggleGearTracking: (arg: string) => Promise<any>,
     is_tracked: boolean,
     getGear: () => void,
     deleteGear: (arg: string) => Promise<any> */ 
 }
 
-export const EditableGearWidget = ({gearName, gearMileage, gearBikes}: EditableGearWidgetProps) => {
+export const EditableGearWidget = ({gearName, gearMileage, bikes}: EditableGearWidgetProps) => {
 
     return (
         <div>
@@ -170,7 +171,7 @@ export const EditableGearWidget = ({gearName, gearMileage, gearBikes}: EditableG
                 gearMileage={gearMileage}
             />
             <BikeSelect
-                gearBikes={gearBikes}
+                bikes={bikes}
             />
         </div>
     )
