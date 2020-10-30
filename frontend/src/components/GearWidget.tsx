@@ -134,17 +134,32 @@ const MileageDisplay = ({gearMileage}: MileageDisplayProps) => {
     )
 }
 
+interface BikeSelectProps {
+    gearBikes: GearBike[],
+}
+
+const BikeSelect = ({gearBikes}: BikeSelectProps) => {
+    
+    const options = gearBikes.map(bike => <option>{bike.name}</option>)
+
+    return (
+        <select>
+            {options}
+        </select>
+    )
+}
+
 interface EditableGearWidgetProps {
     gearName?: string,
     gearMileage?: string,
-    /*gearBikes: GearBike[],
-    toggleGearTracking: (arg: string) => Promise<any>,
+    gearBikes: GearBike[],
+ /*    toggleGearTracking: (arg: string) => Promise<any>,
     is_tracked: boolean,
     getGear: () => void,
-    deleteGear: (arg: string) => Promise<any> */
+    deleteGear: (arg: string) => Promise<any> */ 
 }
 
-export const EditableGearWidget = ({gearName, gearMileage}: EditableGearWidgetProps) => {
+export const EditableGearWidget = ({gearName, gearMileage, gearBikes}: EditableGearWidgetProps) => {
 
     return (
         <div>
@@ -153,6 +168,9 @@ export const EditableGearWidget = ({gearName, gearMileage}: EditableGearWidgetPr
             />
             <MileageDisplay
                 gearMileage={gearMileage}
+            />
+            <BikeSelect
+                gearBikes={gearBikes}
             />
         </div>
     )
