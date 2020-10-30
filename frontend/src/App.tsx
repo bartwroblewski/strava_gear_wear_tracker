@@ -76,6 +76,7 @@ function App() {
     return <EditableGearWidget 
               gearName={g.name} 
               gearMileage={g.mileage}
+              gearBikes={g.bikes}
               bikes={bikes}
              /*  toggleGearTracking={toggleGearTracking} 
               is_tracked={g.is_tracked}
