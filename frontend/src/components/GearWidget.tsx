@@ -142,14 +142,23 @@ interface BikeSelectProps {
 
 const BikeSelect = ({gearBikes, bikes}: BikeSelectProps) => {
 
-    console.log('gearBikes', gearBikes)
-    
-    const options = bikes.map(bike => <option>{bike.name}</option>)
+    const options = bikes.map(bike => {
+        const selected = gearBikes.map(b => b.ref_id).includes(bike.id)
+        const className = selected ? 'bike-select-selected-option' : null
+        return <option className={className}>{bike.name}</option>
+    })
+
+    const handleClick = (e: any) => {
+        console.log(bikes, gearBikes)
+    }
 
     return (
-        <select>
-            {options}
-        </select>
+        <div>
+            <label>Bike(s): </label>
+            <select onClick={handleClick}>
+                {options}
+            </select>
+        </div>
     )
 }
 

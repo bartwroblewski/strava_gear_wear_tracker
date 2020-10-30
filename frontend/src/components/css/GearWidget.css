@@ -11,3 +11,7 @@
 .editable-value:hover {
     cursor: pointer;
 }
+
+.bike-select-selected-option {
+    background: powderblue;
+}
