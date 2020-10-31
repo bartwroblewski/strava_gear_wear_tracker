@@ -1,6 +1,5 @@
 import React from 'react'
-import GearBike from './api'
-import { Bike } from '../api'
+import { GearBike, Bike } from '../api'
 import BikeList from './BikeList'
 import './css/GearWidget.css'
 
@@ -52,7 +51,7 @@ interface NameDisplayProps {
 }
 
 interface MileageDisplayProps {
-    gearMileage: string,
+    gearMileage: number,
 }
 
 const NameDisplay = ({gearName}: NameDisplayProps) => {
@@ -164,8 +163,8 @@ const BikeSelect = ({gearBikes, bikes}: BikeSelectProps) => {
 
 interface EditableGearWidgetProps {
     gearName?: string,
-    gearMileage?: string,
-    gearBikes?: gearBike[],
+    gearMileage?: number,
+    gearBikes?: GearBike[],
     bikes: Bike[],
  /*    toggleGearTracking: (arg: string) => Promise<any>,
     is_tracked: boolean,

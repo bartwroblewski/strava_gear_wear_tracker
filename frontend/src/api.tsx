@@ -3,7 +3,7 @@ import * as urls from './urls'
 type Promised<T> = (...args: any[]) => Promise<T>
 
 export interface GearBike {
-    ref_id: number,
+    ref_id: string,
     name: string,
     athlete: number,
 }
