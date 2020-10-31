@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom'
 import GearSelect from './components/GearSelect'
 import GearWidget from './components/GearWidget'
-import AddGearWidget from './components/AddGearWidget'
+import { AddGearWidget } from './components/GearWidget'
 import MultiSelect from './components/MultiSelect'
 import { authorizeUrl } from './urls'
 import Modal from './components/Modals'
@@ -18,7 +18,7 @@ function App() {
   const [gear, setGear] = React.useState<Gear[]>([])
   const [authorized, setAuthorized] = React.useState<boolean>()
   const [bikes, setBikes] = React.useState<Bike[]>([])
-  const [addGearModalVisible, setAddGearModalVisible] = React.useState<boolean>(false)
+  const [addGearWidgetVisible, setaddGearWidgetVisible] = React.useState<boolean>(false)
 
   const getAuthorizationStatus = () => {
     const run = async() => {
@@ -47,7 +47,7 @@ function App() {
     run()
   }
 
-  const toggleAddGearModal = () => setAddGearModalVisible(prev => !prev)
+  const toggleAddGearModal = () => setaddGearWidgetVisible(prev => !prev)
 
   const handleAddGearFormSubmit = (gearName: string, gearMileage: number, bikeIds: string[]) => {
     const run = async() => {
@@ -104,21 +104,13 @@ function App() {
             </div>
             <button 
               id="add-gear-button"
-              onClick={(e: any) => setAddGearModalVisible(true)}>Add gear
+              onClick={(e: any) => setaddGearWidgetVisible(true)}>Add gear
             </button>
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>
       }
-      {addGearModalVisible
-        ? <Modal 
-            toggleModal={toggleAddGearModal}
-            content={
-              <Form
-                bikes={bikes}
-                onSubmit={handleAddGearFormSubmit}
-                onCancel={handleAddGearFormCancel}
-              />}
-          />
+      {addGearWidgetVisible
+        ? <AddGearWidget bikes={bikes} />
         : null
       }
     </div>

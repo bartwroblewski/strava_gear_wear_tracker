@@ -1,5 +1,4 @@
 import React from 'react'
-import { getGeneratedNameForNode, isPropertySignature, textChangeRangeIsUnchanged } from 'typescript'
 import { addGear, Bike } from '../api'
 import './css/AddGearWidget.css'
 

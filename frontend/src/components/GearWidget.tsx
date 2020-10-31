@@ -135,14 +135,14 @@ const MileageDisplay = ({gearMileage}: MileageDisplayProps) => {
 }
 
 interface BikeSelectProps {
-    gearBikes: GearBike[],
+    gearBikes?: GearBike[],
     bikes: Bike[],
 }
 
 const BikeSelect = ({gearBikes, bikes}: BikeSelectProps) => {
 
     const options = bikes.map(bike => {
-        const selected = gearBikes.map(b => b.ref_id).includes(bike.id)
+        const selected = gearBikes ? gearBikes.map(b => b.ref_id).includes(bike.id) : null
         const className = selected ? 'bike-select-selected-option' : null
         return <option className={className}>{bike.name}</option>
     })
@@ -189,6 +189,8 @@ export const EditableGearWidget = ({gearName, gearMileage, gearBikes, bikes}: Ed
         </div>
     )
 }
+
+export const AddGearWidget = ({bikes}: EditableGearWidgetProps) => <EditableGearWidget bikes={bikes} />
 
 
 export default GearWidget
