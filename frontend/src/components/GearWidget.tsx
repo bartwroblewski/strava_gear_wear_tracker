@@ -190,7 +190,4 @@ export const EditableGearWidget = ({gearName, gearMileage, gearBikes, bikes}: Ed
     )
 }
 
-export const AddGearWidget = ({bikes}: EditableGearWidgetProps) => <EditableGearWidget bikes={bikes} />
-
-
 export default GearWidget

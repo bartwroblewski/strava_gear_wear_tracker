@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom'
 import GearSelect from './components/GearSelect'
 import GearWidget from './components/GearWidget'
-import { AddGearWidget } from './components/GearWidget'
 import MultiSelect from './components/MultiSelect'
 import { authorizeUrl } from './urls'
 import Modal from './components/Modals'
@@ -100,7 +99,10 @@ function App() {
             <div className="gear-widgets">
               {/* {gearWidgets} */}
               {editableGearWidgets}
-
+              {addGearWidgetVisible
+                ? <EditableGearWidget bikes={bikes} />
+                : null
+              }
             </div>
             <button 
               id="add-gear-button"
@@ -109,10 +111,7 @@ function App() {
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>
       }
-      {addGearWidgetVisible
-        ? <AddGearWidget bikes={bikes} />
-        : null
-      }
+      
     </div>
   );
 }
