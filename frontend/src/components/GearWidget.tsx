@@ -52,6 +52,7 @@ interface NameDisplayProps {
 
 interface MileageDisplayProps {
     gearMileage: number,
+    setInputs: any,
 }
 
 const NameDisplay = ({gearName}: NameDisplayProps) => {
@@ -94,12 +95,13 @@ const NameDisplay = ({gearName}: NameDisplayProps) => {
     )
 }
 
-const MileageDisplay = ({gearMileage}: MileageDisplayProps) => {
+const MileageDisplay = ({gearMileage, setInputs}: MileageDisplayProps) => {
 
     const [editMode, setEditMode] = React.useState<boolean>(gearMileage === undefined)
-    const [value, setValue] = React.useState<string>(gearMileage)
 
-    const handleChange = (e: any) => setValue(e.target.value)
+    const handleChange = (e: any) => setInputs(prev => {
+        return {...prev, ...{mileage: e.target.value}}
+    })
     const handleClick = (e: any) => setEditMode(true)
     const handleSubmit = (e: any) => {
         e.preventDefault()
@@ -114,7 +116,7 @@ const MileageDisplay = ({gearMileage}: MileageDisplayProps) => {
                         <form onSubmit={handleSubmit}>   
                             <input 
                                 type="number" 
-                                value={value}
+                                value={gearMileage}
                                 required="required"
                                 onChange={handleChange}
                             />
@@ -127,7 +129,7 @@ const MileageDisplay = ({gearMileage}: MileageDisplayProps) => {
                 :   <div 
                         className='editable-value'
                         onClick={handleClick}>
-                        {value}
+                        {gearMileage}
                     </div>
             }
         </div>
@@ -174,18 +176,30 @@ interface EditableGearWidgetProps {
 
 export const EditableGearWidget = ({gearName, gearMileage, gearBikes, bikes}: EditableGearWidgetProps) => {
 
+    const [inputs, setInputs] = React.useState({
+        name: gearName,
+        mileage: gearMileage,
+    })
+
+    const handleSubmit = (e: any) => {
+
+    }
+
     return (
         <div>
-            <NameDisplay
-                gearName={gearName}
-            />
-            <MileageDisplay
-                gearMileage={gearMileage}
-            />
-            <BikeSelect
-                gearBikes={gearBikes}
-                bikes={bikes}
-            />
+            <form onSubmit={handleSubmit}>
+                <NameDisplay
+                    gearName={gearName}
+                />
+                <MileageDisplay
+                    gearMileage={inputs.mileage}
+                    setInputs={setInputs}
+                />
+                <BikeSelect
+                    gearBikes={gearBikes}
+                    bikes={bikes}
+                />
+            </form>
         </div>
     )
 }
