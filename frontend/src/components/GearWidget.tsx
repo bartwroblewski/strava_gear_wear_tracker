@@ -48,6 +48,8 @@ const GearWidget = ({gearName, gearMileage, gearBikes, toggleGearTracking, is_tr
 
 interface NameDisplayProps {
     gearName: string,
+    editMode: boolean,
+    setInputs: any,
 }
 
 interface MileageDisplayProps {
@@ -56,40 +58,31 @@ interface MileageDisplayProps {
     setInputs: any,
 }
 
-const NameDisplay = ({gearName}: NameDisplayProps) => {
+const NameDisplay = ({gearName, editMode, setInputs}: NameDisplayProps) => {
 
-    const [editMode, setEditMode] = React.useState<boolean>(gearName === undefined)
-    const [value, setValue] = React.useState<string>(gearName)
-
-    const handleChange = (e: any) => setValue(e.target.value)
-    const handleClick = (e: any) => setEditMode(true)
-    const handleSubmit = (e: any) => {
-        e.preventDefault()
-        setEditMode(false)
-    }
+    const handleChange = (e: any) => setInputs(prev => {
+        return {...prev, ...{name: {value: e.target.value, editMode: prev.name.editMode}}}
+    })
+    const handleClick = (e: any) => setInputs(prev => {
+        return {...prev, ...{name: {value: gearName, editMode: !prev.name.editMode}}}
+    })
 
     return (
         <div className="labeled-element">
             <label>Name: </label>
             {editMode 
                 ?   <div>      
-                        <form onSubmit={handleSubmit}>   
-                            <input 
-                                type="text" 
-                                value={value}
-                                required="required"
-                                onChange={handleChange}
-                            />
-                            <input 
-                                type="submit"
-                                hidden
-                            />
-                        </form>
+                        <input 
+                            type="text" 
+                            value={gearName}
+                            required="required"
+                            onChange={handleChange}
+                        />
                     </div> 
                 :   <div 
                         className='editable-value'
                         onClick={handleClick}>
-                        {value}
+                        {gearName}
                     </div>
             }
         </div>
@@ -113,12 +106,8 @@ const MileageDisplay = ({gearMileage, editMode, setInputs}: MileageDisplayProps)
                         <input 
                             type="number" 
                             value={gearMileage}
-                            required="required"
+                            //required="required"
                             onChange={handleChange}
-                        />
-                        <input 
-                            type="submit"
-                            hidden
                         />
                     </div> 
                 :   <div 
@@ -172,7 +161,7 @@ interface EditableGearWidgetProps {
 export const EditableGearWidget = ({gearName, gearMileage, gearBikes, bikes}: EditableGearWidgetProps) => {
 
     const [inputs, setInputs] = React.useState({
-        name: gearName,
+        name: {value: gearName, editMode: gearName === undefined},
         mileage: {value: gearMileage, editMode: gearMileage === undefined},
     })
 
@@ -185,7 +174,9 @@ export const EditableGearWidget = ({gearName, gearMileage, gearBikes, bikes}: Ed
         <div>
             <form onSubmit={handleSubmit}>
                 <NameDisplay
-                    gearName={gearName}
+                    gearName={inputs.name.value}
+                    editMode={inputs.name.editMode}
+                    setInputs={setInputs}
                 />
                 <MileageDisplay
                     gearMileage={inputs.mileage.value}
