@@ -52,6 +52,7 @@ interface NameDisplayProps {
 
 interface MileageDisplayProps {
     gearMileage: number,
+    editMode: boolean,
     setInputs: any,
 }
 
@@ -95,36 +96,30 @@ const NameDisplay = ({gearName}: NameDisplayProps) => {
     )
 }
 
-const MileageDisplay = ({gearMileage, setInputs}: MileageDisplayProps) => {
-
-    const [editMode, setEditMode] = React.useState<boolean>(gearMileage === undefined)
+const MileageDisplay = ({gearMileage, editMode, setInputs}: MileageDisplayProps) => {
 
     const handleChange = (e: any) => setInputs(prev => {
-        return {...prev, ...{mileage: e.target.value}}
+        return {...prev, ...{mileage: {value: e.target.value, editMode: prev.mileage.editMode}}}
     })
-    const handleClick = (e: any) => setEditMode(true)
-    const handleSubmit = (e: any) => {
-        e.preventDefault()
-        setEditMode(false)
-    }
+    const handleClick = (e: any) => setInputs(prev => {
+        return {...prev, ...{mileage: {value: gearMileage, editMode: !prev.mileage.editMode}}}
+    })
 
     return (
         <div className="labeled-element">
             <label>Mileage: </label>
             {editMode 
                 ?   <div>      
-                        <form onSubmit={handleSubmit}>   
-                            <input 
-                                type="number" 
-                                value={gearMileage}
-                                required="required"
-                                onChange={handleChange}
-                            />
-                            <input 
-                                type="submit"
-                                hidden
-                            />
-                        </form>
+                        <input 
+                            type="number" 
+                            value={gearMileage}
+                            required="required"
+                            onChange={handleChange}
+                        />
+                        <input 
+                            type="submit"
+                            hidden
+                        />
                     </div> 
                 :   <div 
                         className='editable-value'
@@ -178,11 +173,12 @@ export const EditableGearWidget = ({gearName, gearMileage, gearBikes, bikes}: Ed
 
     const [inputs, setInputs] = React.useState({
         name: gearName,
-        mileage: gearMileage,
+        mileage: {value: gearMileage, editMode: gearMileage === undefined},
     })
 
     const handleSubmit = (e: any) => {
-
+        e.preventDefault()
+        console.log('Submitting inputs: ', inputs)
     }
 
     return (
@@ -192,7 +188,8 @@ export const EditableGearWidget = ({gearName, gearMileage, gearBikes, bikes}: Ed
                     gearName={gearName}
                 />
                 <MileageDisplay
-                    gearMileage={inputs.mileage}
+                    gearMileage={inputs.mileage.value}
+                    editMode={inputs.mileage.editMode}
                     setInputs={setInputs}
                 />
                 <BikeSelect
