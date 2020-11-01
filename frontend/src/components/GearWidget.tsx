@@ -187,6 +187,7 @@ export const EditableGearWidget = ({gearName, gearMileage, gearBikes, bikes}: Ed
                     gearBikes={gearBikes}
                     bikes={bikes}
                 />
+            <button type="submit">Submit</button>
             </form>
         </div>
     )
