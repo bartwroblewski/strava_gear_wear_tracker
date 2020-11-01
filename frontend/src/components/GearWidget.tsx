@@ -75,7 +75,7 @@ const NameDisplay = ({gearName, editMode, setInputs}: NameDisplayProps) => {
                         <input 
                             type="text" 
                             value={gearName}
-                            required="required"
+                            //required="required"
                             onChange={handleChange}
                         />
                     </div> 
