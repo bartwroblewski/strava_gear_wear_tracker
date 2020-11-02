@@ -127,15 +127,16 @@ interface BikeSelectProps {
 
 const BikeSelect = ({options, setInputs}: BikeSelectProps) => {
 
-    const header = [<option selected disabled>Assigned bikes...</option>]
+    const defaultValue = ""
+    const header = [<option disabled value={defaultValue}>Assigned bikes...</option>]
 
     const handleChange = (e: any) => {
-
+        //alert(e.target.value)
     }
 
     return (
         <div>
-            <select onChange={handleChange} placeholder='gfgfg'>
+            <select onChange={handleChange} value={defaultValue}>
                 {header.concat(options)}
             </select>
         </div>
