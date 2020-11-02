@@ -122,16 +122,18 @@ const MileageDisplay = ({gearMileage, editMode, setInputs}: MileageDisplayProps)
 
 interface BikeSelectProps {
     options: any[],
-    setInputs: () => void,
+    setInputs: any,
+    onChange: any,
 }
 
-const BikeSelect = ({options, setInputs}: BikeSelectProps) => {
+const BikeSelect = ({options, setInputs, onChange}: BikeSelectProps) => {
 
     const defaultValue = ""
-    const header = [<option disabled value={defaultValue}>Assigned bikes...</option>]
+    const header = [<option disabled value={defaultValue}>Parent bikes...</option>]
 
     const handleChange = (e: any) => {
         //alert(e.target.value)
+        onChange(e, e.target.value)
     }
 
     return (
@@ -160,12 +162,13 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bi
     const [inputs, setInputs] = React.useState({
         name: {value: gearName, editMode: gearName === undefined},
         mileage: {value: gearMileage, editMode: gearMileage === undefined},
-        bike: '',
     })
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: any, bikeId?: number) => {
         e.preventDefault()
-        console.log('Submitting inputs for gear: ', gearPk, inputs)
+        const params = [gearPk, inputs.name.value, inputs.mileage.value]
+        if (bikeId) params.push(bikeId)
+        console.log('Submitting params: ', params)
     }
     
     const bikeSelectOptions = bikes.map(bike => {
@@ -173,7 +176,9 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bi
         const className = selected ? 'bike-select-selected-option' : null
         return (
             <option 
-                className={className}>{bike.name}
+                className={className}
+                value={bike.id}
+                >{bike.name}
             </option>
         )
     })
@@ -194,6 +199,7 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bi
                 <BikeSelect
                     options={bikeSelectOptions}
                     setInputs={setInputs}
+                    onChange={handleSubmit}
                 />
             <button type="submit">Submit</button>
             </form>
