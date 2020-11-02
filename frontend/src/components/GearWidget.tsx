@@ -123,24 +123,32 @@ const MileageDisplay = ({gearMileage, editMode, setInputs}: MileageDisplayProps)
 interface BikeSelectProps {
     gearBikes?: GearBike[],
     bikes: Bike[],
+    setInputs: any,
 }
 
 const BikeSelect = ({gearBikes, bikes}: BikeSelectProps) => {
 
+    const [s, setS] = React.useState<string>(new Set([]))
+
     const options = bikes.map(bike => {
         const selected = gearBikes ? gearBikes.map(b => b.ref_id).includes(bike.id) : null
         const className = selected ? 'bike-select-selected-option' : null
-        return <option className={className}>{bike.name}</option>
+        return (
+            <option 
+                className={className}>{bike.name}
+            </option>
+        )
     })
 
-    const handleClick = (e: any) => {
-        console.log(bikes, gearBikes)
+    const handleChange = (e: any) => {
+        const newGearBike = bikes.filter(bike => bike.name === e.target.value)[0]
+        const newGearBikes = gearBikes.push({})
     }
 
     return (
         <div>
             <label>Bike(s): </label>
-            <select onClick={handleClick}>
+            <select onChange={handleChange}>
                 {options}
             </select>
         </div>
@@ -164,6 +172,7 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bi
     const [inputs, setInputs] = React.useState({
         name: {value: gearName, editMode: gearName === undefined},
         mileage: {value: gearMileage, editMode: gearMileage === undefined},
+        bikes: {value: gearBikes},
     })
 
     const handleSubmit = (e: any) => {
@@ -185,8 +194,9 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bi
                     setInputs={setInputs}
                 />
                 <BikeSelect
-                    gearBikes={gearBikes}
+                    gearBikes={inputs.bikes.value}
                     bikes={bikes}
+                    setInputs={setInputs}
                 />
             <button type="submit">Submit</button>
             </form>

@@ -1,5 +1,4 @@
 import React from 'react'
-import { isPropertySignature} from 'typescript'
 import './css/MultiSelect.css'
 
 type Selected = Set<string>
