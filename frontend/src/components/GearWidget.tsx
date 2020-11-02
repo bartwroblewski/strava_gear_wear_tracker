@@ -148,6 +148,7 @@ const BikeSelect = ({gearBikes, bikes}: BikeSelectProps) => {
 }
 
 interface EditableGearWidgetProps {
+    gearPk?: number,
     gearName?: string,
     gearMileage?: number,
     gearBikes?: GearBike[],
@@ -158,7 +159,7 @@ interface EditableGearWidgetProps {
     deleteGear: (arg: string) => Promise<any> */ 
 }
 
-export const EditableGearWidget = ({gearName, gearMileage, gearBikes, bikes}: EditableGearWidgetProps) => {
+export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bikes}: EditableGearWidgetProps) => {
 
     const [inputs, setInputs] = React.useState({
         name: {value: gearName, editMode: gearName === undefined},
@@ -167,7 +168,7 @@ export const EditableGearWidget = ({gearName, gearMileage, gearBikes, bikes}: Ed
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
-        console.log('Submitting inputs: ', inputs)
+        console.log('Submitting inputs for gear: ', gearPk, inputs)
     }
 
     return (

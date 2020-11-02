@@ -9,6 +9,7 @@ export interface GearBike {
 }
 
 export interface Gear {
+    pk: number,
     name: string,
     mileage: number,
     is_tracked: boolean,

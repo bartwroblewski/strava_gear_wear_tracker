@@ -73,6 +73,7 @@ function App() {
 
   const editableGearWidgets = gear.map(g => {
     return <EditableGearWidget 
+              gearPk={g.pk}
               gearName={g.name} 
               gearMileage={g.mileage}
               gearBikes={g.bikes}

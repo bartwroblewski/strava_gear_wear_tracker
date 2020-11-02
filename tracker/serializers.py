@@ -11,5 +11,5 @@ class GearSerializer(serializers.ModelSerializer):
     bikes = BikeSerializer(many=True)
     class Meta:
         model = Gear
-        fields = ['name', 'mileage', 'is_tracked', 'athlete', 'bikes']
+        fields = ['pk', 'name', 'mileage', 'is_tracked', 'athlete', 'bikes']
 
