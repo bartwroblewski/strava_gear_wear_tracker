@@ -121,35 +121,22 @@ const MileageDisplay = ({gearMileage, editMode, setInputs}: MileageDisplayProps)
 }
 
 interface BikeSelectProps {
-    gearBikes?: GearBike[],
-    bikes: Bike[],
-    setInputs: any,
+    options: any[],
+    setInputs: () => void,
 }
 
-const BikeSelect = ({gearBikes, bikes}: BikeSelectProps) => {
+const BikeSelect = ({options, setInputs}: BikeSelectProps) => {
 
-    const [s, setS] = React.useState<string>(new Set([]))
-
-    const options = bikes.map(bike => {
-        const selected = gearBikes ? gearBikes.map(b => b.ref_id).includes(bike.id) : null
-        const className = selected ? 'bike-select-selected-option' : null
-        return (
-            <option 
-                className={className}>{bike.name}
-            </option>
-        )
-    })
+    const header = [<option selected disabled>Assigned bikes...</option>]
 
     const handleChange = (e: any) => {
-        const newGearBike = bikes.filter(bike => bike.name === e.target.value)[0]
-        const newGearBikes = gearBikes.push({})
+
     }
 
     return (
         <div>
-            <label>Bike(s): </label>
-            <select onChange={handleChange}>
-                {options}
+            <select onChange={handleChange} placeholder='gfgfg'>
+                {header.concat(options)}
             </select>
         </div>
     )
@@ -172,13 +159,23 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bi
     const [inputs, setInputs] = React.useState({
         name: {value: gearName, editMode: gearName === undefined},
         mileage: {value: gearMileage, editMode: gearMileage === undefined},
-        bikes: {value: gearBikes},
+        bike: '',
     })
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
         console.log('Submitting inputs for gear: ', gearPk, inputs)
     }
+    
+    const bikeSelectOptions = bikes.map(bike => {
+        const selected = gearBikes ? gearBikes.map(b => b.ref_id).includes(bike.id) : null
+        const className = selected ? 'bike-select-selected-option' : null
+        return (
+            <option 
+                className={className}>{bike.name}
+            </option>
+        )
+    })
 
     return (
         <div>
@@ -194,8 +191,7 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bi
                     setInputs={setInputs}
                 />
                 <BikeSelect
-                    gearBikes={inputs.bikes.value}
-                    bikes={bikes}
+                    options={bikeSelectOptions}
                     setInputs={setInputs}
                 />
             <button type="submit">Submit</button>
