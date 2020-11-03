@@ -6,4 +6,5 @@ export const refreshBikesUrl: string = domain + '/refresh_athlete_bikes'
 export const toggleGearTrackingUrl: string = domain + '/toggle_gear_tracking'
 export const deleteGearUrl: string = domain + '/delete_gear'
 export const addGearUrl: string = domain + '/add_gear'
+export const addOrChangeGear: string = domain + '/add_or_change_gear'
 

@@ -14,6 +14,7 @@ urlpatterns = [
     path('toggle_gear_tracking/<str:gear_name>', views.toggle_gear_tracking, name='toggle_gear_tracking'),
     path('delete_gear/<str:gear_name>', views.delete_gear, name='delete_gear'),
     path('add_gear', views.add_gear, name='add_gear'),
+    path('add_or_change_gear', views.add_or_change_gear, name='add_or_change_gear'),
     path('subscribe', views.subscribe, name='subscribe'),
     path('callback', views.callback, name='callback'),
     path('view_subscription', views.view_subscription, name='view_subscription'),

@@ -151,13 +151,14 @@ interface EditableGearWidgetProps {
     gearMileage?: number,
     gearBikes?: GearBike[],
     bikes: Bike[],
+    onSubmit: any,
  /*    toggleGearTracking: (arg: string) => Promise<any>,
     is_tracked: boolean,
     getGear: () => void,
     deleteGear: (arg: string) => Promise<any> */ 
 }
 
-export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bikes}: EditableGearWidgetProps) => {
+export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bikes, onSubmit}: EditableGearWidgetProps) => {
 
     const [inputs, setInputs] = React.useState({
         name: {value: gearName, editMode: gearName === undefined},
@@ -168,7 +169,7 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bi
         e.preventDefault()
         const params = [gearPk, inputs.name.value, inputs.mileage.value]
         if (bikeId) params.push(bikeId)
-        console.log('Submitting params: ', params)
+        onSubmit(params)
     }
     
     const bikeSelectOptions = bikes.map(bike => {

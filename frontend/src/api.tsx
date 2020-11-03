@@ -99,4 +99,16 @@ const addGear: Promised<any>  = async(gearName: string, bikeIds: string[],  mile
     alert(text)
 }
 
-export { fetchAuthorizationStatus, fetchUserGear, refreshAthleteBikes, toggleGearTracking, deleteGear, addGear }
+const addOrChangeGear: Promised<any> = async(gearPk: number, gearName: string, gearMileage: number, bikeId?: string) => {
+    let url = urls.addOrChangeGear +
+        `?gear_pk=${gearPk}` + 
+        `&gear_name=${gearName}` +
+        `&mileage=${gearMileage}` 
+    if (bikeId) url = url +  `&bike_id=${bikeId}`
+        //`&track=${track}`
+    const response = await fetch(url)
+    const text = await response.text()
+    return text
+}
+
+export { fetchAuthorizationStatus, fetchUserGear, refreshAthleteBikes, toggleGearTracking, deleteGear, addGear, addOrChangeGear }

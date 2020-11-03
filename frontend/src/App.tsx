@@ -10,7 +10,17 @@ import './components/css/App.css'
 import Test from './components/Test'
 import { EditableGearWidget } from './components/GearWidget'
 
-import { fetchAuthorizationStatus, fetchUserGear, refreshAthleteBikes, Gear, Bike, toggleGearTracking, deleteGear, addGear } from './api'
+import { 
+  fetchAuthorizationStatus, 
+  fetchUserGear, 
+  refreshAthleteBikes,
+  Gear, 
+  Bike, 
+  toggleGearTracking,
+  deleteGear, 
+  addGear, 
+  addOrChangeGear,
+} from './api'
 
 function App() {
 
@@ -48,16 +58,24 @@ function App() {
 
   const toggleAddGearModal = () => setaddGearWidgetVisible(prev => !prev)
 
-  const handleAddGearFormSubmit = (gearName: string, gearMileage: number, bikeIds: string[]) => {
+/*   const handleAddGearFormSubmit = (gearName: string, gearMileage: number, bikeIds: string[]) => {
     const run = async() => {
       await addGear(gearName, bikeIds, gearMileage, true)
       getGear()
       toggleAddGearModal()
     }
     run()
-  }
+  } */
 
   const handleAddGearFormCancel = () => toggleAddGearModal()
+
+  const handleGearWidgetSubmit = (params: any[]) => {
+    const run = async() => {
+      const text = await addOrChangeGear(...params)
+      alert(text)
+    }
+    run()
+  }
 
   const gearWidgets = gear.map(g => {
     return <GearWidget 
@@ -78,6 +96,7 @@ function App() {
               gearMileage={g.mileage}
               gearBikes={g.bikes}
               bikes={bikes}
+              onSubmit={handleGearWidgetSubmit}
              /*  toggleGearTracking={toggleGearTracking} 
               is_tracked={g.is_tracked}
               getGear={getGear}
@@ -101,7 +120,10 @@ function App() {
               {/* {gearWidgets} */}
               {editableGearWidgets}
               {addGearWidgetVisible
-                ? <EditableGearWidget bikes={bikes} />
+                ? <EditableGearWidget 
+                    bikes={bikes}
+                    onSubmit={handleGearWidgetSubmit}
+                  />
                 : null
               }
             </div>
