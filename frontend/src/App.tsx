@@ -37,7 +37,7 @@ function App() {
     }
     run()
   }
-
+  
   const getGear = () => {
     const run = async() => {
       const json = await fetchUserGear()     
@@ -135,7 +135,7 @@ function App() {
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>
       }
-      
+    <Test />
     </div>
   );
 }
