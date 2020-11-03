@@ -72,7 +72,8 @@ function App() {
   const handleGearWidgetSubmit = (params: any[]) => {
     const run = async() => {
       const text = await addOrChangeGear(...params)
-      alert(text)
+      getGear
+      setaddGearWidgetVisible(false)
     }
     run()
   }

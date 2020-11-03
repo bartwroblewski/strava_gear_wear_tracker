@@ -193,14 +193,15 @@ def add_or_change_gear(request):
         gear = Gear.objects.get(pk=gear_pk)
     except Gear.DoesNotExist:
         gear = Gear()
-        gear.name = name
-        gear.athlete = athlete
-        gear.save()
+        gear.athlete = athlete  
+        
+    gear.name = name
     
-    
-
     if mileage:
         gear.mileage = float(mileage)
+
+    gear.save()
+
     if bike_id:
         bike = Bike.objects.get(ref_id=bike_id)
         gear.bikes.add(bike)
