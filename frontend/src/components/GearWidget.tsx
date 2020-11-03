@@ -59,6 +59,7 @@ interface MileageDisplayProps {
 }
 
 const NameDisplay = ({gearName, editMode, setInputs}: NameDisplayProps) => {
+    console.log(gearName, editMode)
 
     const handleChange = (e: any) => setInputs(prev => {
         return {...prev, ...{name: {value: e.target.value, editMode: prev.name.editMode}}}
@@ -159,13 +160,21 @@ interface EditableGearWidgetProps {
 }
 
 export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bikes, onSubmit}: EditableGearWidgetProps) => {
-
+   
     const [inputs, setInputs] = React.useState({
         name: {value: gearName, editMode: gearName === undefined},
         mileage: {value: gearMileage, editMode: gearMileage === undefined},
     })
 
     const handleSubmit = (e: any, bikeId?: number) => {
+
+        setInputs(prev => {
+            return {
+                ...{...prev, ...{name: {value: prev.name.value, editMode: false}}},
+                ...{...prev, ...{mileage: {value: prev.mileage.value, editMode: false}}}
+            }
+        })
+
         e.preventDefault()
         const params = [gearPk, inputs.name.value, inputs.mileage.value]
         if (bikeId) params.push(bikeId)
