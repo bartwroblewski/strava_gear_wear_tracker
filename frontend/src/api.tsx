@@ -100,7 +100,7 @@ const addGear: Promised<any>  = async(gearName: string, bikeIds: string[],  mile
 }
 
 const addOrChangeGear: Promised<any> = async(gearPk: number, gearName: string, gearMileage: number, bikeId?: string) => {
-    let url = urls.addOrChangeGear +`?gear_name=${gearName}`
+    let url = urls.addOrChangeGear +`?name=${gearName}`
     if (gearPk) url = url +  `&gear_pk=${gearPk}`
     if (gearMileage) url = url +  `&mileage=${gearMileage}`
     if (bikeId) url = url +  `&bike_id=${bikeId}`

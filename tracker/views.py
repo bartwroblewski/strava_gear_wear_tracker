@@ -184,13 +184,36 @@ def add_or_change_gear(request):
     athlete_id = request.session['tokendata']['athlete']['id']
     athlete = Athlete.objects.get(ref_id=athlete_id)
 
-    #gear_pk = request.GET.get('gear_pk')
+    gear_pk = request.GET.get('gear_pk')
+    name = request.GET.get('name')
+    mileage = request.GET.get('mileage')
+    bike_id = request.GET.get('bike_id')
+    
+    try:
+        gear = Gear.objects.get(pk=gear_pk)
+    except Gear.DoesNotExist:
+        gear = Gear()
+        gear.name = name
+        gear.athlete = athlete
+        gear.save()
+    
+    
+
+    if mileage:
+        gear.mileage = float(mileage)
+    if bike_id:
+        bike = Bike.objects.get(ref_id=bike_id)
+        gear.bikes.add(bike)
+
+
+
+    print(gear)
     #gear_name = request.GET.get('gear_name')
     #mileage = float(request.GET.get('mileage'))
     #track = json.loads(request.GET.get('track'))
     #bike_id = request.GET.get('bike_id')
 
-    print(request.GET)
+    #print(request.GET)
     #print(gear_pk, gear_name, mileage, bike_id)
     return HttpResponse('OK')
 
