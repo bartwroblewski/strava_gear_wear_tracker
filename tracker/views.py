@@ -184,14 +184,14 @@ def add_or_change_gear(request):
     athlete_id = request.session['tokendata']['athlete']['id']
     athlete = Athlete.objects.get(ref_id=athlete_id)
 
-    gear_pk = request.GET.get('gear_pk')
-    gear_name = request.GET.get('gear_name')
-    mileage = float(request.GET.get('mileage'))
+    #gear_pk = request.GET.get('gear_pk')
+    #gear_name = request.GET.get('gear_name')
+    #mileage = float(request.GET.get('mileage'))
     #track = json.loads(request.GET.get('track'))
-    bike_id = request.GET.get('bike_id')
+    #bike_id = request.GET.get('bike_id')
 
     print(request.GET)
-    print(gear_pk, gear_name, mileage, bike_id)
+    #print(gear_pk, gear_name, mileage, bike_id)
     return HttpResponse('OK')
 
 def subscribe(request):
