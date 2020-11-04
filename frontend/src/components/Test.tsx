@@ -1,25 +1,26 @@
 import React from 'react'
 import { EditableGearWidget } from './GearWidget'
 
-const Test = () => {
+const Form = () => {
 
     const handleSubmit = (e: any) => {
-        alert('submit')
+        alert('submitting')
     }
 
     return (
         <div>
-            <form id="form" onSubmit={handleSubmit}>
-                <input type="text"/>
-                <select form="form">
+            <form onSubmit={handleSubmit}>
+                <input type="text" required />
+                <select onChange={handleSubmit}>
                     <option>a</option>
                     <option>b</option>
                 </select>
                 <input type="submit"/>
             </form>
-
         </div>
     )
 }
+
+const Test = () => <Form />
 
 export default Test

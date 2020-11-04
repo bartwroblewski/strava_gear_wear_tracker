@@ -73,7 +73,7 @@ const NameDisplay = ({gearName, editMode, setName, setNameEdit}: NameDisplayProp
                         <input 
                             type="text" 
                             value={gearName}
-                            required="required"
+                            
                             onChange={handleChange}
                         />
                     </div> 
@@ -125,7 +125,6 @@ const BikeSelect = ({options, onChange}: BikeSelectProps) => {
     const header = [<option disabled value={defaultValue}>Parent bikes...</option>]
 
     const handleChange = (e: any) => {
-        //alert(e.target.value)
         onChange(e, e.target.value)
     }
 
@@ -157,17 +156,21 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bi
     const [mileage, setMileage] = React.useState<number>(gearMileage)
     const [nameEdit, setNameEdit] = React.useState<boolean>(gearName === undefined)
     const [mileageEdit, setMileageEdit] = React.useState<boolean>(gearMileage === undefined)
+
+    const validate = () => Boolean(name) ? null : 'Please fill in the name field first!'
     
     const handleSubmit = (e: any, bikeId?: number) => {
-        console.log(gearPk, name, mileage)
         e.preventDefault()
-        const params = [gearPk, name, mileage]
-        if (bikeId) params.push(bikeId)
-        onSubmit(params)
+        const validationError = validate()
+        if (!validationError) {
+            onSubmit([gearPk, name, mileage].concat(bikeId? [bikeId] : []))
 
-        // on submit, turn off edit mode for all inputs
-        setNameEdit(false)
-        setMileageEdit(false)
+            // on submit, turn off edit mode for all inputs
+            setNameEdit(false)
+            setMileageEdit(false)
+        } else {
+            alert(validationError)
+        }
     }
     
     const bikeSelectOptions = bikes.map(bike => {
@@ -200,8 +203,8 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bi
                 <BikeSelect
                     options={bikeSelectOptions}
                     onChange={handleSubmit}
-                />
-            <button type="submit">Submit</button>
+                /> 
+            <button type="submit" hidden>Submit</button>
             </form>
         </div>
     )
