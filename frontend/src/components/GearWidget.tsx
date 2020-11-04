@@ -49,23 +49,21 @@ const GearWidget = ({gearName, gearMileage, gearBikes, toggleGearTracking, is_tr
 interface NameDisplayProps {
     gearName: string,
     editMode: boolean,
-    setInputs: any,
+    setName: any,
+    setNameEdit: any,
 }
 
 interface MileageDisplayProps {
     gearMileage: number,
     editMode: boolean,
-    setInputs: any,
+    setMileage: any,
+    setMileageEdit: any,
 }
 
-const NameDisplay = ({gearName, editMode, setInputs}: NameDisplayProps) => {
+const NameDisplay = ({gearName, editMode, setName, setNameEdit}: NameDisplayProps) => {
 
-    const handleChange = (e: any) => setInputs(prev => {
-        return {...prev, ...{name: {value: e.target.value, editMode: prev.name.editMode}}}
-    })
-    const handleClick = (e: any) => setInputs(prev => {
-        return {...prev, ...{name: {value: gearName, editMode: !prev.name.editMode}}}
-    })
+    const handleChange = (e: any) => setName(e.target.value)
+    const handleClick = (e: any) => setNameEdit(true)
 
     return (
         <div className="labeled-element">
@@ -89,14 +87,10 @@ const NameDisplay = ({gearName, editMode, setInputs}: NameDisplayProps) => {
     )
 }
 
-const MileageDisplay = ({gearMileage, editMode, setInputs}: MileageDisplayProps) => {
+const MileageDisplay = ({gearMileage, editMode, setMileage, setMileageEdit}: MileageDisplayProps) => {
 
-    const handleChange = (e: any) => setInputs(prev => {
-        return {...prev, ...{mileage: {value: e.target.value, editMode: prev.mileage.editMode}}}
-    })
-    const handleClick = (e: any) => setInputs(prev => {
-        return {...prev, ...{mileage: {value: gearMileage, editMode: !prev.mileage.editMode}}}
-    })
+    const handleChange = (e: any) => setMileage(e.target.value)
+    const handleClick = (e: any) => setMileageEdit(true)
 
     return (
         <div className="labeled-element">
@@ -122,11 +116,10 @@ const MileageDisplay = ({gearMileage, editMode, setInputs}: MileageDisplayProps)
 
 interface BikeSelectProps {
     options: any[],
-    setInputs: any,
     onChange: any,
 }
 
-const BikeSelect = ({options, setInputs, onChange}: BikeSelectProps) => {
+const BikeSelect = ({options, onChange}: BikeSelectProps) => {
 
     const defaultValue = ""
     const header = [<option disabled value={defaultValue}>Parent bikes...</option>]
@@ -159,31 +152,22 @@ interface EditableGearWidgetProps {
 }
 
 export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bikes, onSubmit}: EditableGearWidgetProps) => {
-   
-    const [inputs, setInputs] = React.useState({
-        name: {value: gearName, editMode: gearName === undefined},
-        mileage: {value: gearMileage, editMode: gearMileage === undefined},
-    })
 
-    React.useEffect(() => {
-        setInputs(prev => {
-            return {...prev, ...{name: {value: gearName, editMode: gearName === undefined}}}
-        })
-    }, [gearName])
-
+    const [name, setName] = React.useState<string>(gearName)
+    const [mileage, setMileage] = React.useState<number>(gearMileage)
+    const [nameEdit, setNameEdit] = React.useState<boolean>(gearName === undefined)
+    const [mileageEdit, setMileageEdit] = React.useState<boolean>(gearMileage === undefined)
+    
     const handleSubmit = (e: any, bikeId?: number) => {
-
-      /*   setInputs(prev => {
-            return {
-                ...{...prev, ...{name: {value: prev.name.value, editMode: false}}},
-                ...{...prev, ...{mileage: {value: prev.mileage.value, editMode: false}}}
-            }
-        }) */
-
+        console.log(gearPk, name, mileage)
         e.preventDefault()
-        const params = [gearPk, inputs.name.value, inputs.mileage.value]
+        const params = [gearPk, name, mileage]
         if (bikeId) params.push(bikeId)
         onSubmit(params)
+
+        // on submit, turn off edit mode for all inputs
+        setNameEdit(false)
+        setMileageEdit(false)
     }
     
     const bikeSelectOptions = bikes.map(bike => {
@@ -202,18 +186,19 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bi
         <div>
             <form onSubmit={handleSubmit}>
                 <NameDisplay
-                    gearName={inputs.name.value}
-                    editMode={inputs.name.editMode}
-                    setInputs={setInputs}
+                    gearName={name}
+                    editMode={nameEdit}
+                    setName={setName}
+                    setNameEdit={setNameEdit}
                 />
                 <MileageDisplay
-                    gearMileage={inputs.mileage.value}
-                    editMode={inputs.mileage.editMode}
-                    setInputs={setInputs}
+                    gearMileage={mileage}
+                    editMode={mileageEdit}
+                    setMileage={setMileage}
+                    setMileageEdit={setMileageEdit}
                 />
                 <BikeSelect
                     options={bikeSelectOptions}
-                    setInputs={setInputs}
                     onChange={handleSubmit}
                 />
             <button type="submit">Submit</button>

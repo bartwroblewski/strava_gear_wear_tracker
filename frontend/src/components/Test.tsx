@@ -1,25 +1,22 @@
 import React from 'react'
 import { EditableGearWidget } from './GearWidget'
 
-const Display = ({visible}: {visible: boolean}) => {
-    console.log(visible)
-    const [show, setShow] = React.useState<boolean>(visible)
-
-    //React.useEffect(() => setShow(visible), [visible])
-
-    return show
-        ? <div>Showing</div>
-        : null
-}
-
 const Test = () => {
 
-    const [visible, setVisible] = React.useState<boolean>(true)
+    const handleSubmit = (e: any) => {
+        alert('submit')
+    }
 
     return (
         <div>
-            <Display visible={visible} />
-            <button onClick={() => setVisible(prev => !prev)}>Toggle</button>
+            <form id="form" onSubmit={handleSubmit}>
+                <input type="text"/>
+                <select form="form">
+                    <option>a</option>
+                    <option>b</option>
+                </select>
+                <input type="submit"/>
+            </form>
 
         </div>
     )

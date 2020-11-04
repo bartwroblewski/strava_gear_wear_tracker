@@ -135,7 +135,7 @@ function App() {
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>
       }
-    <Test />
+      <Test />
     </div>
   );
 }
