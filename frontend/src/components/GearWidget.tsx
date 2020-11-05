@@ -124,7 +124,7 @@ const BikeSelect = ({options, onChange}: BikeSelectProps) => {
     const defaultValue = ""
     const header = [<option disabled value={defaultValue}>Parent bikes...</option>]
 
-    const handleChange = (e: any) => onChange({bikeId: e.target.value})
+    const handleChange = (e: any) => onChange({e: e, bikeId: e.target.value})
 
     return (
         <div>
@@ -143,7 +143,7 @@ interface TrackInputProps {
 const TrackInput = ({track, onChange}: TrackInputProps) => {
 
     const handleChange = (e: any) => {
-        onChange({track: !track})
+        onChange({e: e, track: !track})
     }
 
     return (
@@ -173,6 +173,7 @@ interface EditableGearWidgetProps {
 }
 
 interface EditableWidgetSubmitParams {
+    e: any,
     bikeId?: string,
     track?: boolean,
 }
@@ -186,7 +187,8 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
 
     const validate = () => Boolean(name) ? null : 'Please fill in the name field first!'
     
-    const handleSubmit = ({bikeId, track=gearTrack}: EditableWidgetSubmitParams) => {
+    const handleSubmit = ({e, bikeId, track=gearTrack}: EditableWidgetSubmitParams) => {
+        e.preventDefault()
         const validationError = validate()
         if (validationError) {
             alert(validationError) 
@@ -213,7 +215,7 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e: any) => handleSubmit({e: e})}>
                 <NameDisplay
                     gearName={name}
                     editMode={nameEdit}
