@@ -189,7 +189,9 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
     
     const handleSubmit = ({e, bikeId, track=gearTrack}: EditableWidgetSubmitParams) => {
         e.preventDefault()
+
         const validationError = validate()
+
         if (validationError) {
             alert(validationError) 
         } else {
@@ -214,7 +216,7 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
     })
 
     return (
-        <div>
+        <div class="gear-widget">
             <form onSubmit={(e: any) => handleSubmit({e: e})}>
                 <NameDisplay
                     gearName={name}
