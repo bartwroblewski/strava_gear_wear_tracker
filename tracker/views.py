@@ -202,7 +202,8 @@ def add_or_change_gear(request):
     if mileage:
         gear.mileage = float(mileage)
 
-    gear.is_tracked = json.loads(is_tracked)
+    if is_tracked:
+        gear.is_tracked = json.loads(is_tracked)
 
     gear.save()
 

@@ -216,7 +216,7 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
     })
 
     return (
-        <div class="gear-widget">
+        <div className="gear-widget">
             <form onSubmit={(e: any) => handleSubmit({e: e})}>
                 <NameDisplay
                     gearName={name}

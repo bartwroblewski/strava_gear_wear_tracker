@@ -104,7 +104,7 @@ const addOrChangeGear: Promised<any> = async(gearName: string, gearPk?: number, 
     if (gearPk) url = url + `&gear_pk=${gearPk}`
     if (gearMileage) url = url +  `&mileage=${gearMileage}`
     if (bikeId) url = url +  `&bike_id=${bikeId}`
-    url = url + `&is_tracked=${track}`
+    if (track !== undefined) url = url + `&is_tracked=${track}`
         //`&track=${track}`
     const response = await fetch(url)
     const text = await response.text()
