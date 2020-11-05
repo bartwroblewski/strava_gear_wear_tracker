@@ -204,9 +204,10 @@ def add_or_change_gear(request):
 
     if bike_id:
         bike = Bike.objects.get(ref_id=bike_id)
-        gear.bikes.add(bike)
-
-
+        if bike in gear.bikes.all():
+            gear.bikes.remove(bike)
+        else:
+            gear.bikes.add(bike)
 
     print(gear)
     #gear_name = request.GET.get('gear_name')
