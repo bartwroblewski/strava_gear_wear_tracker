@@ -131,6 +131,7 @@ function App() {
               {editableGearWidgets}
               {addGearWidgetVisible
                 ? <EditableGearWidget 
+                    gearTrack={true}
                     bikes={bikes}
                     onSubmit={handleGearWidgetSubmit}
                   />
