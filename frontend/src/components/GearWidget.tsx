@@ -186,6 +186,8 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
     const [nameEdit, setNameEdit] = React.useState<boolean>(gearName === undefined)
     const [mileageEdit, setMileageEdit] = React.useState<boolean>(gearMileage === undefined)
 
+    const [mousedOver, setMousedOver] = React.useState<boolean>()
+
     const validate = () => Boolean(name) ? null : 'Please fill in the name field first!'
     
     const handleSubmit = ({e, bikeId, track=gearTrack}: EditableWidgetSubmitParams) => {
@@ -207,6 +209,14 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
     const handleDelete = (e: any) => {
         onDelete(gearPk)
     }
+
+    const handleMouseOver = (e: any) => {
+        setMousedOver(true)
+    }
+
+    const handleMouseOut = (e: any) => {
+        setMousedOver(false)
+    }
     
     const bikeSelectOptions = bikes.map(bike => {
         const selected = gearBikes ? gearBikes.map(b => b.ref_id).includes(bike.id) : null
@@ -221,7 +231,11 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
     })
 
     return (
-        <div className="gear-widget">
+        <div 
+            className={mousedOver ? "gear-widget-moused-over": "gear-widget"}
+            onMouseOver={handleMouseOver}
+            onMouseOut={handleMouseOut}
+        >
             <form onSubmit={(e: any) => handleSubmit({e: e})}>
                 <NameDisplay
                     gearName={name}
@@ -244,10 +258,13 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
                     onChange={handleSubmit}
                 /> 
             <button type="submit" hidden>Submit</button>
-            <button 
-                type="button"
-                onClick={handleDelete}
-            >Delete</button>
+            {mousedOver
+                ?   <button 
+                        type="button"
+                        onClick={handleDelete}
+                    >Delete</button>
+                : null
+            }           
             </form>
         </div>
     )

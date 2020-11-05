@@ -4,6 +4,12 @@
     background: rgb(108, 156, 158);
 }
 
+.gear-widget-moused-over {
+    border: 1px solid black;
+    padding: 10px;
+    background: rgb(41, 152, 156);
+}
+
 .labeled-element {
     display: flex;
 }
