@@ -95,6 +95,7 @@ function App() {
               gearPk={g.pk}
               gearName={g.name} 
               gearMileage={g.mileage}
+              gearTrack={g.is_tracked}
               gearBikes={g.bikes}
               bikes={bikes}
               onSubmit={handleGearWidgetSubmit}

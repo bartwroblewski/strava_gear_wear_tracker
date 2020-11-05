@@ -137,11 +137,33 @@ const BikeSelect = ({options, onChange}: BikeSelectProps) => {
     )
 }
 
+interface TrackInputProps {
+    track: boolean,
+    onChange: any,
+}
+
+const TrackInput = ({track, onChange}: TrackInputProps) => {
+
+    const handleChange = (e: any) => onChange(e, track=e.target.value)
+
+    return (
+        <div>
+            <label>Track: </label>
+            <input 
+                type="checkbox" 
+                checked={track}
+                onChange={handleChange}
+            />
+        </div>
+    )
+}
+
 interface EditableGearWidgetProps {
     gearPk?: number,
     gearName?: string,
     gearMileage?: number,
     gearBikes?: GearBike[],
+    gearTrack?: boolean,
     bikes: Bike[],
     onSubmit: any,
  /*    toggleGearTracking: (arg: string) => Promise<any>,
@@ -150,20 +172,21 @@ interface EditableGearWidgetProps {
     deleteGear: (arg: string) => Promise<any> */ 
 }
 
-export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bikes, onSubmit}: EditableGearWidgetProps) => {
+export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, gearBikes, bikes, onSubmit}: EditableGearWidgetProps) => {
 
     const [name, setName] = React.useState<string>(gearName)
     const [mileage, setMileage] = React.useState<number>(gearMileage)
     const [nameEdit, setNameEdit] = React.useState<boolean>(gearName === undefined)
     const [mileageEdit, setMileageEdit] = React.useState<boolean>(gearMileage === undefined)
+    const [track, setTrack] = React.useState<boolean>(gearTrack)
 
     const validate = () => Boolean(name) ? null : 'Please fill in the name field first!'
     
-    const handleSubmit = (e: any, bikeId?: number) => {
+    const handleSubmit = (e: any, bikeId?: number, track?: boolean) => {
         e.preventDefault()
         const validationError = validate()
         if (!validationError) {
-            onSubmit([gearPk, name, mileage].concat(bikeId? [bikeId] : []))
+            onSubmit([gearPk, name, mileage, track].concat(bikeId? [bikeId] : []))
 
             // on submit, turn off edit mode for all inputs
             setNameEdit(false)
@@ -199,6 +222,10 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearBikes, bi
                     editMode={mileageEdit}
                     setMileage={setMileage}
                     setMileageEdit={setMileageEdit}
+                />
+                <TrackInput
+                    track={gearTrack}
+                    onChange={handleSubmit}
                 />
                 <BikeSelect
                     options={bikeSelectOptions}
