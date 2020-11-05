@@ -166,6 +166,7 @@ interface EditableGearWidgetProps {
     gearTrack?: boolean,
     bikes: Bike[],
     onSubmit: any,
+    onDelete: any,
  /*    toggleGearTracking: (arg: string) => Promise<any>,
     is_tracked: boolean,
     getGear: () => void,
@@ -178,7 +179,7 @@ interface EditableWidgetSubmitParams {
     track?: boolean,
 }
 
-export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, gearBikes, bikes, onSubmit}: EditableGearWidgetProps) => {
+export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, gearBikes, bikes, onSubmit, onDelete}: EditableGearWidgetProps) => {
 
     const [name, setName] = React.useState<string>(gearName)
     const [mileage, setMileage] = React.useState<number>(gearMileage)
@@ -201,6 +202,10 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
             setNameEdit(false)
             setMileageEdit(false)
         }
+    }
+
+    const handleDelete = (e: any) => {
+        onDelete(gearPk)
     }
     
     const bikeSelectOptions = bikes.map(bike => {
@@ -239,6 +244,10 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
                     onChange={handleSubmit}
                 /> 
             <button type="submit" hidden>Submit</button>
+            <button 
+                type="button"
+                onClick={handleDelete}
+            >Delete</button>
             </form>
         </div>
     )

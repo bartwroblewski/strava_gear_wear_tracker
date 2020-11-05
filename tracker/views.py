@@ -138,11 +138,8 @@ def toggle_gear_tracking(request, gear_name):
     gear.save()
     return HttpResponse('OK')
 
-def delete_gear(request, gear_name):
-    athlete_id = request.session['tokendata']['athlete']['id']
-    athlete = Athlete.objects.get(ref_id=athlete_id)
-
-    gear = Gear.objects.get(athlete=athlete, name=gear_name)
+def delete_gear(request, gear_pk):
+    gear = Gear.objects.get(pk=gear_pk)
     gear.delete()
     return HttpResponse('OK')
 
@@ -198,6 +195,12 @@ def add_or_change_gear(request):
         gear.athlete = athlete  
         
     gear.name = name
+
+    try:
+        gear.full_clean() # validate gear uniqueness per athlete
+    except:
+        #raise
+        return HttpResponseServerError('Gear name already exists. Please use a unique name.')
     
     if mileage:
         gear.mileage = float(mileage)

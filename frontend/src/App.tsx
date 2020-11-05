@@ -22,6 +22,14 @@ import {
   addOrChangeGear,
 } from './api'
 
+interface GearWidgetSubmitParams {
+  name: string,
+  pk?: string,
+  mileage?: number,
+  bikeId?: string,
+  track?: boolean,
+}
+
 function App() {
 
   const [gear, setGear] = React.useState<Gear[]>([])
@@ -69,14 +77,6 @@ function App() {
 
   const handleAddGearFormCancel = () => toggleAddGearModal()
 
-  interface GearWidgetSubmitParams {
-    name: string,
-    pk?: string,
-    mileage?: number,
-    bikeId?: string,
-    track?: boolean,
-  }
-
   const handleGearWidgetSubmit = ({name, pk, mileage, bikeId, track}: GearWidgetSubmitParams) => {
     const run = async() => {
       await addOrChangeGear(name, pk, mileage, bikeId, track)
@@ -86,17 +86,13 @@ function App() {
     run()
   }
 
-  const gearWidgets = gear.map(g => {
-    return <GearWidget 
-              gearName={g.name} 
-              gearMileage={g.mileage}
-              gearBikes={g.bikes}
-              toggleGearTracking={toggleGearTracking} 
-              is_tracked={g.is_tracked}
-              getGear={getGear}
-              deleteGear={deleteGear}
-            />
-  })
+  const handleGearWidgetDelete = (gearPk: number) => {
+    const run = async() => {
+      await deleteGear(gearPk)
+      getGear()
+    }
+    run()
+  }
 
   const editableGearWidgets = gear.map(g => {
     return <EditableGearWidget 
@@ -107,6 +103,7 @@ function App() {
               gearBikes={g.bikes}
               bikes={bikes}
               onSubmit={handleGearWidgetSubmit}
+              onDelete={handleGearWidgetDelete}
              /*  toggleGearTracking={toggleGearTracking} 
               is_tracked={g.is_tracked}
               getGear={getGear}
@@ -134,6 +131,7 @@ function App() {
                     gearTrack={true}
                     bikes={bikes}
                     onSubmit={handleGearWidgetSubmit}
+                    onDelete={handleGearWidgetDelete}
                   />
                 : null
               }

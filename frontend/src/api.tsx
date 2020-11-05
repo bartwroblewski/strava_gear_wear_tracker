@@ -79,8 +79,8 @@ const toggleGearTracking: (arg: string) => Promise<any> = async(gearName: string
     return text
 }
 
-const deleteGear: (arg: string) => Promise<any> = async(gearName: string) => {
-    const response = await fetch(urls.deleteGearUrl + `/${gearName}`)
+const deleteGear: Promised<any> = async(gearPk: number) => {
+    const response = await fetch(urls.deleteGearUrl + `/${gearPk}`)
     const text = await response.text()
     return text
 }
@@ -108,7 +108,10 @@ const addOrChangeGear: Promised<any> = async(gearName: string, gearPk?: number, 
         //`&track=${track}`
     const response = await fetch(url)
     const text = await response.text()
-    return text
+    if (response.ok) {
+        return text
+    }
+    alert(text)
 }
 
 export { fetchAuthorizationStatus, fetchUserGear, refreshAthleteBikes, toggleGearTracking, deleteGear, addGear, addOrChangeGear }
