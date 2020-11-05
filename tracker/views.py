@@ -188,6 +188,8 @@ def add_or_change_gear(request):
     name = request.GET.get('name')
     mileage = request.GET.get('mileage')
     bike_id = request.GET.get('bike_id')
+    is_tracked = request.GET.get('is_tracked')
+    print(request.GET)
     
     try:
         gear = Gear.objects.get(pk=gear_pk)
@@ -199,6 +201,8 @@ def add_or_change_gear(request):
     
     if mileage:
         gear.mileage = float(mileage)
+
+    gear.is_tracked = json.loads(is_tracked)
 
     gear.save()
 

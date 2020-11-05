@@ -124,9 +124,7 @@ const BikeSelect = ({options, onChange}: BikeSelectProps) => {
     const defaultValue = ""
     const header = [<option disabled value={defaultValue}>Parent bikes...</option>]
 
-    const handleChange = (e: any) => {
-        onChange(e, e.target.value)
-    }
+    const handleChange = (e: any) => onChange({e: e, bikeId: e.target.value})
 
     return (
         <div>
@@ -144,7 +142,9 @@ interface TrackInputProps {
 
 const TrackInput = ({track, onChange}: TrackInputProps) => {
 
-    const handleChange = (e: any) => onChange(e, track=e.target.value)
+    const handleChange = (e: any) => {
+        onChange({e: e, track: !track})
+    }
 
     return (
         <div>
@@ -172,27 +172,32 @@ interface EditableGearWidgetProps {
     deleteGear: (arg: string) => Promise<any> */ 
 }
 
+interface EditableWidgetSubmitParams {
+    e: any,
+    bikeId?: string,
+    track?: boolean,
+}
+
 export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, gearBikes, bikes, onSubmit}: EditableGearWidgetProps) => {
 
     const [name, setName] = React.useState<string>(gearName)
     const [mileage, setMileage] = React.useState<number>(gearMileage)
     const [nameEdit, setNameEdit] = React.useState<boolean>(gearName === undefined)
     const [mileageEdit, setMileageEdit] = React.useState<boolean>(gearMileage === undefined)
-    const [track, setTrack] = React.useState<boolean>(gearTrack)
 
     const validate = () => Boolean(name) ? null : 'Please fill in the name field first!'
     
-    const handleSubmit = (e: any, bikeId?: number, track?: boolean) => {
+    const handleSubmit = ({e, bikeId, track=gearTrack}: EditableWidgetSubmitParams) => {
         e.preventDefault()
         const validationError = validate()
-        if (!validationError) {
-            onSubmit([gearPk, name, mileage, track].concat(bikeId? [bikeId] : []))
+        if (validationError) {
+            alert(validationError) 
+        } else {
+            onSubmit({name: name, pk: gearPk, mileage: mileage, bikeId: bikeId, track: track})
 
             // on submit, turn off edit mode for all inputs
             setNameEdit(false)
             setMileageEdit(false)
-        } else {
-            alert(validationError)
         }
     }
     

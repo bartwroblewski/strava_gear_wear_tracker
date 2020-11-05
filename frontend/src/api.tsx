@@ -99,12 +99,12 @@ const addGear: Promised<any>  = async(gearName: string, bikeIds: string[],  mile
     alert(text)
 }
 
-const addOrChangeGear: Promised<any> = async(gearPk: number, gearName: string, gearMileage: number, track: boolean, bikeId?: string) => {
+const addOrChangeGear: Promised<any> = async(gearName: string, gearPk?: number, gearMileage?: number, bikeId?: string, track?: boolean) => {
     let url = urls.addOrChangeGear +`?name=${gearName}`
-    if (gearPk) url = url +  `&gear_pk=${gearPk}`
+    if (gearPk) url = url + `&gear_pk=${gearPk}`
     if (gearMileage) url = url +  `&mileage=${gearMileage}`
     if (bikeId) url = url +  `&bike_id=${bikeId}`
-    if (track) url = url + `&is_tracked=${track}`
+    url = url + `&is_tracked=${track}`
         //`&track=${track}`
     const response = await fetch(url)
     const text = await response.text()

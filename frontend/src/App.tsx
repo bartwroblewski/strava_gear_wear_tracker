@@ -69,9 +69,17 @@ function App() {
 
   const handleAddGearFormCancel = () => toggleAddGearModal()
 
-  const handleGearWidgetSubmit = (params: any[]) => {
+  interface GearWidgetSubmitParams {
+    name: string,
+    pk?: string,
+    mileage?: number,
+    bikeId?: string,
+    track?: boolean,
+  }
+
+  const handleGearWidgetSubmit = ({name, pk, mileage, bikeId, track}: GearWidgetSubmitParams) => {
     const run = async() => {
-      const text = await addOrChangeGear(...params)
+      await addOrChangeGear(name, pk, mileage, bikeId, track)
       getGear()
       setaddGearWidgetVisible(false)
     }
