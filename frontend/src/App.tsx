@@ -136,6 +136,7 @@ function App() {
                 : null
               }
             </div>
+            <div>DASHBOARDS HERE</div>
             <button 
               id="add-gear-button"
               onClick={(e: any) => setaddGearWidgetVisible(true)}>Add gear

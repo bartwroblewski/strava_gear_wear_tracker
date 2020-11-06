@@ -4,17 +4,17 @@ body {
 
 #main-page {
     display: grid;
-    grid-template-columns: 100%;
+    grid-template-columns: repeat(2, 50%);
     row-gap: .5em;
 }
 
 .gear-widgets {
-    width: 50%;
+    border-right: 1px solid white;
     display: flex;
     flex-wrap: wrap;
 
 }
 
 #add-gear-button {
-    width: 5%;
+    width: 10%; 
 }
