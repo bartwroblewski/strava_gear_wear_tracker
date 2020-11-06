@@ -9,10 +9,10 @@ body {
 }
 
 .gear-widgets {
-    display: grid;
-    grid-template-columns: 10% 10% 10% 10% 10%;
-    row-gap: 1em;
-    column-gap: 1em;
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+
 }
 
 #add-gear-button {
