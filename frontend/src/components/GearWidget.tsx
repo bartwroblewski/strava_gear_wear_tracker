@@ -127,7 +127,7 @@ const BikeSelect = ({options, onChange}: BikeSelectProps) => {
     const handleChange = (e: any) => onChange({e: e, bikeId: e.target.value})
 
     return (
-        <div>
+        <div className="form-input-container">
             <select onChange={handleChange} value={defaultValue}>
                 {header.concat(options)}
             </select>
@@ -257,7 +257,7 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
                     options={bikeSelectOptions}
                     onChange={handleSubmit}
                 /> 
-            {/*  */}<button type="submit" hidden>Submit</button>    
+                <button type="submit" hidden>Submit</button>    
             </form>
         </div>
     )

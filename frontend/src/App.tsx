@@ -126,21 +126,6 @@ function App() {
             <div className="gear-widgets">
               {/* {gearWidgets} */}
               {editableGearWidgets}
-
-
-              <div className="gear-widget">
-                <form>
-                  <label>Test: </label>
-                  <input type="text"/>
-                  <label>Test: </label>
-                  <input type="text"/>
-                  <label>Test: </label>
-                  <input type="text"/>
-                </form>
-              </div>
-
-
-
               {addGearWidgetVisible
                 ? <EditableGearWidget 
                     gearTrack={true}
