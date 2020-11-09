@@ -1,12 +1,16 @@
 .gear-widget {
     border: 1px solid black;
+    margin: 5px;
+    padding: 5px;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
 }
 
 form {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    border: 1px solid black;
+    grid-template-columns: 0fr 1fr;
     grid-gap: .5em;
+    grid-column: 1;
 }
 
 .form-input-container {
