@@ -16,6 +16,10 @@ form {
     display: contents;
 }
 
+.form-input-container select {
+    grid-column: 1 / 3;
+}
+
 form label {
     grid-column: 1;
     text-align: left;
@@ -24,10 +28,6 @@ form label {
 form input {
     grid-column: 2;      
     margin-left: 0;    
-}
-
-.form-input-container select {
-    grid-column: 1 / 3;
 }
 
 
