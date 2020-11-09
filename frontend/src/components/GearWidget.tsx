@@ -66,23 +66,23 @@ const NameDisplay = ({gearName, editMode, setName, setNameEdit}: NameDisplayProp
     const handleClick = (e: any) => setNameEdit(true)
 
     return (
-        <div className="labeled-element">
+        <div className="form-input-container">
             <label>Name: </label>
-            {editMode 
-                ?   <div>      
-                        <input 
-                            type="text" 
-                            value={gearName}
-                            
-                            onChange={handleChange}
-                        />
-                    </div> 
-                :   <div 
-                        className='editable-value'
-                        onClick={handleClick}>
-                        {gearName}
-                    </div>
-            }
+                {editMode 
+                    ?   <div>      
+                            <input 
+                                type="text" 
+                                value={gearName}
+                                
+                                onChange={handleChange}
+                            />
+                        </div> 
+                    :   <div 
+                            className='editable-value'
+                            onClick={handleClick}>
+                            {gearName}
+                        </div>
+                }
         </div>
     )
 }
@@ -93,7 +93,7 @@ const MileageDisplay = ({gearMileage, editMode, setMileage, setMileageEdit}: Mil
     const handleClick = (e: any) => setMileageEdit(true)
 
     return (
-        <div className="labeled-element">
+        <div className="form-input-container">
             <label>Mileage: </label>
             {editMode 
                 ?   <div>      
@@ -105,7 +105,7 @@ const MileageDisplay = ({gearMileage, editMode, setMileage, setMileageEdit}: Mil
                         />
                     </div> 
                 :   <div 
-                        className='editable-value'
+                        className=' inputed editable-value'
                         onClick={handleClick}>
                         {gearMileage}
                     </div>
@@ -147,7 +147,7 @@ const TrackInput = ({track, onChange}: TrackInputProps) => {
     }
 
     return (
-        <div>
+        <div className="form-input-container">
             <label>Track: </label>
             <input 
                 type="checkbox" 
@@ -232,7 +232,7 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
 
     return (
         <div 
-            className={mousedOver ? "gear-widget-moused-over": "gear-widget"}
+            className="gear-widget"
             onMouseOver={handleMouseOver}
             onMouseOut={handleMouseOut}
         >
@@ -257,14 +257,7 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
                     options={bikeSelectOptions}
                     onChange={handleSubmit}
                 /> 
-            <button type="submit" hidden>Submit</button>
-            {mousedOver
-                ?   <button 
-                        type="button"
-                        onClick={handleDelete}
-                    >Delete</button>
-                : null
-            }           
+            {/*  */}<button type="submit" hidden>Submit</button>    
             </form>
         </div>
     )
