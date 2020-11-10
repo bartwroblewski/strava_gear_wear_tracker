@@ -181,12 +181,18 @@ interface EditableWidgetSubmitParams {
 
 export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, gearBikes, bikes, onSubmit, onDelete}: EditableGearWidgetProps) => {
 
-    const [name, setName] = React.useState<string>(gearName)
-    const [mileage, setMileage] = React.useState<number>(gearMileage)
-    const [nameEdit, setNameEdit] = React.useState<boolean>(gearName === undefined)
-    const [mileageEdit, setMileageEdit] = React.useState<boolean>(gearMileage === undefined)
+    const [name, setName] = React.useState<string>()
+    const [mileage, setMileage] = React.useState<number>()
+    const [nameEdit, setNameEdit] = React.useState<boolean>()
+    const [mileageEdit, setMileageEdit] = React.useState<boolean>()
 
     const [mousedOver, setMousedOver] = React.useState<boolean>()
+
+    // synchronize state to props
+    React.useEffect(() => setMileage(gearMileage), [gearMileage]) /
+    React.useEffect(() => setName(gearName), [gearName])
+    React.useEffect(() => setNameEdit(gearName === undefined), [gearName])
+    React.useEffect(() => setMileageEdit(gearMileage === undefined), [gearMileage])
 
     const validate = () => Boolean(name) ? null : 'Please fill in the name field first!'
     
@@ -201,7 +207,7 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
             onSubmit({name: name, pk: gearPk, mileage: mileage, bikeId: bikeId, track: track})
 
             // on submit, turn off edit mode for all inputs
-            setNameEdit(false)
+            //setNameEdit(false)
             setMileageEdit(false)
         }
     }

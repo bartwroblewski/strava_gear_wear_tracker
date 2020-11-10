@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 
 def unique_gear_name_validator(gear_name):
     pass
@@ -23,7 +24,7 @@ class Bike(models.Model):
 
 class Gear(models.Model):
     name = models.CharField(max_length=200)
-    mileage = models.FloatField(default=0)
+    mileage = models.FloatField(default=0, validators=[MinValueValidator(0)])
     is_tracked = models.BooleanField(default=True)
     athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, default=1)
     bikes = models.ManyToManyField(Bike)

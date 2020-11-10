@@ -196,18 +196,17 @@ def add_or_change_gear(request):
         
     gear.name = name
 
+    if mileage:
+        gear.mileage = float(mileage)
+
     try:
         gear.full_clean() # validate gear uniqueness per athlete
     except:
         #raise
         return HttpResponseServerError('Gear name already exists. Please use a unique name.')
     
-    if mileage:
-        gear.mileage = float(mileage)
-
     if is_tracked:
         gear.is_tracked = json.loads(is_tracked)
-
     gear.save()
 
     if bike_id:
@@ -338,3 +337,13 @@ def view_session(request):
 def flush_session(request):
     request.session.flush()
     return redirect(reverse('tracker:view_session'))
+
+def test(request):
+    todos = [
+        {'id': 1, 'text': 'clean house'},
+        {'id': 2, 'text': 'go shopping'},
+        {'id': 3, 'text': 'do work'},
+    ]
+    response = {'todos': todos}
+    return JsonResponse(response, safe=False)
+

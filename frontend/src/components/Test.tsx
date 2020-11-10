@@ -1,26 +1,64 @@
 import React from 'react'
 import { EditableGearWidget } from './GearWidget'
 
-const Form = () => {
+let SERVERNAME = 'Bartek'
+const changeServerName = (newName: string) => SERVERNAME = `aaaaaa${newName}`
 
-    const handleSubmit = (e: any) => {
-        alert('submitting')
-    }
+interface FormProps {
+    serverName: string,
+    onSubmit: any,
+}
+
+interface InputProps {
+    name: string,
+    setName: any,
+}
+
+const Form = ({serverName, onSubmit}: FormProps) => {
+
+    const [name, setName] = React.useState<string>(serverName)
+
+    React.useEffect(() => setName(serverName), [serverName])
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input type="text" required />
-                <select onChange={handleSubmit}>
-                    <option>a</option>
-                    <option>b</option>
-                </select>
-                <input type="submit"/>
-            </form>
-        </div>
+        <form onSubmit={(e: any) => onSubmit(e, name)}>
+            <NameInput 
+                name={name}
+                setName={setName}
+            />
+        </form>
     )
 }
 
-const Test = () => <Form />
+const NameInput = ({name, setName}: InputProps) => {
+    return (
+        <input 
+            onChange={(e: any) => setName(e.target.value)}
+            type="text" 
+            value={name}
+        />
+    )
+}
+const Test = () => {
+
+    const [serverName, setServerName] = React.useState<string>()
+
+    const getServerName = () => setServerName(SERVERNAME)
+
+    const handleSubmit = (e: any, name: string) => {
+        e.preventDefault()
+        changeServerName(name)
+        getServerName()
+    }
+
+    React.useEffect(getServerName, [])
+
+    return (
+        <div>
+            <div>{serverName}</div>
+            <Form serverName={serverName} onSubmit={handleSubmit} />
+        </div>
+    )
+}
 
 export default Test

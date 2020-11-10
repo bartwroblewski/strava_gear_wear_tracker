@@ -25,6 +25,7 @@ urlpatterns = [
     path('refresh_athlete_bikes', views.refresh_athlete_bikes, name='refresh_athlete_bikes'),
     path('view_session', views.view_session, name='view_session'),
     path('flush_session', views.flush_session, name='flush_session'),
+    path('test', views.test, name='test'),
     path('', views.react, name='react'),
     
     
