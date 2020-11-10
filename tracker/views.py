@@ -9,6 +9,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseServerError
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.core.serializers import serialize
+from django.core.exceptions import ValidationError
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.conf import settings
@@ -201,8 +202,9 @@ def add_or_change_gear(request):
 
     try:
         gear.full_clean() # validate gear uniqueness per athlete
-    except:
+    except ValidationError as e:
         #raise
+        print(ValidationError)
         return HttpResponseServerError('Gear name already exists. Please use a unique name.')
     
     if is_tracked:
