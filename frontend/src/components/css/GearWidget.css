@@ -6,7 +6,7 @@
     grid-template-columns: 0fr;
 }
 
-form {
+.gear-widget form {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: .5em;
@@ -20,12 +20,12 @@ form {
     grid-column: 1 / 3;
 }
 
-form label {
+.gear-widget form label {
     grid-column: 1;
     text-align: left;
 }
 
-form input {
+.gear-widget form input {
     grid-column: 2;      
     margin-left: 0;    
     text-overflow: ellipsis;
@@ -42,4 +42,8 @@ form input {
 
 .input-masked:hover {
     cursor: pointer;
+}
+
+.add-gear-widget {
+    grid-column: 1 / 3;
 }

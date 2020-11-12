@@ -67,6 +67,26 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
             </form>
         </div>
     )
-}            
+}         
 
-export const AddGearWidget = () => {}
+export const AddGearWidget = () => {
+
+    const [name, setName] = React.useState<string>()
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault()
+        addOrChangeGear(name)
+    }
+
+    const handleChange = (e: any) => setName(e.target.value)
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <input 
+                type="text"
+                placeholder="New gear name?"
+                onChange={(e: any) => handleChange(e)}
+            />
+        </form>
+    )
+}

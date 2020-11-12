@@ -30,7 +30,6 @@ function App() {
   const [gear, setGear] = React.useState<Gear[]>([])
   const [authorized, setAuthorized] = React.useState<boolean>()
   const [bikes, setBikes] = React.useState<Bike[]>([])
-  const [addGearWidgetVisible, setaddGearWidgetVisible] = React.useState<boolean>(false)
 
   const getAuthorizationStatus = () => {
     const run = async() => {
@@ -59,8 +58,6 @@ function App() {
     run()
   }
 
-  const toggleAddGearModal = () => setaddGearWidgetVisible(prev => !prev)
-
 /*   const handleAddGearFormSubmit = (gearName: string, gearMileage: number, bikeIds: string[]) => {
     const run = async() => {
       await addGear(gearName, bikeIds, gearMileage, true)
@@ -70,14 +67,10 @@ function App() {
     run()
   } */
 
-  const handleAddGearFormCancel = () => toggleAddGearModal()
-
   const handleGearWidgetSubmit = ({name, pk, mileage, bikeId, track}: GearWidgetSubmitParams) => {
-    alert(name)
     const run = async() => {
       await addOrChangeGear(name, pk, mileage, bikeId, track)
       getGear()
-      setaddGearWidgetVisible(false)
     }
     run()
   }
@@ -115,23 +108,14 @@ function App() {
     <div>
       {authorized
         ? <div id="main-page">
+            <div className="add-gear-widget">
+              <AddGearWidget />
+            </div>
             <div className="gear-widgets">
               {/* {gearWidgets} */}
               {editableGearWidgets}
-              {addGearWidgetVisible
-                ? <AddGearWidget 
-                    bikes={bikes}
-                    onSubmit={handleGearWidgetSubmit}
-                    onDelete={handleGearWidgetDelete}
-                  />
-                : null
-              }
             </div>
             <div>DASHBOARDS HERE</div>
-            <button 
-              id="add-gear-button"
-              onClick={(e: any) => setaddGearWidgetVisible(true)}>Add gear
-            </button>
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>
       }
