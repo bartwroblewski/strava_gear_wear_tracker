@@ -22,12 +22,13 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
+        if (name) {
+            e.target.elements[0].focus()
+            e.target.elements[0].blur()
 
-        e.target.elements[0].focus()
-        e.target.elements[0].blur()
-
-        addOrChangeGear(name, gear.pk, mileage)
-        //onSubmit()
+            addOrChangeGear(name, gear.pk, mileage)
+            //onSubmit()
+        }
     }
     return (
         <form onSubmit={(e: any) => handleSubmit(e)}>
@@ -38,12 +39,14 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                     className="input-masked"
                     value={name}
                     onChange={(e: any) => setName(e.target.value)}   
+                    placeholder="Cannot be empty!"
                 />
             </div>
             <div>
                 <label>Mileage: </label>
                 <input
                     type="number" 
+                    min="0"
                     className="input-masked"
                     value={mileage}
                     onChange={(e: any) => setMileage(e.target.value)}
