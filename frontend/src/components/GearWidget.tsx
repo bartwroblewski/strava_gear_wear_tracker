@@ -197,6 +197,10 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
     const handleSubmit = ({e, bikeId, track=gearTrack}: EditableWidgetSubmitParams) => {
         e.preventDefault()
         onSubmit({name: name, pk: gearPk, mileage: mileage, bikeId: bikeId, track: track})
+
+        //setNameEdit(false)
+        //setMileageEdit(false)
+
     }
 
     const handleDelete = (e: any) => {
@@ -250,7 +254,8 @@ export const EditableGearWidget = ({gearPk, gearName, gearMileage, gearTrack, ge
                     options={bikeSelectOptions}
                     onChange={handleSubmit}
                 /> 
-                <button type="submit" hidden>Submit</button>    
+                <button type="submit" hidden>Submit</button>  
+                <button type="button" onClick={() => alert(typeof mileage)}>Mileage</button>  
             </form>
         </div>
     )
