@@ -28,10 +28,7 @@ form label {
 form input {
     grid-column: 2;      
     margin-left: 0;    
-}
-
-.editable-value:hover {
-    cursor: pointer;
+    text-overflow: ellipsis;
 }
 
 .bike-select-selected-option {
