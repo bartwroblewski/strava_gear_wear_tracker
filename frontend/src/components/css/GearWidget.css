@@ -30,17 +30,19 @@ form input {
     margin-left: 0;    
 }
 
-
-
-
-
-
-
-
 .editable-value:hover {
     cursor: pointer;
 }
 
 .bike-select-selected-option {
     background: powderblue;
+}
+
+.input-masked {
+    background: none;
+    border: none;
+}
+
+.input-masked:hover {
+    cursor: pointer;
 }

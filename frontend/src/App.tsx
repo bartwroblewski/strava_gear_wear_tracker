@@ -1,14 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
-import GearSelect from './components/GearSelect'
-import GearWidget from './components/GearWidget'
-import MultiSelect from './components/MultiSelect'
 import { authorizeUrl } from './urls'
-import Modal from './components/Modals'
-import Form from './components/Forms'
 import './components/css/App.css'
 import Test from './components/Test'
-import { EditableGearWidget } from './components/GearWidget'
+import { GearWidget, AddGearWidget } from './components/GearWidget'
 
 import { 
   fetchAuthorizationStatus, 
@@ -78,6 +73,7 @@ function App() {
   const handleAddGearFormCancel = () => toggleAddGearModal()
 
   const handleGearWidgetSubmit = ({name, pk, mileage, bikeId, track}: GearWidgetSubmitParams) => {
+    alert(name)
     const run = async() => {
       await addOrChangeGear(name, pk, mileage, bikeId, track)
       getGear()
@@ -95,12 +91,8 @@ function App() {
   }
 
   const editableGearWidgets = gear.map(g => {
-    return <EditableGearWidget 
-              gearPk={g.pk}
-              gearName={g.name} 
-              gearMileage={g.mileage}
-              gearTrack={g.is_tracked}
-              gearBikes={g.bikes}
+    return <GearWidget
+              gear={g}
               bikes={bikes}
               onSubmit={handleGearWidgetSubmit}
               onDelete={handleGearWidgetDelete}
@@ -127,8 +119,7 @@ function App() {
               {/* {gearWidgets} */}
               {editableGearWidgets}
               {addGearWidgetVisible
-                ? <EditableGearWidget 
-                    gearTrack={true}
+                ? <AddGearWidget 
                     bikes={bikes}
                     onSubmit={handleGearWidgetSubmit}
                     onDelete={handleGearWidgetDelete}
@@ -144,8 +135,6 @@ function App() {
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>
       }
-      <Test />
-
     </div>
     
   );

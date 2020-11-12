@@ -203,8 +203,8 @@ def add_or_change_gear(request):
     try:
         gear.full_clean() # validate gear uniqueness per athlete
     except ValidationError as e:
-        #raise
-        print(ValidationError)
+        raise
+        #print(ValidationError)
         return HttpResponseServerError('Gear name already exists. Please use a unique name.')
     
     if is_tracked:
