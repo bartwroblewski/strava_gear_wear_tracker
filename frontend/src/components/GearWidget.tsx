@@ -4,7 +4,7 @@ import './css/GearWidget.css'
 import {addOrChangeGear} from '../api'
 
 interface GearWidgetProps {
-    gear: Gear,
+    gear?: Gear,
     bikes: Bike[],
     onSubmit: any,
     onDelete: any,
@@ -37,10 +37,10 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                     <label>Name: </label>
                     <input 
                         type="text" 
-                        className="input-masked"
+                        className={gear ? "input-masked" : null}
                         value={name}
                         onChange={(e: any) => setName(e.target.value)}   
-                        placeholder="Cannot be empty!"
+                        placeholder="Please fill in this field"
                     />
                 </div>
                 <div className="form-input-container">
@@ -67,13 +67,6 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
             </form>
         </div>
     )
-}
+}            
 
-export const AddGearWidget = () => {
-    return (
-        <div>
-            fgfg
-        </div>
-    )
-}
-            
+export const AddGearWidget = () => {}
