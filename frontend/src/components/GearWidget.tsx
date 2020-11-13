@@ -37,7 +37,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                     <label>Name: </label>
                     <input 
                         type="text" 
-                        className={gear ? "input-masked" : null}
+                        className="input-masked"
                         value={name}
                         onChange={(e: any) => setName(e.target.value)}   
                         placeholder="Please fill in this field"
@@ -50,7 +50,11 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                         min="0"
                         className="input-masked"
                         value={mileage}
-                        onChange={(e: any) => setMileage(e.target.value)}
+                        onChange={(e: any) => {
+                            const new_mileage = parseInt(e.target.value || 0)
+                            console.log(new_mileage)
+                            setMileage(new_mileage)
+                        }}
                     />
                 </div>
                 <div className="form-input-container">
@@ -59,7 +63,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                         type="checkbox"
                         defaultChecked={gear.is_tracked}
                         onChange={(e: any) => {
-                            addOrChangeGear(name, gear.pk, mileage, undefined, e.target.checked)
+                            onSubmit({name: name, pk: gear.pk, mileage: mileage, track: !gear.is_tracked})
                         }}
                     />
                 </div>
