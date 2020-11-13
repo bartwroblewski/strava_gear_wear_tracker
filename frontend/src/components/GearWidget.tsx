@@ -22,13 +22,13 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
-        if (name) {
+       // if (name) {
             e.target.elements[0].focus()
             e.target.elements[0].blur()
 
             onSubmit({name: name, pk: gear.pk, mileage: mileage})
             //onSubmit()
-        }
+      //  }
     }
     return (
         <div className="gear-widget">
@@ -39,6 +39,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                         type="text" 
                         className="input-masked"
                         value={name}
+                        required
                         onChange={(e: any) => setName(e.target.value)}   
                         placeholder="Please fill in this field"
                     />
@@ -50,11 +51,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                         min="0"
                         className="input-masked"
                         value={mileage}
-                        onChange={(e: any) => {
-                            const new_mileage = parseInt(e.target.value || 0)
-                            console.log(new_mileage)
-                            setMileage(new_mileage)
-                        }}
+                        onChange={(e: any) => setMileage(e.target.value)}
                     />
                 </div>
                 <div className="form-input-container">

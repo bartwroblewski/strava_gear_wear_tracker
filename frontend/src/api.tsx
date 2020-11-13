@@ -102,7 +102,7 @@ const addGear: Promised<any>  = async(gearName: string, bikeIds: string[],  mile
 const addOrChangeGear: Promised<any> = async(gearName: string, gearPk?: number, gearMileage?: number, bikeId?: string, track?: boolean) => {
     let url = urls.addOrChangeGear +`?name=${gearName}`
     if (gearPk) url = url + `&gear_pk=${gearPk}`
-    if (gearMileage) url = url +  `&mileage=${gearMileage}`
+    if (gearMileage !== undefined) url = url +  `&mileage=${gearMileage}`
     if (bikeId) url = url +  `&bike_id=${bikeId}`
     if (track !== undefined) url = url + `&is_tracked=${track}`
         //`&track=${track}`
