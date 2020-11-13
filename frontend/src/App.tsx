@@ -109,7 +109,9 @@ function App() {
       {authorized
         ? <div id="main-page">
             <div className="add-gear-widget">
-              <AddGearWidget />
+              <AddGearWidget
+                onSubmit={handleGearWidgetSubmit}
+              />
             </div>
             <div className="gear-widgets">
               {/* {gearWidgets} */}

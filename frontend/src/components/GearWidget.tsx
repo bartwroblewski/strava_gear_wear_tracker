@@ -26,7 +26,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
             e.target.elements[0].focus()
             e.target.elements[0].blur()
 
-            addOrChangeGear(name, gear.pk, mileage)
+            onSubmit({name: name, pk: gear.pk, mileage: mileage})
             //onSubmit()
         }
     }
@@ -69,13 +69,18 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
     )
 }         
 
-export const AddGearWidget = () => {
+interface AddGearWidgetProps {
+    onSubmit: any,
+}
+
+export const AddGearWidget = ({onSubmit}: AddGearWidgetProps) => {
 
     const [name, setName] = React.useState<string>()
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
-        addOrChangeGear(name)
+        //addOrChangeGear(name)
+        onSubmit({name: name})
     }
 
     const handleChange = (e: any) => setName(e.target.value)
