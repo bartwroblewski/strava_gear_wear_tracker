@@ -37,11 +37,12 @@
 
 .input-masked {
     background: none;
-    border: none;
+    border: 1px solid rgb(0, 0, 0, 0);
 }
 
 .input-masked:hover {
     cursor: pointer;
+    border: 1px solid rgb(0, 0, 0, .3);
 }
 
 .add-gear-widget {
