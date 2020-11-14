@@ -203,13 +203,7 @@ def add_or_change_gear(request):
     try:
         gear.full_clean() # validate gear uniqueness per athlete
     except ValidationError as e:
-        response = ''
-        for field, messages in e.message_dict.items():
-            if messages[0] == 'This field cannot be blank.':
-                return HttpResponse('OK')
-            else:
-                response += f'{field.capitalize()}: {messages[0]}\n'
-        return HttpResponseServerError(response)
+        return HttpResponseServerError('; '.join(e.messages))
 
     if is_tracked:
         gear.is_tracked = json.loads(is_tracked)

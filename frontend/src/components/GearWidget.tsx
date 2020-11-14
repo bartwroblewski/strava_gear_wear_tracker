@@ -65,7 +65,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                     <label>Track: </label>
                     <input
                         type="checkbox"
-                        defaultChecked={gear.is_tracked}
+                        checked={gear.is_tracked}
                         onChange={(e: any) => {
                             onSubmit({name: name, pk: gear.pk, mileage: mileage, track: !gear.is_tracked})
                         }}

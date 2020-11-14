@@ -46,5 +46,5 @@
 }
 
 select .selected-option {
-    background: powderblue;
+    background: rgb(199, 241, 204);
 }

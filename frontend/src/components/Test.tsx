@@ -3,33 +3,22 @@ import './css/Test.css'
 
 const Form = () => {
 
-    const [value, setValue] = React.useState()
+    const handleSubmit = (e: any) => {
+        e.preventDefault()        
+        alert('submitted')
+    }
 
     return (
-        <form>
-            <input 
-                type="text"
-                value={value} 
-                onChange={(e) => {
-                    const new_value = parseInt(e.target.value)
-                    console.log(new_value)
-                    setValue(new_value)
-                }}
-            />
+        <form onSubmit={handleSubmit}>
+            <input type="text" required />
+            <input type="checkbox" onChange={(e) => handleSubmit(e)} />
+            <button type="submit">Submit</button>
         </form>
     )
 }
 
 const Test = () => {
-    return (
-        <div>
-            <select className="select">
-                <option>A</option>
-                <option>B</option>
-            </select>
-            <div className="test">Test</div>
-        </div>
-    )
+    return null
 }
 
 export default Test
