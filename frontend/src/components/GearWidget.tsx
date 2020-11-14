@@ -83,6 +83,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                         {bikeOptions}
                     </select>
                 </div>
+                <button type="button" onClick={() => onDelete(gear.pk)}>Delete</button>
                 <button type="submit" hidden>Submit</button>
             </form>
         </div>
