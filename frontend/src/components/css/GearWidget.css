@@ -49,7 +49,6 @@ select .selected-option {
     background: rgb(199, 241, 204);
 }
 
-.gear-widget .deleted-button {
-    grid-column: 2;
-    display: none;
+.gear-widget form button {
+    grid-column: 1/3;
 }
