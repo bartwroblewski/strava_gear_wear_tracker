@@ -74,12 +74,12 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                 <div className="form-input-container">
                     <label>Bikes: </label>
                     <select 
-                        defaultValue="Select..."
+                        value="Select to add/remove..."
                         onChange={(e: any) => {
                             onSubmit({name: name, bikeId: e.target.value, pk: gear.pk})
                         }}
                     >
-                        <option disabled>Select...</option>
+                        <option disabled>Select to add/remove...</option>
                         {bikeOptions}
                     </select>
                 </div>
