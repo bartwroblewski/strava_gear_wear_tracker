@@ -30,6 +30,13 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
             //onSubmit()
       //  }
     }
+
+    const bikeOptions = bikes.map(bike => {
+        const gearBikeNames = gear.bikes.map(b => b.name)
+        const className = gearBikeNames.includes(bike.name) ? 'selected-option' : null
+        return <option className={className} value={bike.id}>{bike.name}</option>
+    })
+
     return (
         <div className="gear-widget">
             <form onSubmit={(e: any) => handleSubmit(e)}>
@@ -63,6 +70,18 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                             onSubmit({name: name, pk: gear.pk, mileage: mileage, track: !gear.is_tracked})
                         }}
                     />
+                </div>
+                <div className="form-input-container">
+                    <label>Bikes: </label>
+                    <select 
+                        defaultValue="Select..."
+                        onChange={(e: any) => {
+                            onSubmit({name: name, bikeId: e.target.value, pk: gear.pk})
+                        }}
+                    >
+                        <option disabled>Select...</option>
+                        {bikeOptions}
+                    </select>
                 </div>
                 <button type="submit" hidden>Submit</button>
             </form>

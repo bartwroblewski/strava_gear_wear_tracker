@@ -1,0 +1,10 @@
+.test {
+    color: red;
+}
+.test::after {
+    content: 'afdfdf';
+}
+
+.select::after {
+    content: 'vsav';
+}

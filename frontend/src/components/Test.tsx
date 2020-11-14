@@ -1,4 +1,5 @@
 import React from 'react'
+import './css/Test.css'
 
 const Form = () => {
 
@@ -19,6 +20,16 @@ const Form = () => {
     )
 }
 
-const Test = () => <Form />
+const Test = () => {
+    return (
+        <div>
+            <select className="select">
+                <option>A</option>
+                <option>B</option>
+            </select>
+            <div className="test">Test</div>
+        </div>
+    )
+}
 
 export default Test

@@ -16,9 +16,9 @@
     display: contents;
 }
 
-.form-input-container select {
+/* .form-input-container select {
     grid-column: 1 / 3;
-}
+} */
 
 .gear-widget form label {
     grid-column: 1;
@@ -31,10 +31,6 @@
     text-overflow: ellipsis;
 }
 
-.bike-select-selected-option {
-    background: powderblue;
-}
-
 .input-masked {
     background: none;
     border: 1px solid rgb(0, 0, 0, 0);
@@ -42,9 +38,13 @@
 
 .input-masked:hover {
     cursor: pointer;
-    border: 1px solid rgb(0, 0, 0, .3);
+    border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 .add-gear-widget {
     grid-column: 1 / 3;
+}
+
+select .selected-option {
+    background: powderblue;
 }
