@@ -1,7 +1,12 @@
 import React from 'react'
 import './css/MultiSelect.css'
 
-const MultiSelect = () => {
+interface MultiSelectProps {
+  allOptions: any[],
+}
+
+
+const MultiSelect = ({allOptions}: MultiSelectProps) => {
 
   const [show, setShow] = React.useState<boolean>(false)
 
@@ -9,6 +14,16 @@ const MultiSelect = () => {
       e.preventDefault()
       setShow(prev => !prev)
   }
+
+  const options = allOptions.map(option => {
+    return (
+      <div className="multi-select-option">
+        <input type="checkbox" />
+        <div>{option.name}</div>
+     </div>
+    )
+  })
+
 
   return (
       <div className="multi-select">
@@ -19,18 +34,7 @@ const MultiSelect = () => {
           {show 
               ?
                   <div className="multi-select-options-container">
-                      <div className="multi-select-option">
-                          <input type="checkbox" />
-                          <div>A</div>
-                      </div>
-                      <div className="multi-select-option">
-                          <input type="checkbox" />
-                          <div>B</div>
-                      </div>
-                      <div className="multi-select-option">
-                          <input type="checkbox" />
-                          <div>C</div>
-                      </div>
+                      {options}
                   </div>
               : null
           }
