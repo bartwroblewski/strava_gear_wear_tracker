@@ -14,7 +14,7 @@ const MultiSelect = () => {
       <div className="multi-select">
           <div className="multi-select-title" onClick ={handleClick}>
             <div>Bikes</div>
-            <div>></div>
+            <div>{'\u25BE'}</div>
           </div>
           {show 
               ?
