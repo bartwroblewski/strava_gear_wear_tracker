@@ -1,5 +1,5 @@
-body {
-    background: none;
+body * {
+    font-family: "Courier";
 }
 
 #main-page {
