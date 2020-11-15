@@ -2,6 +2,7 @@ import React from 'react'
 import { Gear, Bike, toggleGearTracking } from '../api'
 import './css/GearWidget.css'
 import {addOrChangeGear} from '../api'
+import MultiSelect from './MultiSelect'
 
 interface GearWidgetProps {
     gear?: Gear,
@@ -74,15 +75,15 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                 <div className="form-input-container">
                     <label>Bikes: </label>
                     <select 
-                        value="Select to add/remove..."
+                        multiple
                         onChange={(e: any) => {
                             onSubmit({name: name, bikeId: e.target.value, pk: gear.pk})
                         }}
                     >
-                        <option disabled>Select to add/remove...</option>
                         {bikeOptions}
                     </select>
                 </div>
+                <MultiSelect />
                 <button type="button" onClick={() => onDelete(gear.pk)}>Delete</button>
                 <button type="submit" hidden>Submit</button>
             </form>

@@ -1,0 +1,14 @@
+.multi-select {
+    display: none;
+}
+
+.multi-select-options-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border: 1px solid black;
+
+}
+
+.multi-select-option {
+    display: contents;
+}
