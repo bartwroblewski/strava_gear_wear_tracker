@@ -12,11 +12,10 @@ const MultiSelect = () => {
 
   return (
       <div className="multi-select">
-          <select 
-              onClick ={handleClick}
-          >
-              <option>Choose...</option>
-          </select>
+          <div className="multi-select-title" onClick ={handleClick}>
+            <div>Bikes</div>
+            <div>></div>
+          </div>
           {show 
               ?
                   <div className="multi-select-options-container">

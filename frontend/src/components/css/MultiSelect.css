@@ -1,14 +1,35 @@
 .multi-select {
-    display: none;
+    border: 1px solid black;
+}
+
+.multi-select-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.multi-select:hover {
+    cursor: pointer;
 }
 
 .multi-select-options-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    border: 1px solid black;
+    grid-template-columns: repeat(2, 0fr);
+    padding: 5px;
 
+}
+
+.multi-select-default-option {
+    display: none;
 }
 
 .multi-select-option {
     display: contents;
+}
+
+.multi-select-option input {
+    grid-column: 1;
+}
+
+.multi-select-option div {
+    grid-column: 3;
 }
