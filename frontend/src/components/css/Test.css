@@ -1,0 +1,16 @@
+.cover-test {
+    position: relative;
+    z-index: 0;
+}
+
+.multi-select {
+    position: relative;
+    z-index: 2;
+
+}
+
+.coverable {
+    color: red;
+    position: relative;
+    z-index: 1;
+}
