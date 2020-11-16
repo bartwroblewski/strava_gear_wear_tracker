@@ -43,6 +43,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
           <div className={"multi-select-option"}>
             <input 
                 type="checkbox"
+                checked={gear.bikes.map(x => x.name).includes(bike.name)}
             />
             <div>{bike.name}</div>
          </div>
