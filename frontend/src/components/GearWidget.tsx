@@ -44,6 +44,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
             <input 
                 type="checkbox"
                 checked={gear.bikes.map(x => x.name).includes(bike.name)}
+                onChange={e => onSubmit({name: gear.name, bikeId: bike.id, pk: gear.pk})}
             />
             <div>{bike.name}</div>
          </div>
