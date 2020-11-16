@@ -15,6 +15,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
 
     const [name, setName] = React.useState<string>()
     const [mileage, setMileage] = React.useState<number>()
+    const [confirmDelete, setConfirmDelete] = React.useState<boolean>(false)
 
     React.useEffect(() => {
         setName(gear.name)
@@ -99,7 +100,15 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                 <MultiSelect
                     options={opts}
                 />
-                <button type="button" onClick={() => onDelete(gear.pk)}>Delete</button>
+                {confirmDelete
+                    ? 
+                        <div>
+                            <button type="button" onClick={() => onDelete(gear.pk)}>Yes</button>
+                            <button type="button" onClick={() => setConfirmDelete(false)}>No</button>
+                        </div>
+                    :
+                        <button type="button" onClick={() => setConfirmDelete(true)}>Delete</button>
+                }
                 <button type="submit" hidden>Submit</button>
             </form>
         </div>

@@ -17,13 +17,17 @@ const MultiSelect = ({options}: MultiSelectProps) => {
 
   return (
       <div className="multi-select">
-          <div className="multi-select-title" onClick ={handleClick}>
+          <div className="multi-select-title" 
+            onClick ={handleClick}
+          >
             <div>Bikes</div>
             <div>{'\u25BE'}</div>
           </div>
           {show 
               ?
-                  <div className="multi-select-options-container">
+                  <div 
+                    className="multi-select-options-container"
+                  >
                       {options}
                   </div>
               : null
