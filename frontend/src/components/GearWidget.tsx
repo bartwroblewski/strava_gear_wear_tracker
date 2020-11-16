@@ -99,16 +99,18 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                 </div>
                 <MultiSelect
                     options={opts}
-                />
-                {confirmDelete
-                    ? 
-                        <div>
-                            <button type="button" onClick={() => onDelete(gear.pk)}>Yes</button>
-                            <button type="button" onClick={() => setConfirmDelete(false)}>No</button>
-                        </div>
-                    :
-                        <button type="button" onClick={() => setConfirmDelete(true)}>Delete</button>
-                }
+                />              
+                <div className="confirm-delete">
+                    {confirmDelete
+                        ?
+                            <div>Really?
+                                <button type="button" onClick={() => onDelete(gear.pk)}>Yes</button>
+                                <button type="button" onClick={() => setConfirmDelete(false)}>No</button>
+                            </div>
+                        :
+                            <button type="button" onClick={() => setConfirmDelete(true)}>Delete</button>
+                    }    
+                </div>
                 <button type="submit" hidden>Submit</button>
             </form>
         </div>
