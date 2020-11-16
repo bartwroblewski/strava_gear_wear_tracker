@@ -133,6 +133,7 @@ export const AddGearWidget = ({onSubmit}: AddGearWidgetProps) => {
         e.preventDefault()
         //addOrChangeGear(name)
         onSubmit({name: name})
+        setName('')
     }
 
     const handleChange = (e: any) => setName(e.target.value)
@@ -140,6 +141,7 @@ export const AddGearWidget = ({onSubmit}: AddGearWidgetProps) => {
     return (
         <form onSubmit={handleSubmit}>
             <input 
+                value={name}
                 type="text"
                 placeholder="New gear name?"
                 onChange={(e: any) => handleChange(e)}
