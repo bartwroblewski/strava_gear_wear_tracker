@@ -38,6 +38,17 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
         return <option className={className} value={bike.id}>{bike.name}</option>
     })
 
+    const opts = bikes.map(bike => {
+        return (
+          <div className={"multi-select-option"}>
+            <input 
+                type="checkbox"
+            />
+            <div>{bike.name}</div>
+         </div>
+        )
+      })
+
     return (
         <div className="gear-widget">
             <form onSubmit={(e: any) => handleSubmit(e)}>
@@ -84,7 +95,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                     </select>
                 </div>
                 <MultiSelect
-                    allOptions={bikes}
+                    options={opts}
                 />
                 <button type="button" onClick={() => onDelete(gear.pk)}>Delete</button>
                 <button type="submit" hidden>Submit</button>
