@@ -49,13 +49,12 @@ select .selected-option {
     background: rgb(199, 241, 204);
 }
 
-.confirm-delete {
+.gear-widget-delete-button {
+    grid-column: 1 / 3;
+}
+
+.gear-widget-confirm-delete {
     grid-column: 1 / 3;
     display: flex;
     justify-content: space-evenly;
-
-}
-
-.confirm-delete div {
-    display: contents;
 }

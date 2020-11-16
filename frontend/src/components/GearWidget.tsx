@@ -15,11 +15,12 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
 
     const [name, setName] = React.useState<string>()
     const [mileage, setMileage] = React.useState<number>()
-    const [confirmDelete, setConfirmDelete] = React.useState<boolean>(false)
+    const [confirmDelete, setConfirmDelete] = React.useState<boolean>()
 
     React.useEffect(() => {
         setName(gear.name)
         setMileage(gear.mileage)
+        setConfirmDelete(false)
     }, [gear])
 
     const handleSubmit = (e: any) => {
@@ -99,18 +100,21 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                 </div>
                 <MultiSelect
                     options={opts}
-                />              
-                <div className="confirm-delete">
-                    {confirmDelete
-                        ?
-                            <div>Really?
-                                <button type="button" onClick={() => onDelete(gear.pk)}>Yes</button>
-                                <button type="button" onClick={() => setConfirmDelete(false)}>No</button>
-                            </div>
-                        :
-                            <button type="button" onClick={() => setConfirmDelete(true)}>Delete</button>
-                    }    
-                </div>
+                />                  
+                {confirmDelete
+                    ?
+                        <div className="gear-widget-confirm-delete">
+                            <div>Really?</div>
+                            <button type="button" onClick={() => setConfirmDelete(false)}>No</button>
+                            <button type="button" onClick={() => onDelete(gear.pk)}>Yes</button>              
+                        </div>
+                    :
+                        <button 
+                            className="gear-widget-delete-button"
+                            type="button"
+                            onClick={() => setConfirmDelete(true)}
+                        >Delete</button>
+                }    
                 <button type="submit" hidden>Submit</button>
             </form>
         </div>
