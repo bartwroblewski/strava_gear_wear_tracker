@@ -25,6 +25,8 @@ class Bike(models.Model):
 class Gear(models.Model):
     name = models.CharField(max_length=200)
     mileage = models.FloatField(default=0, validators=[MinValueValidator(0)])
+    moving_time = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    elapsed_time = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     is_tracked = models.BooleanField(default=True)
     athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, default=1)
     bikes = models.ManyToManyField(Bike)

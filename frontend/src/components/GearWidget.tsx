@@ -15,11 +15,13 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
 
     const [name, setName] = React.useState<string>()
     const [mileage, setMileage] = React.useState<number>()
+    const [hours, setHours] = React.useState<number>()
     const [confirmDelete, setConfirmDelete] = React.useState<boolean>()
 
     React.useEffect(() => {
         setName(gear.name)
-        setMileage(gear.mileage)
+        setMileage(gear.mileage / 1000)
+        setHours(gear.moving_time / 3600)
     }, [gear])
 
     const handleSubmit = (e: any) => {
@@ -28,7 +30,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
             e.target.elements[0].focus()
             e.target.elements[0].blur()
 
-            onSubmit({name: name, pk: gear.pk, mileage: mileage})
+            onSubmit({name: name, pk: gear.pk, mileage: mileage * 1000, movingTime: hours * 3600 })
             //onSubmit()
       //  }
     }
@@ -61,13 +63,23 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                     />
                 </div>
                 <div className="form-input-container">
-                    <label>Mileage: </label>
+                    <label>Kilometers: </label>
                     <input
                         type="number" 
                         min="0"
                         className="input-masked"
                         value={mileage}
                         onChange={(e: any) => setMileage(e.target.value)}
+                    />
+                </div>
+                <div className="form-input-container">
+                    <label>Hours: </label>
+                    <input
+                        type="number" 
+                        min="0"
+                        className="input-masked"
+                        value={hours}
+                        onChange={(e: any) => setHours(e.target.value)}
                     />
                 </div>
                 <div className="form-input-container">

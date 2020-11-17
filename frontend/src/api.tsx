@@ -12,6 +12,7 @@ export interface Gear {
     pk: number,
     name: string,
     mileage: number,
+    moving_time: number,
     is_tracked: boolean,
     athlete: string,
     bikes: GearBike[],
@@ -99,19 +100,27 @@ const addGear: Promised<any>  = async(gearName: string, bikeIds: string[],  mile
     alert(text)
 }
 
-const addOrChangeGear: Promised<any> = async(gearName: string, gearPk?: number, gearMileage?: number, bikeId?: string, track?: boolean) => {
-    let url = urls.addOrChangeGear +`?name=${gearName}`
-    if (gearPk) url = url + `&gear_pk=${gearPk}`
-    if (gearMileage !== undefined) url = url +  `&mileage=${gearMileage}`
-    if (bikeId) url = url +  `&bike_id=${bikeId}`
-    if (track !== undefined) url = url + `&is_tracked=${track}`
-        //`&track=${track}`
-    const response = await fetch(url)
-    const text = await response.text()
-    if (response.ok) {
-        return text
-    }
-    alert(text)
+const addOrChangeGear: Promised<any> = async(
+        gearName: string, 
+        gearPk?: number,
+        gearMileage?: number, 
+        gearMovingTime?: number,
+        bikeId?: string, 
+        track?: boolean
+    ) => {
+        let url = urls.addOrChangeGear +`?name=${gearName}`
+        if (gearPk) url = url + `&gear_pk=${gearPk}`
+        if (gearMileage !== undefined) url = url +  `&mileage=${gearMileage}`
+        if (gearMovingTime !== undefined) url = url +  `&moving_time=${gearMovingTime}`
+        if (bikeId) url = url +  `&bike_id=${bikeId}`
+        if (track !== undefined) url = url + `&is_tracked=${track}`
+            //`&track=${track}`
+        const response = await fetch(url)
+        const text = await response.text()
+        if (response.ok) {
+            return text
+        }
+        alert(text)
 }
 
 export { fetchAuthorizationStatus, fetchUserGear, refreshAthleteBikes, toggleGearTracking, deleteGear, addGear, addOrChangeGear }

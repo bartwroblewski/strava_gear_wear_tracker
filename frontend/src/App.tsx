@@ -21,6 +21,7 @@ interface GearWidgetSubmitParams {
   name: string,
   pk?: string,
   mileage?: number,
+  movingTime?: number,
   bikeId?: string,
   track?: boolean,
 }
@@ -67,9 +68,9 @@ function App() {
     run()
   } */
 
-  const handleGearWidgetSubmit = ({name, pk, mileage, bikeId, track}: GearWidgetSubmitParams) => {
+  const handleGearWidgetSubmit = ({name, pk, mileage, movingTime, bikeId, track}: GearWidgetSubmitParams) => {
     const run = async() => {
-      await addOrChangeGear(name, pk, mileage, bikeId, track)
+      await addOrChangeGear(name, pk, mileage, movingTime, bikeId, track)
       getGear()
     }
     run()
