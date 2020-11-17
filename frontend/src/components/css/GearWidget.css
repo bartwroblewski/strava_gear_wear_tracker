@@ -16,10 +16,6 @@
     display: contents;
 }
 
-/* .form-input-container select {
-    grid-column: 1 / 3;
-} */
-
 .gear-widget form label {
     grid-column: 1;
     text-align: left;
@@ -43,10 +39,6 @@
 
 .add-gear-widget {
     grid-column: 1 / 3;
-}
-
-select .selected-option {
-    background: rgb(199, 241, 204);
 }
 
 .gear-widget-delete-button {

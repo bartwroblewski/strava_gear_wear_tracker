@@ -34,12 +34,6 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
     }
 
     const bikeOptions = bikes.map(bike => {
-        const gearBikeNames = gear.bikes.map(b => b.name)
-        const className = gearBikeNames.includes(bike.name) ? 'selected-option' : null
-        return <option className={className} value={bike.id}>{bike.name}</option>
-    })
-
-    const opts = bikes.map(bike => {
         return (
           <div className={"multi-select-option"}>
             <input 
@@ -86,19 +80,8 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                         }}
                     />
                 </div>
-                <div className="form-input-container">
-                    <label>Bikes: </label>
-                    <select 
-                        multiple
-                        onChange={(e: any) => {
-                            onSubmit({name: name, bikeId: e.target.value, pk: gear.pk})
-                        }}
-                    >
-                        {bikeOptions}
-                    </select>
-                </div>
                 <MultiSelect
-                    options={opts}
+                    options={bikeOptions}
                 />                  
                 {confirmDelete
                     ?
