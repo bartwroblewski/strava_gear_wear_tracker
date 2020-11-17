@@ -8,6 +8,7 @@
     justify-content: space-between;
     padding: 2px;
     border: 1px solid black;
+    z-index: 1;
 }
 
 .multi-select:hover {
@@ -22,6 +23,7 @@
     background: white;
     border: 1px solid black;
     border-top: 0;
+    z-index: 2;
 }
 
 .multi-select-default-option {
