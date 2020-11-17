@@ -1,0 +1,26 @@
+#unit-switch {
+    border: 1px solid black;
+}
+
+.switch {
+    display: flex;
+}
+
+.switch-options {
+    display: flex;
+    justify-content: space-between;
+}
+
+.switch-option {
+    margin-left: 10px;
+}
+
+.switch-option-selected {
+    margin-left: 10px;
+    color: blue;
+}
+
+.switch-option:hover {
+    cursor: pointer;
+    color: gold;
+}

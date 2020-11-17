@@ -63,7 +63,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                     />
                 </div>
                 <div className="form-input-container">
-                    <label>Kilometers: </label>
+                    <label>Distance: </label>
                     <input
                         type="number" 
                         min="0"
@@ -73,7 +73,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                     />
                 </div>
                 <div className="form-input-container">
-                    <label>Hours: </label>
+                    <label>Time used: </label>
                     <input
                         type="number" 
                         min="0"

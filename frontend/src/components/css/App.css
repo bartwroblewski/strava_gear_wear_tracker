@@ -2,6 +2,12 @@
     font-family: "Courier";
 } */
 
+#top-bar {
+    grid-column: 1 / 3;
+    display: flex;
+    justify-content: flex-end;
+}
+
 #main-page {
     display: grid;
     grid-template-columns: repeat(2, 50%);

@@ -4,6 +4,7 @@ import { authorizeUrl } from './urls'
 import './components/css/App.css'
 import Test from './components/Test'
 import { GearWidget, AddGearWidget } from './components/GearWidget'
+import UnitSwitch from './components/UnitSwitch'
 
 import { 
   fetchAuthorizationStatus, 
@@ -109,7 +110,11 @@ function App() {
   return (
     <div>
       {authorized
-        ? <div id="main-page">
+        ? 
+          <div id="main-page">
+            <div id="top-bar">
+              <UnitSwitch />
+            </div>
             <div className="add-gear-widget">
               <AddGearWidget
                 onSubmit={handleGearWidgetSubmit}
