@@ -20,7 +20,6 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
     React.useEffect(() => {
         setName(gear.name)
         setMileage(gear.mileage)
-        setConfirmDelete(false)
     }, [gear])
 
     const handleSubmit = (e: any) => {

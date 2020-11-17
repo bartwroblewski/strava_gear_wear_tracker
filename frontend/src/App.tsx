@@ -85,6 +85,7 @@ function App() {
 
   const editableGearWidgets = gear.map(g => {
     return <GearWidget
+              key={g.pk}
               gear={g}
               bikes={bikes}
               onSubmit={handleGearWidgetSubmit}
