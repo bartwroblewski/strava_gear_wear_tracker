@@ -1,15 +1,14 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 
-def unique_gear_name_validator(gear_name):
-    pass
-
 # Create your models here.
 
 class Athlete(models.Model):
     ref_id = models.IntegerField()
     firstname = models.CharField(max_length=255)
     lastname = models.CharField(max_length=255)
+    distance_unit = models.CharField(default="kilometers", max_length=255)
+    time_unit = models.CharField(default="hours", max_length=255)
 
     def __str__(self):
         return f'{self.firstname} {self.lastname}'

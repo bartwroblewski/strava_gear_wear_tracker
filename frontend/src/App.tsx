@@ -119,10 +119,7 @@ function App() {
         ? 
           <div id="main-page">
             <div id="top-bar">
-              <UnitSwitch
-                units={units}
-                setUnits={setUnits}
-              />
+              <UnitSwitch />
             </div>
             <div className="add-gear-widget">
               <AddGearWidget

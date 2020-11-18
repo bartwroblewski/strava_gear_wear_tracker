@@ -8,13 +8,19 @@ export interface GearBike {
     athlete: number,
 }
 
+interface Athlete {
+    pk: number,
+    distance_unit: string,
+    time_unit: string,
+}
+
 export interface Gear {
     pk: number,
     name: string,
     mileage: number,
     moving_time: number,
     is_tracked: boolean,
-    athlete: string,
+    athlete: Athlete,
     bikes: GearBike[],
 }
 
