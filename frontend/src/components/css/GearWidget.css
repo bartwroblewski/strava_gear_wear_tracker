@@ -1,9 +1,9 @@
 .gear-widget {
-    border: 1px solid black;;
     margin: 5px;
     padding: 5px;
     display: grid;
     grid-template-columns: 0fr;
+    box-shadow: 1px 1px 5px;
 }
 
 .gear-widget form {

@@ -1,26 +1,31 @@
-#unit-switch {
-    border: 1px solid black;
+.switch {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    margin-bottom: 5px;
 }
 
-.switch {
-    display: flex;
+.switch-label {
+    text-align: right;
+    padding: 7px;
 }
 
 .switch-options {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    box-shadow: 1px 1px 5px;
 }
 
 .switch-option {
-    margin-left: 10px;
+    background: white;
+    color: black;
+    text-align: center;
+    padding: 7px;
+    cursor: pointer;
 }
 
 .switch-option-selected {
-    margin-left: 10px;
-    color: blue;
-}
-
-.switch-option:hover {
-    cursor: pointer;
-    color: gold;
+    background: black;
+    color: white;
+    text-align: center;
+    padding: 7px;
 }
