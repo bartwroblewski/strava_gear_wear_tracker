@@ -32,6 +32,12 @@ function App() {
   const [gear, setGear] = React.useState<Gear[]>([])
   const [authorized, setAuthorized] = React.useState<boolean>()
   const [bikes, setBikes] = React.useState<Bike[]>([])
+  const [units, setUnits] = React.useState({
+    distance: 'kilometers',
+    time: 'hours',
+  })
+
+  React.useEffect(() => console.log(units), [units])
 
   const getAuthorizationStatus = () => {
     const run = async() => {
@@ -113,7 +119,10 @@ function App() {
         ? 
           <div id="main-page">
             <div id="top-bar">
-              <UnitSwitch />
+              <UnitSwitch
+                units={units}
+                setUnits={setUnits}
+              />
             </div>
             <div className="add-gear-widget">
               <AddGearWidget

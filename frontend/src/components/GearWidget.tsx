@@ -5,6 +5,7 @@ import {addOrChangeGear} from '../api'
 import MultiSelect from './MultiSelect'
 
 interface GearWidgetProps {
+    key: number,
     gear?: Gear,
     bikes: Bike[],
     onSubmit: any,

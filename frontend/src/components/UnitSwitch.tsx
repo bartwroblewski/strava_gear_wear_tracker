@@ -1,17 +1,20 @@
 import React from 'react'
 import './css/UnitSwitch.css'
+import capitalize from '../helpers/capitalize'
 
-interface SwitchOptions {
-    label: string,
-    options: string[],
+interface SwitchProps {
+    label?: string,
+    options?: string[],
+    selectedOption?: string,
+    units?: any,
+    setUnits?: any,
+    onClick?: any,
 }
 
-const Switch = ({label, options}: SwitchOptions) => {
+const Switch = ({label, options, selectedOption, onClick}: SwitchProps) => {
 
-    const [selectedOption, setSelectedOption] = React.useState<string>(options[0])
-
-    const handleClick = option => {
-        setSelectedOption(option)
+    const handleClick = (option: string) => {
+        onClick(option)
     }
 
     const opts = options.map(o => {
@@ -21,7 +24,7 @@ const Switch = ({label, options}: SwitchOptions) => {
 
     return (
         <div className="switch">
-            <div className="switch-label">{`${label}:`}</div>
+            <div className="switch-label">{`${capitalize(label)} in:`}</div>
             <div className="switch-options">
                 {opts}
             </div>
@@ -29,14 +32,37 @@ const Switch = ({label, options}: SwitchOptions) => {
     )
 }
 
-const DistanceSwitch = () => <Switch label="Distance in" options={["kilometers", "miles"]} />
-const TimeSwitch = () => <Switch label="Time in" options={['hours', 'days']} />
+const DistanceSwitch = ({units, setUnits}: SwitchProps) => {
+    return (
+        <Switch 
+            label="distance" 
+            options={["kilometers", "miles"]}
+            selectedOption={units.distance}
+            onClick={(unit: string) => {
+                setUnits(prev => ({...prev, ...{distance: unit}}))
+            }}
+        />
+    )
+}
 
-const UnitSwitch = () => {
+const TimeSwitch = ({units, setUnits}: SwitchProps) => {
+    return (
+        <Switch 
+            label="time"
+            options={['hours', 'days']}
+            selectedOption={units.time}
+            onClick={(unit: string) => {
+                setUnits(prev => ({...prev, ...{time: unit}}))
+            }}
+        />
+    )
+}
+
+const UnitSwitch = ({units, setUnits}: SwitchProps) => {
     return (
         <div id="unit-switch">
-            <DistanceSwitch />
-            <TimeSwitch />
+            <DistanceSwitch units={units} setUnits={setUnits} />
+            <TimeSwitch units={units} setUnits={setUnits} />
         </div>
     )
 }
