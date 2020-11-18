@@ -1,27 +1,26 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 
-meters_to = {
+meters = {
     'kilometers': 1000,
     'miles': 1609,
 }
-
-seconds_to = {
+seconds = {
     'hours': 3600,
     'days': 86400,
 }
 
-def from_meters(meters, unit):
-    return meters / meters_to[unit]
+def from_meters(n_meters, to_unit):
+    return n_meters / meters[to_unit]
 
-def from_seconds(seconds, unit):
-    return seconds / seconds_to[unit]
+def from_seconds(n_seconds, to_unit):
+    return n_seconds / seconds[to_unit]
 
 def to_meters(number, from_unit):
-    pass
+    return number * meters[from_unit]
 
 def to_seconds(number, from_unit):
-    pass
+    return number * seconds[from_unit]
 
 class Athlete(models.Model):
     ref_id = models.IntegerField()
@@ -64,13 +63,15 @@ class Gear(models.Model):
     def converted_time(self):
         return from_seconds(self.moving_time, self.athlete.time_unit)
 
-    def update_distance(self, distance):
+    def update_distance(self, by_distance):
         unit = self.athlete.distance_unit
-        self.mileage += to_meters(distance, unit)
+        self.mileage += to_meters(by_distance, unit)
+        self.save()
 
-    def update_moving_time(self, time):
+    def update_moving_time(self, by_time):
         unit = self.athlete.time_unit
-        self.moving_time += to_seconds(time, unit)
+        self.moving_time += to_seconds(by_time, unit)
+        self.save()
 
     def __str__(self):
         return f'{self.name}, athlete: {self.athlete.ref_id}, is tracked: {self.is_tracked}'
