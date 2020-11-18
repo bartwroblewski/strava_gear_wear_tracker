@@ -22,8 +22,8 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
 
     React.useEffect(() => {
         setName(gear.name)
-        setMileage(gear.mileage / 1000)
-        setHours(gear.moving_time / 3600)
+        setMileage(gear.converted_distance)
+        setHours(gear.converted_time)
     }, [gear])
 
     const handleSubmit = (e: any) => {

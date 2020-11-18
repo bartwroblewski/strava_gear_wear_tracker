@@ -1,7 +1,27 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 
-# Create your models here.
+meters_to = {
+    'kilometers': 1000,
+    'miles': 1609,
+}
+
+seconds_to = {
+    'hours': 3600,
+    'days': 86400,
+}
+
+def from_meters(meters, unit):
+    return meters / meters_to[unit]
+
+def from_seconds(seconds, unit):
+    return seconds / seconds_to[unit]
+
+def to_meters(number, from_unit):
+    pass
+
+def to_seconds(number, from_unit):
+    pass
 
 class Athlete(models.Model):
     ref_id = models.IntegerField()
@@ -35,6 +55,22 @@ class Gear(models.Model):
         null=True,  # makes the field optional
         blank=True,
     ) """
+
+    @property
+    def converted_distance(self):
+        return from_meters(self.mileage, self.athlete.distance_unit)
+
+    @property
+    def converted_time(self):
+        return from_seconds(self.moving_time, self.athlete.time_unit)
+
+    def update_distance(self, distance):
+        unit = self.athlete.distance_unit
+        self.mileage += to_meters(distance, unit)
+
+    def update_moving_time(self, time):
+        unit = self.athlete.time_unit
+        self.moving_time += to_seconds(time, unit)
 
     def __str__(self):
         return f'{self.name}, athlete: {self.athlete.ref_id}, is tracked: {self.is_tracked}'

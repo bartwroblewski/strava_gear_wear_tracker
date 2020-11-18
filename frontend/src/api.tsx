@@ -22,6 +22,8 @@ export interface Gear {
     is_tracked: boolean,
     athlete: Athlete,
     bikes: GearBike[],
+    converted_distance: number,
+    converted_time: number,
 }
 
 export interface Bike {
