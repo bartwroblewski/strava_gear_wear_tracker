@@ -29,8 +29,8 @@ const Switch = ({label, options}: SwitchOptions) => {
     )
 }
 
-const DistanceSwitch = () => <Switch label="Distance" options={["kilometers", "miles"]} />
-const TimeSwitch = () => <Switch label="Time" options={['hours', 'days']} />
+const DistanceSwitch = () => <Switch label="Distance in" options={["kilometers", "miles"]} />
+const TimeSwitch = () => <Switch label="Time in" options={['hours', 'days']} />
 
 const UnitSwitch = () => {
     return (
