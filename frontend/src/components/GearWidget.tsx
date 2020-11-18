@@ -3,6 +3,7 @@ import { Gear, Bike, toggleGearTracking } from '../api'
 import './css/GearWidget.css'
 import {addOrChangeGear} from '../api'
 import MultiSelect from './MultiSelect'
+import { metersTo, secondsTo } from '../helpers/unitConverters'
 
 interface GearWidgetProps {
     key: number,
@@ -110,7 +111,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                             onClick={() => setConfirmDelete(true)}
                         >Delete</button>
                 }    
-                <button type="submit" hidden>Submit</button>
+                <button type="submit" hidden>Submit</button>                
             </form>
         </div>
     )
