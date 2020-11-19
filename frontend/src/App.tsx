@@ -77,7 +77,7 @@ function App() {
     run()
   }
 
-  const handleUnitChange = (field: string, value: string) => {
+  const handleAthleteChange = (field: string, value: string) => {
     const run = async() => {
       await changeAthlete(field, value)
       getGear()
@@ -110,12 +110,11 @@ function App() {
           <div id="main-page">
             <div id="top-bar">
               <UnitSwitch
-                selectedUnits={
-                  gear.length !== 0
-                    ? { distance: gear[0].athlete.distance_unit, time: gear[0].athlete.time_unit}
-                    : { distance: 'kilometer', time: 'hour'}
-                }
-                onChange={handleUnitChange}
+                selectedUnits={{
+                  distance: gear.length ? gear[0].athlete.distance_unit : null,
+                  time: gear.length ? gear[0].athlete.time_unit : null
+                }}
+                onChange={handleAthleteChange}
               />
             </div>
             <div className="add-gear-widget">

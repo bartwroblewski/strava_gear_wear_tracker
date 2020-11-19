@@ -10,7 +10,6 @@ interface SwitchProps {
 }
 
 const Switch = ({label, options, selectedUnit, onChange}: SwitchProps) => {
-    console.log(selectedUnit)
 
     const handleClick = (option: string) => {
         onChange(`${label}_unit`, option)
@@ -24,7 +23,7 @@ const Switch = ({label, options, selectedUnit, onChange}: SwitchProps) => {
 
     return (
         <div className="switch">
-            <div className="switch-label">{`${capitalize(label)} in:`}</div>
+            <div className="switch-label">{`${capitalize(label)} unit:`}</div>
             <div className="switch-options">
                 {opts}
             </div>
