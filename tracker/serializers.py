@@ -20,7 +20,7 @@ class GearSerializer(serializers.ModelSerializer):
         fields = [
             'pk',
             'name',
-            'mileage',
+            'distance',
             'moving_time', 
             'is_tracked', 
             'athlete', 

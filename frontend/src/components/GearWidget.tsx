@@ -16,13 +16,13 @@ interface GearWidgetProps {
 export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) => {
 
     const [name, setName] = React.useState<string>()
-    const [mileage, setMileage] = React.useState<number>()
+    const [distance, setDistance] = React.useState<number>()
     const [hours, setHours] = React.useState<number>()
     const [confirmDelete, setConfirmDelete] = React.useState<boolean>()
 
     React.useEffect(() => {
         setName(gear.name)
-        setMileage(gear.converted_distance)
+        setDistance(gear.converted_distance)
         setHours(gear.converted_time)
     }, [gear])
 
@@ -32,7 +32,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
             e.target.elements[0].focus()
             e.target.elements[0].blur()
 
-            onSubmit({name: name, pk: gear.pk, mileage: mileage, movingTime: hours})
+            onSubmit({name: name, pk: gear.pk, distance: distance, movingTime: hours})
             //onSubmit()
       //  }
     }
@@ -70,8 +70,8 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                         type="number" 
                         min="0"
                         className="input-masked"
-                        value={mileage}
-                        onChange={(e: any) => setMileage(e.target.value)}
+                        value={distance}
+                        onChange={(e: any) => setDistance(e.target.value)}
                     />
                 </div>
                 <div className="form-input-container">
@@ -90,7 +90,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                         type="checkbox"
                         checked={gear.is_tracked}
                         onChange={(e: any) => {
-                            onSubmit({name: name, pk: gear.pk, mileage: mileage, track: !gear.is_tracked})
+                            onSubmit({name: name, pk: gear.pk, distance: distance, track: !gear.is_tracked})
                         }}
                     />
                 </div>

@@ -17,7 +17,7 @@ interface Athlete {
 export interface Gear {
     pk: number,
     name: string,
-    mileage: number,
+    distance: number,
     moving_time: number,
     is_tracked: boolean,
     athlete: Athlete,
@@ -94,11 +94,11 @@ const deleteGear: Promised<any> = async(gearPk: number) => {
     return text
 }
 
-const addGear: Promised<any>  = async(gearName: string, bikeIds: string[],  mileage: number, track: boolean) => {
+const addGear: Promised<any>  = async(gearName: string, bikeIds: string[],  distance: number, track: boolean) => {
     let url = urls.addGearUrl +
         `?gear_name=${gearName}` +
         `&bike_ids=${bikeIds}` + 
-        `&mileage=${mileage}` +
+        `&distance=${distance}` +
         `&track=${track}`
     const response = await fetch(url)
     const text = await response.text()
@@ -111,14 +111,14 @@ const addGear: Promised<any>  = async(gearName: string, bikeIds: string[],  mile
 const addOrChangeGear: Promised<any> = async(
         gearName: string, 
         gearPk?: number,
-        gearMileage?: number, 
+        gearDistance?: number, 
         gearMovingTime?: number,
         bikeId?: string, 
         track?: boolean
     ) => {
         let url = urls.addOrChangeGear +`?name=${gearName}`
         if (gearPk) url = url + `&gear_pk=${gearPk}`
-        if (gearMileage !== undefined) url = url +  `&mileage=${gearMileage}`
+        if (gearDistance !== undefined) url = url +  `&distance=${gearDistance}`
         if (gearMovingTime !== undefined) url = url +  `&moving_time=${gearMovingTime}`
         if (bikeId) url = url +  `&bike_id=${bikeId}`
         if (track !== undefined) url = url + `&is_tracked=${track}`

@@ -22,7 +22,7 @@ class Bike(models.Model):
 
 class Gear(models.Model):
     name = models.CharField(max_length=200)
-    mileage = models.FloatField(default=0, validators=[MinValueValidator(0)])
+    distance = models.FloatField(default=0, validators=[MinValueValidator(0)])
     moving_time = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     elapsed_time = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     is_tracked = models.BooleanField(default=True)
@@ -37,7 +37,7 @@ class Gear(models.Model):
 
     @property
     def converted_distance(self):
-        return from_meters(self.mileage, self.athlete.distance_unit)
+        return from_meters(self.distance, self.athlete.distance_unit)
 
     @property
     def converted_time(self):
@@ -45,7 +45,7 @@ class Gear(models.Model):
 
     def convert_distance(self, distance):
         unit = self.athlete.distance_unit
-        self.mileage = to_meters(distance, unit)
+        self.distance = to_meters(distance, unit)
 
     def convert_moving_time(self, time):
         unit = self.athlete.time_unit

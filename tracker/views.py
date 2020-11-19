@@ -149,12 +149,12 @@ def add_gear(request):
     athlete = Athlete.objects.get(ref_id=athlete_id)
 
     gear_name = request.GET.get('gear_name')
-    mileage = float(request.GET.get('mileage'))
+    distance = float(request.GET.get('distance'))
     track = json.loads(request.GET.get('track'))
     bike_ids = request.GET.get('bike_ids').split(',')
 
     print(request.GET)
-    print(gear_name, mileage, track, bike_ids)
+    print(gear_name, distance, track, bike_ids)
 
     gear = Gear(
         name=gear_name,
@@ -165,7 +165,7 @@ def add_gear(request):
     except:
         #raise
         return HttpResponseServerError('Gear name already exists. Please use a unique name.')
-    gear.mileage = mileage
+    gear.distance = distance
     gear.is_tracked = track
     gear.save()
 
@@ -184,7 +184,7 @@ def add_or_change_gear(request):
 
     gear_pk = request.GET.get('gear_pk')
     name = request.GET.get('name')
-    mileage = request.GET.get('mileage')
+    distance = request.GET.get('distance')
     moving_time = request.GET.get('moving_time')
     bike_id = request.GET.get('bike_id')
     is_tracked = request.GET.get('is_tracked')
@@ -198,8 +198,8 @@ def add_or_change_gear(request):
         
     gear.name = name
 
-    if mileage:
-        gear.convert_distance(float(mileage))
+    if distance:
+        gear.convert_distance(float(distance))
     if moving_time:
         gear.convert_moving_time(int(moving_time))
 
@@ -267,7 +267,7 @@ def callback(request):
         activity_id = body['object_id']
         activity = get_activity(activity_id, access_token)
 
-        #increase the mileage of all tracked gear by the activity distance
+        #increase the distance of all tracked gear by the activity distance
         athlete_id = body['owner_id']
         athlete = Athlete.objects.get(ref_id=athlete_id)
 
@@ -284,7 +284,7 @@ def callback(request):
         )
 
         for gear in tracked_athlete_gear:
-            gear.mileage += activity['distance']
+            gear.distance += activity['distance']
             gear.moving_time += activity['moving_time']
             gear.elapsed_time += activity['elapsed_time']
             gear.save()
