@@ -2,52 +2,25 @@
     margin: 5px;
     padding: 5px;
     display: grid;
-    grid-template-columns: 0fr;
+    grid-template-columns: 0fr 230px;
     box-shadow: 1px 1px 5px;
+    grid-gap: 10px;
 }
 
-.gear-widget form {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: .3rem;
-}
-
-.form-input-container {
+.gear-widget-row {
     display: contents;
 }
 
-.gear-widget form label {
-    grid-column: 1;
-    white-space: nowrap;
-}
-
-.gear-widget form input {
-    grid-column: 2;      
-    margin-left: 0;    
-    text-overflow: ellipsis;
-}
-
-.input-masked {
-    background: none;
-    border: 1px solid rgb(0, 0, 0, 0);
-}
-
-.input-masked:hover {
-    cursor: pointer;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-}
-
-.add-gear-widget {
-    grid-column: 1 / 3;
-}
-
-.gear-widget-delete-button {
-    grid-column: 1 / 3;
-}
-
-.gear-widget-confirm-delete {
-    grid-column: 1 / 3;
+.gear-widget form {
     display: flex;
-    justify-content: space-evenly;
-    color: rgb(231, 73, 73);
+    justify-content: space-between;
+}
+
+.gear-widget-setting:hover {
+    background: rgb(238, 238, 238);
+    cursor: pointer;
+}
+
+.gear-widget button {
+    grid-column: 1 / 3;
 }

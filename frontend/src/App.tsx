@@ -89,9 +89,6 @@ function App() {
     return <GearWidget
               key={g.pk}
               gear={g}
-              bikes={bikes}
-              onSubmit={handleGearWidgetSubmit}
-              onDelete={handleGearWidgetDelete}
             />
   })
 
