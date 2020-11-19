@@ -3,6 +3,7 @@ import { Gear, Bike, toggleGearTracking } from '../api'
 import './css/GearWidget.css'
 import {addOrChangeGear} from '../api'
 import MultiSelect from './MultiSelect'
+import DurationInput from './DurationInput'
 import { metersTo, secondsTo } from '../helpers/unitConverters'
 
 interface GearWidgetProps {
@@ -83,6 +84,15 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                         className="input-masked"
                         value={hours}
                         onChange={(e: any) => setHours(e.target.value)}
+                    />
+                </div>
+                <div className="form-input-container">
+                    <label>Duration: </label>
+                    <input 
+                        type="text" 
+                        className="input-masked"
+                        value={gear.duration}
+                        onChange={(e: any) => {}}   
                     />
                 </div>
                 <div className="form-input-container">

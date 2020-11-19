@@ -19,6 +19,7 @@ export interface Gear {
     name: string,
     distance: number,
     moving_time: number,
+    duration: string;
     is_tracked: boolean,
     athlete: Athlete,
     bikes: GearBike[],

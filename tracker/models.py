@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.core.validators import MinValueValidator
 from .unit_converter import from_meters, from_seconds, to_meters, to_seconds
@@ -34,6 +36,11 @@ class Gear(models.Model):
         null=True,  # makes the field optional
         blank=True,
     ) """
+
+    @property
+    def duration(self):
+        delta = datetime.timedelta(seconds=self.moving_time)
+        return str(delta)
 
     @property
     def converted_distance(self):
