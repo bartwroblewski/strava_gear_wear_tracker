@@ -16,6 +16,7 @@ import {
   deleteGear, 
   addGear, 
   addOrChangeGear,
+  changeAthlete,
 } from './api'
 
 interface GearWidgetSubmitParams {
@@ -76,6 +77,14 @@ function App() {
     run()
   }
 
+  const handleUnitChange = (field: string, value: string) => {
+    const run = async() => {
+      await changeAthlete(field, value)
+      getGear()
+    }
+    run()
+  }
+
   const gearWidgets = gear.map(g => {
     return <GearWidget
               key={g.pk}
@@ -100,7 +109,14 @@ function App() {
         ? 
           <div id="main-page">
             <div id="top-bar">
-              <UnitSwitch />
+              <UnitSwitch
+                selectedUnits={
+                  gear.length !== 0
+                    ? { distance: gear[0].athlete.distance_unit, time: gear[0].athlete.time_unit}
+                    : { distance: 'kilometer', time: 'hour'}
+                }
+                onChange={handleUnitChange}
+              />
             </div>
             <div className="add-gear-widget">
               <AddGearWidget

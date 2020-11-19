@@ -131,4 +131,11 @@ const addOrChangeGear: Promised<any> = async(
         alert(text)
 }
 
+export const changeAthlete: Promised<any> = async(field: string, value: string) => {
+    let url = urls.changeAthleteUrl + `?field=${field}&value=${value}`
+    const response = await fetch(url)
+    const text = await response.text()
+    return text
+}
+
 export { fetchAuthorizationStatus, fetchUserGear, refreshAthleteBikes, toggleGearTracking, deleteGear, addGear, addOrChangeGear }

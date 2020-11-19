@@ -5,18 +5,20 @@ import capitalize from '../helpers/capitalize'
 interface SwitchProps {
     label: string,
     options: string[],
+    selectedUnit: string,
+    onChange: any;
 }
 
-const Switch = ({label, options}: SwitchProps) => {
-
-    const [selectedOption, setSelectedOption] = React.useState<string>(options[0])
+const Switch = ({label, options, selectedUnit, onChange}: SwitchProps) => {
+    console.log(selectedUnit)
 
     const handleClick = (option: string) => {
-        setSelectedOption(option)
+        onChange(`${label}_unit`, option)
+
     }
 
     const opts = options.map(o => {
-        const className = selectedOption === o ? "switch-option-selected" : "switch-option"
+        const className = selectedUnit === o ? "switch-option-selected" : "switch-option"
         return <div onClick={() => handleClick(o)} className={className}>{o}</div>
     })
 
@@ -30,29 +32,37 @@ const Switch = ({label, options}: SwitchProps) => {
     )
 }
 
-const DistanceSwitch = () => {
+const DistanceSwitch = ({selectedUnit, onChange}: {selectedUnit: string, onChange: any}) => {
     return (
         <Switch 
             label="distance" 
-            options={["kilometers", "miles"]}
+            options={["kilometer", "mile"]}
+            selectedUnit={selectedUnit}
+            onChange={onChange}
         />
     )
 }
 
-const TimeSwitch = () => {
+const TimeSwitch = ({selectedUnit, onChange}: {selectedUnit: string, onChange: any}) => {
     return (
         <Switch 
             label="time"
-            options={['hours', 'days']}
+            options={['hour', 'day']}
+            selectedUnit={selectedUnit}
+            onChange={onChange}
         />
     )
 }
+interface UnitSwitchProps {
+    selectedUnits: {distance: string, time: string},
+    onChange: any,
+}
 
-const UnitSwitch = () => {
+const UnitSwitch = ({selectedUnits, onChange}: UnitSwitchProps) => {
     return (
         <div id="unit-switch">
-            <DistanceSwitch />
-            <TimeSwitch />
+            <DistanceSwitch selectedUnit={selectedUnits.distance} onChange={onChange} />
+            <TimeSwitch selectedUnit={selectedUnits.time} onChange={onChange} />
         </div>
     )
 }
