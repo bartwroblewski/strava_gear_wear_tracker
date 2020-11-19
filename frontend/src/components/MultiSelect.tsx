@@ -2,7 +2,7 @@ import React from 'react'
 import './css/MultiSelect.css'
 
 interface MultiSelectProps {
-  options: JSX.Component[],
+  options: any[],
 }
 
 

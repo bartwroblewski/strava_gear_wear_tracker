@@ -223,6 +223,18 @@ def add_or_change_gear(request):
 
     return HttpResponse('OK')
 
+def change_athlete_field(request):
+    athlete_id = request.session['tokendata']['athlete']['id']
+    athlete = Athlete.objects.get(ref_id=athlete_id)
+
+    field = request.GET.get('field')
+    value = request.GET.get('value')
+
+    setattr(athlete, field, value)
+    athlete.save()
+
+    return HttpResponse(getattr(athlete, field))
+
 def subscribe(request):
     url = 'https://www.strava.com/api/v3/push_subscriptions'
     params = {
