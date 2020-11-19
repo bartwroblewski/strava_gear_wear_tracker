@@ -63,14 +63,14 @@ class Gear(models.Model):
     def converted_time(self):
         return from_seconds(self.moving_time, self.athlete.time_unit)
 
-    def update_distance(self, by_distance):
+    def convert_distance(self, distance):
         unit = self.athlete.distance_unit
-        self.mileage += to_meters(by_distance, unit)
+        self.mileage = to_meters(distance, unit)
         self.save()
 
-    def update_moving_time(self, by_time):
+    def convert_moving_time(self, time):
         unit = self.athlete.time_unit
-        self.moving_time += to_seconds(by_time, unit)
+        self.moving_time = to_seconds(time, unit)
         self.save()
 
     def __str__(self):

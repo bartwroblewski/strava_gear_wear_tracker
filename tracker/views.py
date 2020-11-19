@@ -199,9 +199,9 @@ def add_or_change_gear(request):
     gear.name = name
 
     if mileage:
-        gear.mileage = float(mileage)
+        gear.convert_distance(float(mileage))
     if moving_time:
-        gear.moving_time = int(moving_time)
+        gear.convert_moving_time(int(moving_time))
 
     try:
         gear.full_clean() # validate gear uniqueness per athlete
@@ -220,13 +220,7 @@ def add_or_change_gear(request):
             gear.bikes.add(bike)
 
     print(gear)
-    #gear_name = request.GET.get('gear_name')
-    #mileage = float(request.GET.get('mileage'))
-    #track = json.loads(request.GET.get('track'))
-    #bike_id = request.GET.get('bike_id')
 
-    #print(request.GET)
-    #print(gear_pk, gear_name, mileage, bike_id)
     return HttpResponse('OK')
 
 def subscribe(request):

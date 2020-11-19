@@ -32,7 +32,7 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
             e.target.elements[0].focus()
             e.target.elements[0].blur()
 
-            onSubmit({name: name, pk: gear.pk, mileage: mileage * 1000, movingTime: hours * 3600 })
+            onSubmit({name: name, pk: gear.pk, mileage: mileage, movingTime: hours})
             //onSubmit()
       //  }
     }
