@@ -32,12 +32,6 @@ function App() {
   const [gear, setGear] = React.useState<Gear[]>([])
   const [authorized, setAuthorized] = React.useState<boolean>()
   const [bikes, setBikes] = React.useState<Bike[]>([])
-  const [units, setUnits] = React.useState({
-    distance: 'kilometers',
-    time: 'hours',
-  })
-
-  React.useEffect(() => console.log(units), [units])
 
   const getAuthorizationStatus = () => {
     const run = async() => {
@@ -66,15 +60,6 @@ function App() {
     run()
   }
 
-/*   const handleAddGearFormSubmit = (gearName: string, gearMileage: number, bikeIds: string[]) => {
-    const run = async() => {
-      await addGear(gearName, bikeIds, gearMileage, true)
-      getGear()
-      toggleAddGearModal()
-    }
-    run()
-  } */
-
   const handleGearWidgetSubmit = ({name, pk, mileage, movingTime, bikeId, track}: GearWidgetSubmitParams) => {
     const run = async() => {
       await addOrChangeGear(name, pk, mileage, movingTime, bikeId, track)
@@ -91,17 +76,13 @@ function App() {
     run()
   }
 
-  const editableGearWidgets = gear.map(g => {
+  const gearWidgets = gear.map(g => {
     return <GearWidget
               key={g.pk}
               gear={g}
               bikes={bikes}
               onSubmit={handleGearWidgetSubmit}
               onDelete={handleGearWidgetDelete}
-             /*  toggleGearTracking={toggleGearTracking} 
-              is_tracked={g.is_tracked}
-              getGear={getGear}
-              deleteGear={deleteGear} */
             />
   })
 
@@ -127,8 +108,7 @@ function App() {
               />
             </div>
             <div className="gear-widgets">
-              {/* {gearWidgets} */}
-              {editableGearWidgets}
+              {gearWidgets}
             </div>
             <div>DASHBOARDS HERE</div>
           </div>
