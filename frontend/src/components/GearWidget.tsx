@@ -69,13 +69,14 @@ export const GearWidget = ({gear, bikes, onSubmit, onDelete}: GearWidgetProps) =
                     <input
                         type="number" 
                         min="0"
+                        step="0.01"
                         className="input-masked"
                         value={distance}
                         onChange={(e: any) => setDistance(e.target.value)}
                     />
                 </div>
                 <div className="form-input-container">
-                    <label>Time used: </label>
+                    <label>Time: </label>
                     <input
                         type="number" 
                         min="0"

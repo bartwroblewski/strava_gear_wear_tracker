@@ -37,7 +37,7 @@ class Gear(models.Model):
 
     @property
     def converted_distance(self):
-        return from_meters(self.distance, self.athlete.distance_unit)
+        return round(from_meters(self.distance, self.athlete.distance_unit), 2)
 
     @property
     def converted_time(self):
