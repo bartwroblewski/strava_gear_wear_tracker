@@ -109,17 +109,17 @@ function App() {
         ? 
           <div id="main-page">
             <div id="top-bar">
+            <div className="add-gear-widget">
+              <AddGearWidget
+                onSubmit={handleGearWidgetSubmit}
+              />
+            </div>
               <UnitSwitch
                 selectedUnits={{
                   distance: gear.length ? gear[0].athlete.distance_unit : null,
                   time: gear.length ? gear[0].athlete.time_unit : null
                 }}
                 onChange={handleAthleteChange}
-              />
-            </div>
-            <div className="add-gear-widget">
-              <AddGearWidget
-                onSubmit={handleGearWidgetSubmit}
               />
             </div>
             <div className="gear-widgets">
