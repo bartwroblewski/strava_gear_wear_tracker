@@ -12,8 +12,13 @@ interface GearModalProps {
 }
 
 const Modal = ({contents, toggle}: ModalProps) => {
+
+    const handleClick = e => {
+        if (e.target.className === 'modal') toggle()
+    }
+
     return (
-        <div className="modal" onClick={toggle}>
+        <div className="modal" onClick={handleClick}>
             <div className="modal-contents">
                 {contents}
             </div>
@@ -21,6 +26,7 @@ const Modal = ({contents, toggle}: ModalProps) => {
     )
 }
 
-const GearModal = ({toggle}: GearModalProps) => <Modal contents={<GearForm />} toggle={toggle} />
+const GearModal = ({toggle}: GearModalProps) => 
+    <Modal contents={<GearForm />} toggle={toggle} />
 
 export default GearModal
