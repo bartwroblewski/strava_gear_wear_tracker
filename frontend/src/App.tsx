@@ -5,6 +5,7 @@ import './components/css/App.css'
 import Test from './components/Test'
 import { GearWidget, AddGearWidget } from './components/GearWidget'
 import UnitSwitch from './components/UnitSwitch'
+import GearModal from './components/GearModal'
 
 import { 
   fetchAuthorizationStatus, 
@@ -33,6 +34,7 @@ function App() {
   const [gear, setGear] = React.useState<Gear[]>([])
   const [authorized, setAuthorized] = React.useState<boolean>()
   const [bikes, setBikes] = React.useState<Bike[]>([])
+  const [showGearModal, setShowGearModal] = React.useState<boolean>()
 
   const getAuthorizationStatus = () => {
     const run = async() => {
@@ -89,6 +91,7 @@ function App() {
     return <GearWidget
               key={g.pk}
               gear={g}
+              onClick={() => setShowGearModal(true)}
             />
   })
 
@@ -121,6 +124,9 @@ function App() {
             </div>
             <div className="gear-widgets">
               {gearWidgets}
+            </div>
+            <div>
+              {showGearModal ? <GearModal /> : null}
             </div>
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>

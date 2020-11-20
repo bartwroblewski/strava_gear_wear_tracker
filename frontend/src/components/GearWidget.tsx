@@ -14,11 +14,12 @@ const unitAbbreviations = {
 interface GearWidgetProps {
     key: number,
     gear: Gear,
+    onClick: any,
 }
 
-export const GearWidget = ({key, gear}: GearWidgetProps) => {
+export const GearWidget = ({key, gear, onClick}: GearWidgetProps) => {
     return (
-        <div className="gear-widget">
+        <div className="gear-widget" onClick={onClick}>
             <div className="gear-name">{gear.name}</div>
             <ul className="stats">
                 <li className="stat">

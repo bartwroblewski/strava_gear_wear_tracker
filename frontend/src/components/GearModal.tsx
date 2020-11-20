@@ -1,4 +1,7 @@
 import React from 'react'
+import './css/GearModal.css'
+import GearForm from './GearForm'
+
 interface ModalProps {
     contents: any,
 }
@@ -12,3 +15,7 @@ const Modal = ({contents}: ModalProps) => {
         </div>
     )
 }
+
+const GearModal = () => <Modal contents={<GearForm />} />
+
+export default GearModal
