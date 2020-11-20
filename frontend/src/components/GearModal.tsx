@@ -4,11 +4,16 @@ import GearForm from './GearForm'
 
 interface ModalProps {
     contents: any,
+    toggle: any,
 }
 
-const Modal = ({contents}: ModalProps) => {
+interface GearModalProps {
+    toggle: any,
+}
+
+const Modal = ({contents, toggle}: ModalProps) => {
     return (
-        <div className="modal">
+        <div className="modal" onClick={toggle}>
             <div className="modal-contents">
                 {contents}
             </div>
@@ -16,6 +21,6 @@ const Modal = ({contents}: ModalProps) => {
     )
 }
 
-const GearModal = () => <Modal contents={<GearForm />} />
+const GearModal = ({toggle}: GearModalProps) => <Modal contents={<GearForm />} toggle={toggle} />
 
 export default GearModal

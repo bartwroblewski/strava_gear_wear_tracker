@@ -87,11 +87,13 @@ function App() {
     run()
   }
 
+  const toggleGearModal = () => setShowGearModal(prev => !prev)
+
   const gearWidgets = gear.map(g => {
     return <GearWidget
               key={g.pk}
               gear={g}
-              onClick={() => setShowGearModal(true)}
+              onClick={toggleGearModal}
             />
   })
 
@@ -126,7 +128,7 @@ function App() {
               {gearWidgets}
             </div>
             <div>
-              {showGearModal ? <GearModal /> : null}
+              {showGearModal ? <GearModal toggle={toggleGearModal}/> : null}
             </div>
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>
