@@ -6,63 +6,34 @@ import MultiSelect from './MultiSelect'
 import DurationInput from './DurationInput'
 import { metersTo, secondsTo } from '../helpers/unitConverters'
 
+const unitAbbreviations = {
+    kilometer: 'km',
+    mile: 'mi',
+}
+
 interface GearWidgetProps {
     key: number,
     gear: Gear,
 }
 
 export const GearWidget = ({key, gear}: GearWidgetProps) => {
-
-    const [edit, setEdit] = React.useState({
-        name: false,
-        distance: false,
-        time: false,
-    })
-
-    const handleSettingClick = e => {
-        console.log(e.target.id)
-        setEdit(prev => {
-            return {...prev, ...{[e.target.id]: !prev[e.target.id]}}
-        })
-    }
-
     return (
         <div className="gear-widget">
-            <div className="gear-widget-row">
-                <label>Name: </label>
-                {edit.name
-                    ? <form>
-                        <input type="text" defaultValue={gear.name}/>
-                        <button type="submit">Save</button>
-                      </form>
-                    : <div id="name" className="gear-widget-setting" onClick={handleSettingClick}>{gear.name}</div>
-                }
-            </div>
-            <div className="gear-widget-row">
-                <label>Distance: </label>
-                {edit.distance
-                    ? <form>
-                        <input type="number" defaultValue={gear.distance}/>
-                        <button type="submit">Save</button>
-                      </form>
-                    : <div id="distance" className="gear-widget-setting" onClick={handleSettingClick}>{gear.distance}</div>
-}
-                </div>
-            <div className="gear-widget-row">
-                <label>Time: </label>
-                {edit.time
-                    ? <form>
-                        <input type="number" defaultValue={gear.moving_time}/>
-                        <input type="number" defaultValue={gear.moving_time}/>
-                        <input type="number" defaultValue={gear.moving_time}/>
-                        <button type="submit">Save</button>
-                      </form>
-                    : <div id="time" className="gear-widget-setting" onClick={handleSettingClick}>{gear.moving_time}</div>
-                }
-            </div>
-            <div className="gear-widget-row">
-                <button type="button">Edit</button>
-            </div>
+            <div className="gear-name">{gear.name}</div>
+            <ul className="stats">
+                <li className="stat">
+                    <div className="stat-name">Distance</div>
+                    <div>
+                        <div className="stat-value">{gear.distance_in_athlete_unit}
+                            <span className="unit">{' ' + unitAbbreviations[gear.athlete.distance_unit]}</span>
+                        </div>
+                    </div>
+                </li>
+                <li className="stat">
+                    <div className="stat-name">Time</div>
+                    <div className="stat-value">{gear.duration}</div>
+                </li>
+            </ul>
         </div>
     )
 }         

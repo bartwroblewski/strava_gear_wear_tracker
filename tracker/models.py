@@ -43,7 +43,7 @@ class Gear(models.Model):
         return str(delta)
 
     @property
-    def converted_distance(self):
+    def distance_in_athlete_unit(self):
         return round(from_meters(self.distance, self.athlete.distance_unit), 2)
 
     @property

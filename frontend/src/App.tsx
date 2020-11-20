@@ -106,11 +106,11 @@ function App() {
         ? 
           <div id="main-page">
             <div id="top-bar">
-            <div className="add-gear-widget">
-              <AddGearWidget
-                onSubmit={handleGearWidgetSubmit}
-              />
-            </div>
+              <div className="add-gear-widget">
+                <AddGearWidget
+                  onSubmit={handleGearWidgetSubmit}
+                />
+              </div>
               <UnitSwitch
                 selectedUnits={{
                   distance: gear.length ? gear[0].athlete.distance_unit : null,
@@ -122,7 +122,6 @@ function App() {
             <div className="gear-widgets">
               {gearWidgets}
             </div>
-            <div>DASHBOARDS HERE</div>
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>
       }

@@ -1,24 +1,11 @@
-/* body * {
-    font-family: "Courier";
-} */
-
 #top-bar {
-    grid-column: 1 / 3;
     display: flex;
     justify-content: space-between;
 }
 
-#main-page {
-    display: grid;
-    grid-template-columns: repeat(2, 50%);
-    row-gap: .5em;
-}
-
 .gear-widgets {
-    border-right: 1px solid white;
     display: flex;
     flex-wrap: wrap;
-
 }
 
 #add-gear-button {
