@@ -44,7 +44,7 @@ export const GearWidget = ({key, gear}: GearWidgetProps) => {
                     ? <GearModal toggle={toggleModal} defaults={{
                         name: gear.name, 
                         distance: gear.distance_in_athlete_unit,
-                        time: gear.moving_time,
+                        time: gear,
                       }} />
                     : null
                 }
