@@ -9,6 +9,7 @@ interface ModalProps {
 
 interface GearModalProps {
     toggle: any,
+    defaults: any,
 }
 
 const Modal = ({contents, toggle}: ModalProps) => {
@@ -26,7 +27,7 @@ const Modal = ({contents, toggle}: ModalProps) => {
     )
 }
 
-const GearModal = ({toggle}: GearModalProps) => 
-    <Modal contents={<GearForm />} toggle={toggle} />
+const GearModal = ({toggle, defaults}: GearModalProps) => 
+    <Modal contents={<GearForm defaults={defaults} />} toggle={toggle} />
 
 export default GearModal

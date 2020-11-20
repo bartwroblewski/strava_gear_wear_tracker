@@ -5,7 +5,6 @@ import './components/css/App.css'
 import Test from './components/Test'
 import { GearWidget, AddGearWidget } from './components/GearWidget'
 import UnitSwitch from './components/UnitSwitch'
-import GearModal from './components/GearModal'
 
 import { 
   fetchAuthorizationStatus, 
@@ -87,13 +86,10 @@ function App() {
     run()
   }
 
-  const toggleGearModal = () => setShowGearModal(prev => !prev)
-
   const gearWidgets = gear.map(g => {
     return <GearWidget
               key={g.pk}
               gear={g}
-              onClick={toggleGearModal}
             />
   })
 
@@ -126,9 +122,6 @@ function App() {
             </div>
             <div className="gear-widgets">
               {gearWidgets}
-            </div>
-            <div>
-              {showGearModal ? <GearModal toggle={toggleGearModal}/> : null}
             </div>
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>

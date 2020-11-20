@@ -1,10 +1,7 @@
 import React from 'react'
-import { Gear, Bike, toggleGearTracking } from '../api'
+import GearModal from './GearModal'
+import { Gear } from '../api'
 import './css/GearWidget.css'
-import {addOrChangeGear} from '../api'
-import MultiSelect from './MultiSelect'
-import DurationInput from './DurationInput'
-import { metersTo, secondsTo } from '../helpers/unitConverters'
 
 const unitAbbreviations = {
     kilometer: 'km',
@@ -14,28 +11,44 @@ const unitAbbreviations = {
 interface GearWidgetProps {
     key: number,
     gear: Gear,
-    onClick: any,
 }
 
-export const GearWidget = ({key, gear, onClick}: GearWidgetProps) => {
+export const GearWidget = ({key, gear}: GearWidgetProps) => {
+
+        const [showModal, setShowModal] = React.useState<boolean>()
+
+        const toggleModal = () => setShowModal(prev => !prev)
+
     return (
-        <div className="gear-widget" onClick={onClick}>
-            <div className="gear-name">{gear.name}</div>
-            <ul className="stats">
-                <li className="stat">
-                    <div className="stat-name">Distance</div>
-                    <div>
-                        <div className="stat-value">
-                            {gear.distance_in_athlete_unit}
-                            <span>{' ' + unitAbbreviations[gear.athlete.distance_unit]}</span>
+        <div>
+            <div className="gear-widget" onClick={toggleModal}>
+                <div className="gear-name">{gear.name}</div>
+                <ul className="stats">
+                    <li className="stat">
+                        <div className="stat-name">Distance</div>
+                        <div>
+                            <div className="stat-value">
+                                {gear.distance_in_athlete_unit}
+                                <span>{' ' + unitAbbreviations[gear.athlete.distance_unit]}</span>
+                            </div>
                         </div>
-                    </div>
-                </li>
-                <li className="stat">
-                    <div className="stat-name">Time</div>
-                    <div className="stat-value">{gear.duration}</div>
-                </li>
-            </ul>
+                    </li>
+                    <li className="stat">
+                        <div className="stat-name">Time</div>
+                        <div className="stat-value">{gear.duration}</div>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                {showModal
+                    ? <GearModal toggle={toggleModal} defaults={{
+                        name: gear.name, 
+                        distance: gear.distance_in_athlete_unit,
+                        time: gear.moving_time,
+                      }} />
+                    : null
+                }
+            </div>
         </div>
     )
 }         

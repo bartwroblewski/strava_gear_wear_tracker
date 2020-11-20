@@ -1,18 +1,20 @@
 import React from 'react'
 
-interface GearFormProps {}
+interface GearFormProps {
+    defaults: any,
+}
 
-const GearForm = ({}: GearFormProps) => {
+const GearForm = ({defaults}: GearFormProps) => {
     return (
         <form>
             <label>Name :</label>
-            <input type="text" />
+            <input defaultValue={defaults.name}type="text" />
 
             <label>Distance: </label>
-            <input type="number" />
+            <input defaultValue={defaults.distance} type="number" />
 
             <label>Time: </label>
-            <input type="number" />
+            <input defaultValue={defaults.time}type="number" />
 
             <button type="submit">Save</button>
         </form>
