@@ -24,8 +24,9 @@ export const GearWidget = ({key, gear}: GearWidgetProps) => {
                 <li className="stat">
                     <div className="stat-name">Distance</div>
                     <div>
-                        <div className="stat-value">{gear.distance_in_athlete_unit}
-                            <span className="unit">{' ' + unitAbbreviations[gear.athlete.distance_unit]}</span>
+                        <div className="stat-value">
+                            {gear.distance_in_athlete_unit}
+                            <span>{' ' + unitAbbreviations[gear.athlete.distance_unit]}</span>
                         </div>
                     </div>
                 </li>
