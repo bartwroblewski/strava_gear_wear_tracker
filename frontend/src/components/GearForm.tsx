@@ -30,13 +30,13 @@ const GearForm = ({gear, onSubmit}: GearFormProps) => {
 
             <label>Time: </label>
             <div>
-                <input defaultValue={gear.moving_time}type="number" />
+                <input defaultValue={gear.duration.days}type="number" />
                 <label>d</label>  
-                <input defaultValue={gear.moving_time}type="number" />
+                <input defaultValue={gear.duration.hours}type="number" />
                 <label>h</label>  
-                <input defaultValue={gear.moving_time}type="number" />
+                <input defaultValue={gear.duration.minutes}type="number" />
                 <label>m</label>  
-                <input defaultValue={gear.moving_time}type="number" />
+                <input defaultValue={gear.duration.seconds}type="number" />
                 <label>s</label>  
             </div>
 

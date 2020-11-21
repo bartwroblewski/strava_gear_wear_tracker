@@ -14,12 +14,20 @@ interface Athlete {
     time_unit: string,
 }
 
+interface GearDuration {
+    string: string,
+    days: number,
+    hours: number,
+    minutes: number,
+    seconds: number,
+}
+
 export interface Gear {
     pk: number,
     name: string,
     distance: number,
     moving_time: number,
-    duration: string;
+    duration: GearDuration;
     is_tracked: boolean,
     athlete: Athlete,
     bikes: GearBike[],

@@ -39,8 +39,23 @@ class Gear(models.Model):
 
     @property
     def duration(self):
-        delta = datetime.timedelta(seconds=self.moving_time)
-        return str(delta)
+        seconds = self.moving_time
+        delta = datetime.timedelta(seconds=seconds)
+        days = delta.days
+        hours = seconds // 3600 - days * 24
+        minutes = (seconds % 3600) // 60
+        seconds = seconds % 60
+        return {
+            'string': str(delta),
+            'days': days,
+            'hours': hours,
+            'minutes': minutes,
+            'seconds': seconds,
+        }
+
+    @property
+    def test(self):
+        return {'a': 'b'}
 
     @property
     def distance_in_athlete_unit(self):

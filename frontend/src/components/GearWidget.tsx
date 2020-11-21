@@ -25,7 +25,7 @@ export const GearWidget = ({gear, onClick}: GearWidgetProps) => {
                 </li>
                 <li className="stat">
                     <div className="stat-name">Time</div>
-                    <div className="stat-value">{gear.duration}</div>
+                    <div className="stat-value">{gear.duration.string}</div>
                 </li>
             </ul>
         </div>
