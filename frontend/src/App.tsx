@@ -5,6 +5,8 @@ import './components/css/App.css'
 import Test from './components/Test'
 import { GearWidget, AddGearWidget } from './components/GearWidget'
 import UnitSwitch from './components/UnitSwitch'
+import Modal from './components/Modal'
+import GearForm from './components/GearForm'
 
 import { 
   fetchAuthorizationStatus, 
@@ -86,10 +88,15 @@ function App() {
     run()
   }
 
+  const toggleGearModal = () => setShowGearModal(prev => !prev)
+
   const gearWidgets = gear.map(g => {
     return <GearWidget
               key={g.pk}
               gear={g}
+              onClick={(gearPk: number) => {
+                toggleGearModal()
+              }}
             />
   })
 
@@ -122,6 +129,24 @@ function App() {
             </div>
             <div className="gear-widgets">
               {gearWidgets}
+            </div>
+            <div>
+              {showGearModal
+                ? <Modal
+                    toggle={toggleGearModal}
+                    contents={
+                      <GearForm
+                        defaults={{
+                          name: gear[0].name,
+                          distance: gear[0].distance,
+                          time: gear[0].moving_time,
+                        }}
+                        onSubmit={handleGearWidgetSubmit}
+                      />
+                    }         
+                  />
+                : null
+              }
             </div>
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>

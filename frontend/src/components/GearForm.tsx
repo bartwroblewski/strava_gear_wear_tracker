@@ -1,12 +1,24 @@
 import React from 'react'
 
-interface GearFormProps {
-    defaults: any,
+interface GearFormDefaults {
+    name: string,
+    distance: number,
+    time: number,
 }
 
-const GearForm = ({defaults}: GearFormProps) => {
+interface GearFormProps {
+    defaults: GearFormDefaults,
+    onSubmit: any,
+}
+
+const GearForm = ({defaults, onSubmit}: GearFormProps) => {
+
+    const handleSubmit = e => {
+        e.preventDefault()
+        onSubmit({name:'SOME NAME'})
+    }
     return (
-        <form>
+        <form onSubmit={handleSubmit}>
             <label>Name :</label>
             <input defaultValue={defaults.name}type="text" />
 

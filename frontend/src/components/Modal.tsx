@@ -1,15 +1,9 @@
 import React from 'react'
-import './css/GearModal.css'
-import GearForm from './GearForm'
+import './css/Modal.css'
 
 interface ModalProps {
     contents: any,
     toggle: any,
-}
-
-interface GearModalProps {
-    toggle: any,
-    defaults: any,
 }
 
 const Modal = ({contents, toggle}: ModalProps) => {
@@ -27,7 +21,4 @@ const Modal = ({contents, toggle}: ModalProps) => {
     )
 }
 
-const GearModal = ({toggle, defaults}: GearModalProps) => 
-    <Modal contents={<GearForm defaults={defaults} />} toggle={toggle} />
-
-export default GearModal
+export default Modal
