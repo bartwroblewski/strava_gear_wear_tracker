@@ -10,7 +10,10 @@ const GearForm = ({gear, onSubmit}: GearFormProps) => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        onSubmit({name:'SOME NAME'})
+        onSubmit({
+            name: gear.name + 'sdfeg',
+            //pk: gear.pk,
+        })
     }
     return (
         <form onSubmit={handleSubmit}>
