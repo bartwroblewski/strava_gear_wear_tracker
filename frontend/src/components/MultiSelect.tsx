@@ -10,7 +10,7 @@ const MultiSelect = ({options}: MultiSelectProps) => {
 
   const [show, setShow] = React.useState<boolean>(false)
 
-  const handleClick = e => {
+  const handleTitleClick = e => {
       e.preventDefault()
       setShow(prev => !prev)
   }
@@ -18,7 +18,7 @@ const MultiSelect = ({options}: MultiSelectProps) => {
   return (
       <div className="multi-select">
           <div className="multi-select-title" 
-            onClick ={handleClick}
+            onClick ={handleTitleClick}
           >
             <div>Bikes</div>
             <div>{'\u25BE'}</div>

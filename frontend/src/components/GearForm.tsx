@@ -19,7 +19,7 @@ const GearForm = ({gear, bikes, onSubmit}: GearFormProps) => {
     const [minutes, setMinutes] = React.useState<number>()
     const [seconds, setSeconds] = React.useState<number>()
     const [track, setTrack] = React.useState<boolean>()
-    const [bikeIds, setBikeIds] = React.useState<string[]>()
+    const [bikeIds, setBikeIds] = React.useState<string[]>([])
 
     React.useEffect(() => {
         setName(gear.name)
@@ -29,7 +29,10 @@ const GearForm = ({gear, bikes, onSubmit}: GearFormProps) => {
         setMinutes(gear.duration.minutes)
         setSeconds(gear.duration.seconds)
         setTrack(gear.is_tracked)
+        setBikeIds(gear.bikes.map(x => x.ref_id))
     }, [gear])
+
+    React.useEffect(() => console.log(bikeIds), [bikeIds])
  
     const handleSubmit = e => {
         e.preventDefault()
@@ -40,13 +43,24 @@ const GearForm = ({gear, bikes, onSubmit}: GearFormProps) => {
         }) */
     }
 
+    const handleBikeOptionChange = (bike: Bike) => {
+        setBikeIds(prev => {
+            if (bikeIds.includes(bike.id)) {
+                return prev.filter(id => id !== bike.id)
+            } else {
+                return [...prev, bike.id] 
+            }
+        })
+    }
+
     const bikeOptions = bikes.map(bike => {
         return (
           <div className="multi-select-option">
             <input 
                 type="checkbox"
-                checked={gear.bikes.map(x => x.name).includes(bike.name)}
+                checked={bikeIds.includes(bike.id)}
                 /* onChange={e => onSubmit({name: gear.name, bikeId: bike.id, pk: gear.pk})} */
+                onChange={() => handleBikeOptionChange(bike)}
             />
             <div>{bike.name}</div>
          </div>
