@@ -1,5 +1,7 @@
 import React from 'react'
 import { Gear } from '../api'
+import './css/GearForm.css'
+import unitAbbreviations from '../helpers/unitAbbreviations'
 
 interface GearFormProps {
     gear: Gear,
@@ -21,7 +23,10 @@ const GearForm = ({gear, onSubmit}: GearFormProps) => {
             <input defaultValue={gear.name}type="text" />
 
             <label>Distance: </label>
-            <input defaultValue={gear.distance} type="number" />
+            <div>
+                <input defaultValue={gear.distance} type="number" />
+                <span>{unitAbbreviations[gear.athlete.distance_unit]}</span>
+            </div>
 
             <label>Time: </label>
             <input defaultValue={gear.moving_time}type="number" />

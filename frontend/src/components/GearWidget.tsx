@@ -1,11 +1,7 @@
 import React from 'react'
 import { Gear } from '../api'
 import './css/GearWidget.css'
-
-const unitAbbreviations = {
-    kilometer: 'km',
-    mile: 'mi',
-}
+import unitAbbreviations from '../helpers/unitAbbreviations'
 
 interface GearWidgetProps {
     key: number,
