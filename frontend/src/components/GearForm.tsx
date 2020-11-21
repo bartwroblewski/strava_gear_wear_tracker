@@ -1,17 +1,12 @@
 import React from 'react'
-
-interface GearFormDefaults {
-    name: string,
-    distance: number,
-    time: number,
-}
+import { Gear } from '../api'
 
 interface GearFormProps {
-    defaults: GearFormDefaults,
+    gear: Gear,
     onSubmit: any,
 }
 
-const GearForm = ({defaults, onSubmit}: GearFormProps) => {
+const GearForm = ({gear, onSubmit}: GearFormProps) => {
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -20,13 +15,13 @@ const GearForm = ({defaults, onSubmit}: GearFormProps) => {
     return (
         <form onSubmit={handleSubmit}>
             <label>Name :</label>
-            <input defaultValue={defaults.name}type="text" />
+            <input defaultValue={gear.name}type="text" />
 
             <label>Distance: </label>
-            <input defaultValue={defaults.distance} type="number" />
+            <input defaultValue={gear.distance} type="number" />
 
             <label>Time: </label>
-            <input defaultValue={defaults.time}type="number" />
+            <input defaultValue={gear.moving_time}type="number" />
 
             <button type="submit">Save</button>
         </form>

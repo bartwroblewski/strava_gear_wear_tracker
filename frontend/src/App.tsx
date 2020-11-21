@@ -33,6 +33,7 @@ interface GearWidgetSubmitParams {
 function App() {
 
   const [gear, setGear] = React.useState<Gear[]>([])
+  const [selectedGearPk, setSelectedGearPk] = React.useState<number>()
   const [authorized, setAuthorized] = React.useState<boolean>()
   const [bikes, setBikes] = React.useState<Bike[]>([])
   const [showGearModal, setShowGearModal] = React.useState<boolean>()
@@ -94,7 +95,8 @@ function App() {
     return <GearWidget
               key={g.pk}
               gear={g}
-              onClick={(gearPk: number) => {
+              onClick={(pk: number) => {
+                setSelectedGearPk(pk)
                 toggleGearModal()
               }}
             />
@@ -136,11 +138,7 @@ function App() {
                     toggle={toggleGearModal}
                     contents={
                       <GearForm
-                        defaults={{
-                          name: gear[0].name,
-                          distance: gear[0].distance,
-                          time: gear[0].moving_time,
-                        }}
+                        gear={gear.filter(x => x.pk === selectedGearPk)[0]}
                         onSubmit={handleGearWidgetSubmit}
                       />
                     }         
