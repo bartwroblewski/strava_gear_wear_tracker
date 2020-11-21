@@ -35,7 +35,7 @@ const GearForm = ({gear, bikes, onSubmit}: GearFormProps) => {
  
     const handleSubmit = async(e) => {
         e.preventDefault()
-        onSubmit(gear.pk, name, distance, days, hours, minutes, seconds, track, bikeIds)
+        onSubmit([gear.pk, name, distance, days, hours, minutes, seconds, track, bikeIds])
     }
 
     const handleBikeOptionChange = (bike: Bike) => {

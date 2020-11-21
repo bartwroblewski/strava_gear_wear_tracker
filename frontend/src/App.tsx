@@ -56,9 +56,9 @@ function App() {
     run()
   }
 
-  const handleGearFormSubmit = (pk, name, distance, days, hours, minutes, seconds, track, bikeIds) => {
+  const handleGearFormSubmit = (params) => {
     const run = async() => {
-      await addOrChangeGear(pk, name, distance, days, hours, minutes, seconds, track, bikeIds)
+      await addOrChangeGear(...params)
       getGear()
       toggleGearModal()
     }
