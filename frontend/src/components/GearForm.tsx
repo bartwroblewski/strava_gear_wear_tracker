@@ -3,6 +3,7 @@ import { Gear, Bike } from '../api'
 import './css/GearForm.css'
 import unitAbbreviations from '../helpers/unitAbbreviations'
 import MultiSelect from './MultiSelect'
+import { addOrChangeGearUrl } from '../urls'
 
 interface GearFormProps {
     gear: Gear,
@@ -31,16 +32,19 @@ const GearForm = ({gear, bikes, onSubmit}: GearFormProps) => {
         setTrack(gear.is_tracked)
         setBikeIds(gear.bikes.map(x => x.ref_id))
     }, [gear])
-
-    React.useEffect(() => console.log(bikeIds), [bikeIds])
  
-    const handleSubmit = e => {
+    const handleSubmit = async(e) => {
         e.preventDefault()
-        console.log('name', name)
-       /*  onSubmit({
-            name: gear.name + 'sdfeg',
-            //pk: gear.pk,
-        }) */
+        let url = addOrChangeGearUrl +
+        `?name=${name}` +
+        `&distance=${distance}` +
+        `&days=${days}` +
+        `&hours=${hours}` +
+        `&minutes=${minutes}` +
+        `&seconds=${seconds}` +
+        `&is_tracked=${track}` +
+        `&bike_ids=${bikeIds.join()}`
+        alert(url)
     }
 
     const handleBikeOptionChange = (bike: Bike) => {
@@ -71,23 +75,23 @@ const GearForm = ({gear, bikes, onSubmit}: GearFormProps) => {
         <form onSubmit={handleSubmit}>
 
             <label>Name :</label>
-            <input value={name} type="text" onChange={e => setName(e.target.value)} />
+            <input value={name} type="text" required onChange={e => setName(e.target.value)} />
 
             <label>Distance: </label>
             <div>
-                <input value={distance} type="number" onChange={e => setDistance(e.target.value)} />
+                <input value={distance} type="number" min="0" required onChange={e => setDistance(e.target.value)} />
                 <span>{unitAbbreviations[gear.athlete.distance_unit]}</span>
             </div>
 
             <label>Time: </label>
             <div>
-                <input value={days}type="number" onChange={e => setDays(e.target.value)} />
+                <input value={days}type="number" min="0" required onChange={e => setDays(e.target.value)} />
                 <label>d</label>  
-                <input value={hours}type="number" onChange={e => setHours(e.target.value)} />
+                <input value={hours}type="number" min="0" required onChange={e => setHours(e.target.value)} />
                 <label>h</label>  
-                <input value={minutes}type="number" onChange={e => setMinutes(e.target.value)} />
+                <input value={minutes}type="number" min="0" required onChange={e => setMinutes(e.target.value)} />
                 <label>m</label>  
-                <input value={seconds}type="number" onChange={e => setSeconds(e.target.value)} />
+                <input value={seconds}type="number" min="0"  required onChange={e => setSeconds(e.target.value)} />
                 <label>s</label>  
             </div>
 

@@ -125,7 +125,7 @@ const addOrChangeGear: Promised<any> = async(
         bikeId?: string, 
         track?: boolean
     ) => {
-        let url = urls.addOrChangeGear +`?name=${gearName}`
+        let url = urls.addOrChangeGearUrl +`?name=${gearName}`
         if (gearPk) url = url + `&gear_pk=${gearPk}`
         if (gearDistance !== undefined) url = url +  `&distance=${gearDistance}`
         if (gearMovingTime !== undefined) url = url +  `&moving_time=${gearMovingTime}`
