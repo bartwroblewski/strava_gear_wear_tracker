@@ -211,14 +211,10 @@ def add_or_change_gear(request):
 
     gear.save()
 
-    '''for bike_id in bike_ids:
+    gear.bikes.clear()
+    for bike_id in bike_ids:
         bike = Bike.objects.get(ref_id=bike_id)
-        if bike in gear.bikes.all():
-            gear.bikes.remove(bike)
-        else:
-            gear.bikes.add(bike)'''
-
-    print(gear)
+        gear.bikes.add(bike)
 
     return HttpResponse('OK')
 
