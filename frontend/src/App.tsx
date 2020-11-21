@@ -65,7 +65,7 @@ function App() {
     run()
   }
 
-  const handleGearWidgetSubmit = ({name, pk, distance, movingTime, bikeId, track}: GearWidgetSubmitParams) => {
+  const handleGearFormSubmit = ({name, pk, distance, movingTime, bikeId, track}: GearWidgetSubmitParams) => {
     const run = async() => {
       await addOrChangeGear(name, pk, distance, movingTime, bikeId, track)
       getGear()
@@ -118,7 +118,7 @@ function App() {
             <div id="top-bar">
               <div className="add-gear-widget">
                 <AddGearWidget
-                  onSubmit={handleGearWidgetSubmit}
+                  onSubmit={handleGearFormSubmit}
                 />
               </div>
               <UnitSwitch
@@ -140,7 +140,7 @@ function App() {
                       <GearForm
                         gear={gear.filter(x => x.pk === selectedGearPk)[0]}
                         bikes={bikes}
-                        onSubmit={handleGearWidgetSubmit}
+                        onSubmit={handleGearFormSubmit}
                       />
                     }         
                   />
