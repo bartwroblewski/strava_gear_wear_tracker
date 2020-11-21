@@ -9,10 +9,9 @@ interface GearFormProps {
     gear: Gear,
     bikes: Bike[]
     onSubmit: any,
-    getGear: any,
 }
 
-const GearForm = ({gear, bikes, onSubmit, getGear}: GearFormProps) => {
+const GearForm = ({gear, bikes, onSubmit}: GearFormProps) => {
 
     const [name, setName] = React.useState<string>()
     const [distance, setDistance] = React.useState<number>()
@@ -36,18 +35,7 @@ const GearForm = ({gear, bikes, onSubmit, getGear}: GearFormProps) => {
  
     const handleSubmit = async(e) => {
         e.preventDefault()
-        let url = addOrChangeGearUrl +
-        `?pk=${gear.pk}` +
-        `&name=${name}` +
-        `&distance=${distance}` +
-        `&days=${days}` +
-        `&hours=${hours}` +
-        `&minutes=${minutes}` +
-        `&seconds=${seconds}` +
-        `&track=${track}` +
-        `&bike_ids=${bikeIds.join()}`
-        await fetch(url)
-        getGear()
+        onSubmit(gear.pk, name, distance, days, hours, minutes, seconds, track, bikeIds)
     }
 
     const handleBikeOptionChange = (bike: Bike) => {
@@ -96,7 +84,7 @@ const GearForm = ({gear, bikes, onSubmit, getGear}: GearFormProps) => {
 
                 <input value={minutes}type="number" min="0" max="59" required onChange={e => setMinutes(e.target.value)} />
                 <label>m</label>  
-                
+
                 <input value={seconds}type="number" min="0" max="59" required onChange={e => setSeconds(e.target.value)} />
                 <label>s</label>  
             </div>

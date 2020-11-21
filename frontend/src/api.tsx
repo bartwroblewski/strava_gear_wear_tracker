@@ -115,27 +115,25 @@ const addGear: Promised<any>  = async(gearName: string, bikeIds: string[],  dist
     alert(text)
 }
 
-const addOrChangeGear: Promised<any> = async(
-        gearName: string, 
-        gearPk?: number,
-        gearDistance?: number, 
-        gearMovingTime?: number,
-        bikeId?: string, 
-        track?: boolean
-    ) => {
-        let url = urls.addOrChangeGearUrl +`?name=${gearName}`
-        if (gearPk) url = url + `&gear_pk=${gearPk}`
-        if (gearDistance !== undefined) url = url +  `&distance=${gearDistance}`
-        if (gearMovingTime !== undefined) url = url +  `&moving_time=${gearMovingTime}`
-        if (bikeId) url = url +  `&bike_id=${bikeId}`
-        if (track !== undefined) url = url + `&is_tracked=${track}`
-            //`&track=${track}`
-        const response = await fetch(url)
-        const text = await response.text()
-        if (response.ok) {
-            return text
-        }
-        alert(text)
+const addOrChangeGear: Promised<any> = async(pk, name, distance, days, hours, minutes, seconds, track, bikeIds) => {
+    let url = urls.addOrChangeGearUrl +
+    `?pk=${pk}` +
+    `&name=${name}` +
+    `&distance=${distance}` +
+    `&days=${days}` +
+    `&hours=${hours}` +
+    `&minutes=${minutes}` +
+    `&seconds=${seconds}` +
+    `&track=${track}` +
+    `&bike_ids=${bikeIds.join()}`
+
+    const response = await fetch(url)
+    const text = await response.text()
+    
+    if (response.ok) {
+        return text
+    }
+    alert(text)
 }
 
 export const changeAthlete: Promised<any> = async(field: string, value: string) => {

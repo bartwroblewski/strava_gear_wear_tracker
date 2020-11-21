@@ -21,15 +21,6 @@ import {
   changeAthlete,
 } from './api'
 
-interface GearWidgetSubmitParams {
-  name: string,
-  pk?: string,
-  distance?: number,
-  movingTime?: number,
-  bikeId?: string,
-  track?: boolean,
-}
-
 function App() {
 
   const [gear, setGear] = React.useState<Gear[]>([])
@@ -65,10 +56,11 @@ function App() {
     run()
   }
 
-  const handleGearFormSubmit = ({name, pk, distance, movingTime, bikeId, track}: GearWidgetSubmitParams) => {
+  const handleGearFormSubmit = (pk, name, distance, days, hours, minutes, seconds, track, bikeIds) => {
     const run = async() => {
-      await addOrChangeGear(name, pk, distance, movingTime, bikeId, track)
+      await addOrChangeGear(pk, name, distance, days, hours, minutes, seconds, track, bikeIds)
       getGear()
+      toggleGearModal()
     }
     run()
   }
@@ -135,7 +127,6 @@ function App() {
                     toggle={toggleGearModal}
                     contents={
                       <GearForm
-                        getGear={getGear}
                         gear={gear.filter(x => x.pk === selectedGearPk)[0]}
                         bikes={bikes}
                         onSubmit={handleGearFormSubmit}
