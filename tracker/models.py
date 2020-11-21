@@ -54,24 +54,12 @@ class Gear(models.Model):
         }
 
     @property
-    def test(self):
-        return {'a': 'b'}
-
-    @property
     def distance_in_athlete_unit(self):
         return round(from_meters(self.distance, self.athlete.distance_unit), 2)
 
-    @property
-    def converted_time(self):
-        return from_seconds(self.moving_time, self.athlete.time_unit)
-
-    def convert_distance(self, distance):
+    def distance_to_meters(self, distance):
         unit = self.athlete.distance_unit
         self.distance = to_meters(distance, unit)
-
-    def convert_moving_time(self, time):
-        unit = self.athlete.time_unit
-        self.moving_time = to_seconds(time, unit)
 
     def __str__(self):
         return f'{self.name}, athlete: {self.athlete.ref_id}, is tracked: {self.is_tracked}'

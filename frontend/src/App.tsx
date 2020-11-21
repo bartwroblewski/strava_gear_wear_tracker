@@ -4,7 +4,7 @@ import { authorizeUrl } from './urls'
 import './components/css/App.css'
 import Test from './components/Test'
 import { GearWidget, AddGearWidget } from './components/GearWidget'
-import UnitSwitch from './components/UnitSwitch'
+import DistanceSwitch from './components/DistanceSwitch'
 import Modal from './components/Modal'
 import GearForm from './components/GearForm'
 
@@ -121,11 +121,8 @@ function App() {
                   onSubmit={handleGearFormSubmit}
                 />
               </div>
-              <UnitSwitch
-                selectedUnits={{
-                  distance: gear.length ? gear[0].athlete.distance_unit : null,
-                  time: gear.length ? gear[0].athlete.time_unit : null
-                }}
+              <DistanceSwitch
+                selectedUnit={gear.length ? gear[0].athlete.distance_unit : null}
                 onChange={handleAthleteChange}
               />
             </div>

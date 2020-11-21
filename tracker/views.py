@@ -184,13 +184,13 @@ def add_or_change_gear(request):
 
     pk = request.GET.get('pk')
     name = request.GET.get('name')
-    distance = request.GET.get('distance')
-    days = request.GET.get('days')
-    hours = request.GET.get('hours')
-    minutes = request.GET.get('minutes')
-    seconds = request.GET.get('seconds')
-    is_tracked = request.GET.get('track')
-    bike_ids = request.GET.get('bike_ids')
+    distance = float(request.GET.get('distance'))
+    days = int(request.GET.get('days'))
+    hours = int(request.GET.get('hours'))
+    minutes = int(request.GET.get('minutes'))
+    seconds = int(request.GET.get('seconds'))
+    is_tracked = json.loads(request.GET.get('track'))
+    bike_ids = request.GET.get('bike_ids').split(',')
     print(request.GET)
     
     try:
@@ -200,17 +200,15 @@ def add_or_change_gear(request):
         gear.athlete = athlete  
         
     gear.name = name
-    gear.convert_distance(float(distance))
-
-    '''if moving_time:
-        gear.convert_moving_time(int(moving_time))'''
+    gear.distance_to_meters(distance)
+    gear.moving_time  = days * 86400 + hours * 3600 + minutes * 60 + seconds
+    gear.is_tracked = is_tracked
 
     try:
         gear.full_clean() # validate gear uniqueness per athlete
     except ValidationError as e:
         return HttpResponseServerError('; '.join(e.messages))
 
-    gear.is_tracked = json.loads(is_tracked)
     gear.save()
 
     '''for bike_id in bike_ids:

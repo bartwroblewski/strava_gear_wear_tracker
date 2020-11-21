@@ -31,9 +31,7 @@ export interface Gear {
     is_tracked: boolean,
     athlete: Athlete,
     bikes: GearBike[],
-    distance_in_athlete_unit: number,
-    converted_time: number,
-}
+    distance_in_athlete_unit: number,}
 
 export interface Bike {
     id: string,

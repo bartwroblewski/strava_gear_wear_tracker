@@ -1,5 +1,5 @@
 import React from 'react'
-import './css/UnitSwitch.css'
+import './css/DistanceSwitch.css'
 import capitalize from '../helpers/capitalize'
 
 interface SwitchProps {
@@ -42,27 +42,4 @@ const DistanceSwitch = ({selectedUnit, onChange}: {selectedUnit: string, onChang
     )
 }
 
-const TimeSwitch = ({selectedUnit, onChange}: {selectedUnit: string, onChange: any}) => {
-    return (
-        <Switch 
-            label="time"
-            options={['hour', 'day']}
-            selectedUnit={selectedUnit}
-            onChange={onChange}
-        />
-    )
-}
-interface UnitSwitchProps {
-    selectedUnits: {distance: string, time: string},
-    onChange: any,
-}
-
-const UnitSwitch = ({selectedUnits, onChange}: UnitSwitchProps) => {
-    return (
-        <div id="unit-switch">
-            <DistanceSwitch selectedUnit={selectedUnits.distance} onChange={onChange} />
-            <TimeSwitch selectedUnit={selectedUnits.time} onChange={onChange} />
-        </div>
-    )
-}
-export default UnitSwitch
+export default DistanceSwitch
