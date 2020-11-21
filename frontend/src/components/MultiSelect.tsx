@@ -25,11 +25,9 @@ const MultiSelect = ({options}: MultiSelectProps) => {
           </div>
           {show 
               ?
-                  <div 
-                    className="multi-select-options-container"
-                  >
-                      {options}
-                  </div>
+                <div className="multi-select-options-container">
+                    {options}
+                </div>
               : null
           }
       </div>

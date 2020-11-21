@@ -1,10 +1,12 @@
 import React from 'react'
-import { Gear } from '../api'
+import { Gear, Bike } from '../api'
 import './css/GearForm.css'
 import unitAbbreviations from '../helpers/unitAbbreviations'
+import MultiSelect from './MultiSelect'
 
 interface GearFormProps {
     gear: Gear,
+    bikes: Bike[]
     onSubmit: any,
 }
 
@@ -39,6 +41,14 @@ const GearForm = ({gear, onSubmit}: GearFormProps) => {
                 <input defaultValue={gear.duration.seconds}type="number" />
                 <label>s</label>  
             </div>
+
+            <label>Track: </label>
+            <input type="checkbox" />
+
+            <MultiSelect options={[
+                
+
+            ]} />
 
             <button type="submit">Save</button>
         </form>

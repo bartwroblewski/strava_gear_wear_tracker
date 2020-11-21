@@ -139,6 +139,7 @@ function App() {
                     contents={
                       <GearForm
                         gear={gear.filter(x => x.pk === selectedGearPk)[0]}
+                        bikes={bikes}
                         onSubmit={handleGearWidgetSubmit}
                       />
                     }         
