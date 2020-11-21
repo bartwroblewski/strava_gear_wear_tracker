@@ -10,7 +10,21 @@ interface GearFormProps {
     onSubmit: any,
 }
 
-const GearForm = ({gear, onSubmit}: GearFormProps) => {
+const GearForm = ({gear, bikes, onSubmit}: GearFormProps) => {
+
+    const bikeOptions = bikes.map(bike => {
+        return (
+          <div className="multi-select-option">
+            <input 
+                type="checkbox"
+                checked={gear.bikes.map(x => x.name).includes(bike.name)}
+                onChange={e => onSubmit({name: gear.name, bikeId: bike.id, pk: gear.pk})}
+            />
+            <div>{bike.name}</div>
+         </div>
+        )
+      })
+
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -45,10 +59,7 @@ const GearForm = ({gear, onSubmit}: GearFormProps) => {
             <label>Track: </label>
             <input type="checkbox" />
 
-            <MultiSelect options={[
-                
-
-            ]} />
+            <MultiSelect options={bikeOptions} />
 
             <button type="submit">Save</button>
         </form>
