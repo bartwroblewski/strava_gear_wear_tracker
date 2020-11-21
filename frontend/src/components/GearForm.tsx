@@ -90,11 +90,14 @@ const GearForm = ({gear, bikes, onSubmit, getGear}: GearFormProps) => {
             <div>
                 <input value={days}type="number" min="0" required onChange={e => setDays(e.target.value)} />
                 <label>d</label>  
-                <input value={hours}type="number" min="0" required onChange={e => setHours(e.target.value)} />
+
+                <input value={hours}type="number" min="0" max="23" required onChange={e => setHours(e.target.value)} />
                 <label>h</label>  
-                <input value={minutes}type="number" min="0" required onChange={e => setMinutes(e.target.value)} />
+
+                <input value={minutes}type="number" min="0" max="59" required onChange={e => setMinutes(e.target.value)} />
                 <label>m</label>  
-                <input value={seconds}type="number" min="0"  required onChange={e => setSeconds(e.target.value)} />
+                
+                <input value={seconds}type="number" min="0" max="59" required onChange={e => setSeconds(e.target.value)} />
                 <label>s</label>  
             </div>
 
