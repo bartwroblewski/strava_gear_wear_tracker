@@ -182,42 +182,43 @@ def add_or_change_gear(request):
     athlete_id = request.session['tokendata']['athlete']['id']
     athlete = Athlete.objects.get(ref_id=athlete_id)
 
-    gear_pk = request.GET.get('gear_pk')
+    pk = request.GET.get('pk')
     name = request.GET.get('name')
     distance = request.GET.get('distance')
-    moving_time = request.GET.get('moving_time')
-    bike_id = request.GET.get('bike_id')
-    is_tracked = request.GET.get('is_tracked')
+    days = request.GET.get('days')
+    hours = request.GET.get('hours')
+    minutes = request.GET.get('minutes')
+    seconds = request.GET.get('seconds')
+    is_tracked = request.GET.get('track')
+    bike_ids = request.GET.get('bike_ids')
     print(request.GET)
     
     try:
-        gear = Gear.objects.get(pk=gear_pk)
+        gear = Gear.objects.get(pk=pk)
     except Gear.DoesNotExist:
         gear = Gear()
         gear.athlete = athlete  
         
     gear.name = name
+    gear.convert_distance(float(distance))
 
-    if distance:
-        gear.convert_distance(float(distance))
-    if moving_time:
-        gear.convert_moving_time(int(moving_time))
+    '''if moving_time:
+        gear.convert_moving_time(int(moving_time))'''
 
     try:
         gear.full_clean() # validate gear uniqueness per athlete
     except ValidationError as e:
         return HttpResponseServerError('; '.join(e.messages))
 
-    if is_tracked:
-        gear.is_tracked = json.loads(is_tracked)
+    gear.is_tracked = json.loads(is_tracked)
     gear.save()
 
-    if bike_id:
+    '''for bike_id in bike_ids:
         bike = Bike.objects.get(ref_id=bike_id)
         if bike in gear.bikes.all():
             gear.bikes.remove(bike)
         else:
-            gear.bikes.add(bike)
+            gear.bikes.add(bike)'''
 
     print(gear)
 

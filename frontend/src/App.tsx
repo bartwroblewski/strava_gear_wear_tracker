@@ -138,6 +138,7 @@ function App() {
                     toggle={toggleGearModal}
                     contents={
                       <GearForm
+                        getGear={getGear}
                         gear={gear.filter(x => x.pk === selectedGearPk)[0]}
                         bikes={bikes}
                         onSubmit={handleGearFormSubmit}
