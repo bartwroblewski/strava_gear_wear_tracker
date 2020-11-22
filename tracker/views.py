@@ -191,8 +191,6 @@ def add_or_change_gear(request):
     seconds = int(request.GET.get('seconds'))
     is_tracked = json.loads(request.GET.get('track'))
     bike_ids = request.GET.get('bike_ids')
-    print(request.GET)
-    print(pk, name, bike_ids)
     
     try:
         gear = Gear.objects.get(pk=pk)

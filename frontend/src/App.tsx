@@ -23,9 +23,9 @@ import {
 
 function App() {
 
-  const [gear, setGear] = React.useState<Gear[]>([])
-  const [selectedGearPk, setSelectedGearPk] = React.useState<number>()
   const [authorized, setAuthorized] = React.useState<boolean>()
+  const [gear, setGear] = React.useState<Gear[]>([])
+  const [selectedGear, setSelectedGear] = React.useState<Gear>()
   const [bikes, setBikes] = React.useState<Bike[]>([])
   const [showGearModal, setShowGearModal] = React.useState<boolean>()
 
@@ -56,6 +56,14 @@ function App() {
     run()
   }
 
+  const handleAthleteChange = (field: string, value: string) => {
+    const run = async() => {
+      await changeAthlete(field, value)
+      getGear()
+    }
+    run()
+  }
+
   const handleGearFormSubmit = (params) => {
     const run = async() => {
       await addOrChangeGear(...params)
@@ -65,17 +73,14 @@ function App() {
     run()
   }
 
+  const handleGearWidgetClick = (pk: number) => {
+    setSelectedGear(gear.filter(x => x.pk === pk)[0])
+    toggleGearModal()
+  }
+
   const handleGearWidgetDelete = (gearPk: number) => {
     const run = async() => {
       await deleteGear(gearPk)
-      getGear()
-    }
-    run()
-  }
-
-  const handleAthleteChange = (field: string, value: string) => {
-    const run = async() => {
-      await changeAthlete(field, value)
       getGear()
     }
     run()
@@ -87,10 +92,7 @@ function App() {
     return <GearWidget
               key={g.pk}
               gear={g}
-              onClick={(pk: number) => {
-                setSelectedGearPk(pk)
-                toggleGearModal()
-              }}
+              onClick={handleGearWidgetClick}
             />
   })
 
@@ -102,8 +104,6 @@ function App() {
     }
   }, [authorized])
 
-  const selectedGear = () => gear.filter(x => x.pk === selectedGearPk)[0]
-
   return (
     <div>
       {authorized
@@ -111,7 +111,7 @@ function App() {
           <div id="main-page">
             <div id="top-bar">
               <button type="button" onClick={() => {
-                setSelectedGearPk(null)
+                setSelectedGear(null)
                 toggleGearModal()
               }}>Add gear</button>
               <DistanceSwitch
@@ -129,20 +129,20 @@ function App() {
                     contents={
                       <GearForm
                         defaults={
-                          selectedGearPk
+                          selectedGear
                             ? {
-                              pk: selectedGear().pk,
-                              name: selectedGear().name,
-                              distance_unit: selectedGear().athlete.distance_unit,
-                              distance_in_athlete_unit: selectedGear().distance_in_athlete_unit,    
+                              pk: selectedGear.pk,
+                              name: selectedGear.name,
+                              distance_unit: selectedGear.athlete.distance_unit,
+                              distance_in_athlete_unit: selectedGear.distance_in_athlete_unit,    
                               duration: {
-                                days: selectedGear().duration.days,
-                                hours: selectedGear().duration.hours,
-                                minutes: selectedGear().duration.minutes,
-                                seconds: selectedGear().duration.seconds,
+                                days: selectedGear.duration.days,
+                                hours: selectedGear.duration.hours,
+                                minutes: selectedGear.duration.minutes,
+                                seconds: selectedGear.duration.seconds,
                               },
-                              track: selectedGear().is_tracked,
-                              bikeIds: selectedGear().bikes.map(x => x.ref_id)
+                              track: selectedGear.is_tracked,
+                              bikeIds: selectedGear.bikes.map(x => x.ref_id)
                             }                             
                             : {
                               pk: 0,
