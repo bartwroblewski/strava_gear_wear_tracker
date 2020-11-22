@@ -1,7 +1,7 @@
 .gear-widget {
     border: 1px solid black;
     width: 250px;
-    margin: 10px;
+    margin: 10px;    
 }
 
 .gear-widget:hover {
@@ -16,10 +16,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 5px;
-}
-
-.gear-name:hover::before {
-    content: attr(gear-name);
 }
 
 .stats {
