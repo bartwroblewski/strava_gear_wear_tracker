@@ -102,24 +102,25 @@ function App() {
     }
   }, [authorized])
 
+  const selectedGear = () => gear.filter(x => x.pk === selectedGearPk)[0]
+
   return (
     <div>
       {authorized
         ? 
           <div id="main-page">
             <div id="top-bar">
-              <div className="add-gear-widget">
-                <AddGearWidget
-                  onSubmit={handleGearFormSubmit}
-                />
-              </div>
+              <button type="button" onClick={() => {
+                setSelectedGearPk(null)
+                toggleGearModal()
+              }}>Add gear</button>
               <DistanceSwitch
                 selectedUnit={gear.length ? gear[0].athlete.distance_unit : null}
                 onChange={handleAthleteChange}
               />
             </div>
             <div className="gear-widgets">
-              {gearWidgets}
+              {gearWidgets}   
             </div>
             <div>
               {showGearModal
@@ -127,7 +128,36 @@ function App() {
                     toggle={toggleGearModal}
                     contents={
                       <GearForm
-                        gear={gear.filter(x => x.pk === selectedGearPk)[0]}
+                        defaults={
+                          selectedGearPk
+                            ? {
+                              pk: selectedGear().pk,
+                              name: selectedGear().name,
+                              distance_unit: selectedGear().athlete.distance_unit,
+                              distance_in_athlete_unit: selectedGear().distance_in_athlete_unit,    
+                              duration: {
+                                days: selectedGear().duration.days,
+                                hours: selectedGear().duration.hours,
+                                minutes: selectedGear().duration.minutes,
+                                seconds: selectedGear().duration.seconds,
+                              },
+                              track: selectedGear().is_tracked,
+                              bikeIds: selectedGear().bikes.map(x => x.ref_id)
+                            }                             
+                            : {
+                              name: '',
+                              distance_unit: gear[0].athlete.distance_unit,
+                              distance_in_athlete_unit: 0,   
+                              duration: {
+                                days: 0,
+                                hours: 0,
+                                minutes: 0,
+                                seconds: 0,
+                              },
+                              track: true,
+                              bikeIds: [],
+                            }            
+                        }
                         bikes={bikes}
                         onSubmit={handleGearFormSubmit}
                       />

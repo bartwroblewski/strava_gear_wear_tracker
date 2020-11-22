@@ -1,17 +1,34 @@
 import React from 'react'
-import { Gear, Bike } from '../api'
+import { Bike } from '../api'
 import './css/GearForm.css'
 import unitAbbreviations from '../helpers/unitAbbreviations'
 import MultiSelect from './MultiSelect'
 import { addOrChangeGearUrl } from '../urls'
 
+interface Duration {
+    days: number,
+    hours: number,
+    minutes: number,
+    seconds: number,
+}
+
+interface GearFormDefaults {
+    pk?: number,
+    name: string,
+    distance_unit: string,
+    distance_in_athlete_unit: number,    
+    duration: Duration,
+    track: boolean,
+    bikeIds: string[],
+}
+
 interface GearFormProps {
-    gear: Gear,
-    bikes: Bike[]
+    defaults: GearFormDefaults,
+    bikes: Bike[],
     onSubmit: any,
 }
 
-const GearForm = ({gear, bikes, onSubmit}: GearFormProps) => {
+const GearForm = ({defaults, bikes, onSubmit}: GearFormProps) => {
 
     const [name, setName] = React.useState<string>()
     const [distance, setDistance] = React.useState<number>()
@@ -23,19 +40,19 @@ const GearForm = ({gear, bikes, onSubmit}: GearFormProps) => {
     const [bikeIds, setBikeIds] = React.useState<string[]>([])
 
     React.useEffect(() => {
-        setName(gear.name)
-        setDistance(gear.distance_in_athlete_unit)
-        setDays(gear.duration.days)
-        setHours(gear.duration.hours)
-        setMinutes(gear.duration.minutes)
-        setSeconds(gear.duration.seconds)
-        setTrack(gear.is_tracked)
-        setBikeIds(gear.bikes.map(x => x.ref_id))
-    }, [gear])
+        setName(defaults.name)
+        setDistance(defaults.distance_in_athlete_unit)
+        setDays(defaults.duration.days)
+        setHours(defaults.duration.hours)
+        setMinutes(defaults.duration.minutes)
+        setSeconds(defaults.duration.seconds)
+        setTrack(defaults.track)
+        setBikeIds(defaults.bikeIds)
+    }, [defaults])
  
     const handleSubmit = async(e) => {
         e.preventDefault()
-        onSubmit([gear.pk, name, distance, days, hours, minutes, seconds, track, bikeIds])
+        onSubmit([defaults.pk, name, distance, days, hours, minutes, seconds, track, bikeIds])
     }
 
     const handleBikeOptionChange = (bike: Bike) => {
@@ -54,7 +71,7 @@ const GearForm = ({gear, bikes, onSubmit}: GearFormProps) => {
             <input 
                 type="checkbox"
                 checked={bikeIds.includes(bike.id)}
-                /* onChange={e => onSubmit({name: gear.name, bikeId: bike.id, pk: gear.pk})} */
+                /* onChange={e => onSubmit({name: defaults.name, bikeId: bike.id, pk: defaults.pk})} */
                 onChange={() => handleBikeOptionChange(bike)}
             />
             <div>{bike.name}</div>
@@ -71,7 +88,7 @@ const GearForm = ({gear, bikes, onSubmit}: GearFormProps) => {
             <label>Distance: </label>
             <div>
                 <input value={distance} type="number" min="0" step="0.01" required onChange={e => setDistance(e.target.value)} />
-                <span>{unitAbbreviations[gear.athlete.distance_unit]}</span>
+                <span>{unitAbbreviations[defaults.distance_unit]}</span>
             </div>
 
             <label>Time: </label>
