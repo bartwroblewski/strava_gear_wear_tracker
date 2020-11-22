@@ -13,7 +13,7 @@ interface Duration {
 }
 
 interface GearFormDefaults {
-    pk?: number,
+    pk: number,
     name: string,
     distance_unit: string,
     distance_in_athlete_unit: number,    

@@ -190,8 +190,9 @@ def add_or_change_gear(request):
     minutes = int(request.GET.get('minutes'))
     seconds = int(request.GET.get('seconds'))
     is_tracked = json.loads(request.GET.get('track'))
-    bike_ids = request.GET.get('bike_ids').split(',')
+    bike_ids = request.GET.get('bike_ids')
     print(request.GET)
+    print(pk, name, bike_ids)
     
     try:
         gear = Gear.objects.get(pk=pk)
@@ -213,7 +214,7 @@ def add_or_change_gear(request):
 
     if bike_ids:
         gear.bikes.clear()
-        for bike_id in bike_ids:
+        for bike_id in bike_ids.split(','):
             bike = Bike.objects.get(ref_id=bike_id)
             gear.bikes.add(bike)
 

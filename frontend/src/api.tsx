@@ -125,8 +125,11 @@ const addOrChangeGear: Promised<any> = async(pk, name, distance, days, hours, mi
     `&hours=${hours}` +
     `&minutes=${minutes}` +
     `&seconds=${seconds}` +
-    `&track=${track}` +
-    `&bike_ids=${bikeIds.join()}`
+    `&track=${track}` 
+
+    if (bikeIds.length) {
+        url = url + `&bike_ids=${bikeIds.join()}`
+    }
 
     const response = await fetch(url)
     const text = await response.text()

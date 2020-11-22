@@ -145,6 +145,7 @@ function App() {
                               bikeIds: selectedGear().bikes.map(x => x.ref_id)
                             }                             
                             : {
+                              pk: 0,
                               name: '',
                               distance_unit: gear[0].athlete.distance_unit,
                               distance_in_athlete_unit: 0,   
