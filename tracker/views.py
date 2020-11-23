@@ -156,40 +156,6 @@ def delete_gear(request, gear_pk):
     gear.delete()
     return HttpResponse('OK')
 
-def add_gear(request):
-    athlete_id = request.session['tokendata']['athlete']['id']
-    athlete = Athlete.objects.get(ref_id=athlete_id)
-
-    gear_name = request.GET.get('gear_name')
-    distance = float(request.GET.get('distance'))
-    track = json.loads(request.GET.get('track'))
-    bike_ids = request.GET.get('bike_ids').split(',')
-
-    print(request.GET)
-    print(gear_name, distance, track, bike_ids)
-
-    gear = Gear(
-        name=gear_name,
-        athlete=athlete,
-    )
-    try:
-        gear.full_clean() # validate gear uniqueness per athlete
-    except:
-        #raise
-        return HttpResponseServerError('Gear name already exists. Please use a unique name.')
-    gear.distance = distance
-    gear.is_tracked = track
-    gear.save()
-
-    for bike_id in bike_ids:
-        try:
-            bike = Bike.objects.get(ref_id=bike_id)
-        except Bike.DoesNotExist:
-            bike = None
-        if bike:
-            gear.bikes.add(bike)
-    return HttpResponse('OK')
-
 def add_or_change_gear(request):
     athlete_id = request.session['tokendata']['athlete']['id']
     athlete = Athlete.objects.get(ref_id=athlete_id)
@@ -227,7 +193,6 @@ def add_or_change_gear(request):
         for bike_id in bike_ids.split(','):
             bike = Bike.objects.get(ref_id=bike_id)
             gear.bikes.add(bike)
-
     return HttpResponse('OK')
 
 def change_athlete_field(request):
@@ -307,6 +272,7 @@ def callback(request):
             gear.moving_time += activity['moving_time']
             gear.elapsed_time += activity['elapsed_time']
             gear.save()
+            gear.send_milestone_notifications()
         return HttpResponse('OK')
 
 def view_subscription(request):

@@ -14,7 +14,6 @@ urlpatterns = [
     path('athlete', views.AthleteViewSet.as_view({'get': 'list'}), name='athlete'),
     path('toggle_gear_tracking/<str:gear_name>', views.toggle_gear_tracking, name='toggle_gear_tracking'),
     path('delete_gear/<int:gear_pk>', views.delete_gear, name='delete_gear'),
-    path('add_gear', views.add_gear, name='add_gear'),
     path('add_or_change_gear', views.add_or_change_gear, name='add_or_change_gear'),
     path('change_athlete_field', views.change_athlete_field, name='change_athlete_field'),
     path('subscribe', views.subscribe, name='subscribe'),

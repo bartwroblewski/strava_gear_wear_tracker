@@ -9,8 +9,7 @@ import Modal from './components/Modal'
 import GearForm from './components/GearForm'
 
 import { 
-  fetchAuthorizationStatus, 
-  fetchUserGear, 
+  fetchAuthorizationStatus,  
   fetchAthlete,
   refreshAthleteBikes,
   Athlete,
@@ -18,7 +17,6 @@ import {
   Bike, 
   toggleGearTracking,
   deleteGear, 
-  addGear, 
   addOrChangeGear,
   changeAthlete,
 } from './api'
