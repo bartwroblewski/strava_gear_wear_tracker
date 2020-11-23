@@ -26,7 +26,6 @@ import {
 function App() {
 
   const [authorized, setAuthorized] = React.useState<boolean>()
-  const [gear, setGear] = React.useState<Gear[]>([])
   const [athlete, setAthlete] = React.useState<Athlete>()
   const [selectedGear, setSelectedGear] = React.useState<Gear>()
   const [bikes, setBikes] = React.useState<Bike[]>([])
@@ -37,15 +36,6 @@ function App() {
       const json = await fetchAuthorizationStatus()
       console.log('Authorized?: ',json.authorized)
       setAuthorized(json.authorized)
-    }
-    run()
-  }
-  
-  const getGear = () => {
-    const run = async() => {
-      const json = await fetchUserGear()     
-      console.log('User gear: ', json)
-      setGear(json)
     }
     run()
   }
@@ -71,7 +61,7 @@ function App() {
   const handleAthleteChange = (field: string, value: string) => {
     const run = async() => {
       await changeAthlete(field, value)
-      getGear()
+      getAthlete()
     }
     run()
   }
@@ -79,7 +69,7 @@ function App() {
   const handleGearFormSubmit = (params) => {
     const run = async() => {
       await addOrChangeGear(...params)
-      getGear()
+      getAthlete()
       toggleGearModal()
     }
     run()
@@ -93,7 +83,7 @@ function App() {
   const handleGearWidgetDelete = (gearPk: number) => {
     const run = async() => {
       await deleteGear(gearPk)
-      getGear()
+      getAthlete()
     }
     run()
   }
