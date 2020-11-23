@@ -6,10 +6,11 @@ import unitAbbreviations from '../helpers/unitAbbreviations'
 interface GearWidgetProps {
     key: number,
     gear: Gear,
+    distanceUnit: string,
     onClick: any,
 }
 
-export const GearWidget = ({gear, onClick}: GearWidgetProps) => {
+export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
     return (
         <div className="gear-widget" onClick={() => onClick(gear.pk)}>
             <div className="gear-name">{gear.name}</div>
@@ -19,7 +20,7 @@ export const GearWidget = ({gear, onClick}: GearWidgetProps) => {
                     <div>
                         <div className="stat-value">
                             {gear.distance_in_athlete_unit}
-                            <span>{' ' + unitAbbreviations[gear.athlete.distance_unit]}</span>
+                            <span>{' ' + unitAbbreviations[distanceUnit]}</span>
                         </div>
                     </div>
                 </li>

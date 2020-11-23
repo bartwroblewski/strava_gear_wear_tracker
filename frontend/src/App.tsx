@@ -11,7 +11,9 @@ import GearForm from './components/GearForm'
 import { 
   fetchAuthorizationStatus, 
   fetchUserGear, 
+  fetchAthlete,
   refreshAthleteBikes,
+  Athlete,
   Gear, 
   Bike, 
   toggleGearTracking,
@@ -24,7 +26,7 @@ import {
 function App() {
 
   const [authorized, setAuthorized] = React.useState<boolean>()
-  const [gear, setGear] = React.useState<Gear[]>([])
+  const [athlete, setAthlete] = React.useState<Athlete>()
   const [selectedGear, setSelectedGear] = React.useState<Gear>()
   const [bikes, setBikes] = React.useState<Bike[]>([])
   const [showGearModal, setShowGearModal] = React.useState<boolean>()
@@ -37,12 +39,12 @@ function App() {
     }
     run()
   }
-  
-  const getGear = () => {
+
+  const getAthlete = () => {
     const run = async() => {
-      const json = await fetchUserGear()     
-      console.log('User gear: ', json)
-      setGear(json)
+      const json = await fetchAthlete()     
+      console.log('Athlete: ', json[0])
+      setAthlete(json[0])
     }
     run()
   }
@@ -59,7 +61,7 @@ function App() {
   const handleAthleteChange = (field: string, value: string) => {
     const run = async() => {
       await changeAthlete(field, value)
-      getGear()
+      getAthlete()
     }
     run()
   }
@@ -67,39 +69,40 @@ function App() {
   const handleGearFormSubmit = (params) => {
     const run = async() => {
       await addOrChangeGear(...params)
-      getGear()
+      getAthlete()
       toggleGearModal()
     }
     run()
   }
 
   const handleGearWidgetClick = (pk: number) => {
-    setSelectedGear(gear.filter(x => x.pk === pk)[0])
+    setSelectedGear(athlete.gear.filter(x => x.pk === pk)[0])
     toggleGearModal()
   }
 
   const handleGearWidgetDelete = (gearPk: number) => {
     const run = async() => {
       await deleteGear(gearPk)
-      getGear()
+      getAthlete()
     }
     run()
   }
 
   const toggleGearModal = () => setShowGearModal(prev => !prev)
 
-  const gearWidgets = gear.map(g => {
+  const gearWidgets = athlete ? athlete.gear.map(g => {
     return <GearWidget
               key={g.pk}
               gear={g}
+              distanceUnit={athlete.distance_unit}
               onClick={handleGearWidgetClick}
             />
-  })
+  }) : []
 
   React.useEffect(getAuthorizationStatus, [])
   React.useEffect(() => {
     if (authorized) {
-      getGear()
+      getAthlete()
       refreshAthBikes()
     }
   }, [authorized])
@@ -115,7 +118,7 @@ function App() {
                 toggleGearModal()
               }}>Add gear</button>
               <DistanceSwitch
-                selectedUnit={gear.length ? gear[0].athlete.distance_unit : null}
+                selectedUnit={athlete ? athlete.distance_unit : null}
                 onChange={handleAthleteChange}
               />
             </div>
@@ -133,7 +136,7 @@ function App() {
                             ? {
                               pk: selectedGear.pk,
                               name: selectedGear.name,
-                              distance_unit: selectedGear.athlete.distance_unit,
+                              distance_unit: athlete.distance_unit,
                               distance_in_athlete_unit: selectedGear.distance_in_athlete_unit,    
                               duration: {
                                 days: selectedGear.duration.days,
@@ -147,7 +150,7 @@ function App() {
                             : {
                               pk: 0,
                               name: '',
-                              distance_unit: gear[0].athlete.distance_unit,
+                              distance_unit: athlete.distance_unit,
                               distance_in_athlete_unit: 0,   
                               duration: {
                                 days: 0,

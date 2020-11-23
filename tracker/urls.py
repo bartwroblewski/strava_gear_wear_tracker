@@ -11,6 +11,7 @@ urlpatterns = [
     path('show_activity', views.show_activity, name='show_activity'),
     path('handle_new_activity_creation', views.handle_new_activity_creation, name='handle_new_activity_creation'),
     path('user_gear', views.GearViewSet.as_view({'get': 'list'}), name='user_gear'),
+    path('athlete', views.AthleteViewSet.as_view({'get': 'list'}), name='athlete'),
     path('toggle_gear_tracking/<str:gear_name>', views.toggle_gear_tracking, name='toggle_gear_tracking'),
     path('delete_gear/<int:gear_pk>', views.delete_gear, name='delete_gear'),
     path('add_gear', views.add_gear, name='add_gear'),
