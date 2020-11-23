@@ -39,10 +39,16 @@ class Gear(models.Model):
     ) """
 
     @property
-    def remaining_to_milestones(self):
+    def milestones(self):
         return {
-            'moving_time': self._moving_time_milestone - self._moving_time,
-            'distance': 1,
+            'moving_time': {
+                'target': self.moving_time_milestone,
+                'remaining': self.moving_time_milestone - self.moving_time,
+            },
+            'distance': {
+                'target': 0,
+                'remaining': 0,
+            }
         }
 
     def send_milestone_notifications(self):

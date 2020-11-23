@@ -16,6 +16,16 @@ interface GearDuration {
     seconds: number,
 }
 
+interface Milestone {
+    target: number,
+    remaining: number,
+}
+
+interface Milestones {
+    moving_time: Milestone,
+    distance: Milestone,
+}
+
 export interface Gear {
     pk: number,
     name: string,
@@ -26,7 +36,7 @@ export interface Gear {
     athlete: Athlete,
     bikes: GearBike[],
     distance_in_athlete_unit: number,
-    remaining_to_milestones: {moving_time: number, distance: number},
+    milestones: Milestones,
 }
 
 export interface Athlete {

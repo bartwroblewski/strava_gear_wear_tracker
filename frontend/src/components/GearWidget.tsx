@@ -30,11 +30,11 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
                 </li>
                 <li className="stat">
                     <div className="stat-name">Time remaining to milestone</div>
-                    <div className="stat-value">{gear.remaining_to_milestones.moving_time}</div>
+                    <div className="stat-value">{gear.milestones.moving_time.remaining}</div>
                 </li>
                 <li className="stat">
                     <div className="stat-name">Distance remaining to milestone</div>
-                    <div className="stat-value">{gear.remaining_to_milestones.distance}</div>
+                    <div className="stat-value">{gear.milestones.distance.remaining}</div>
                 </li>
             </ul>
         </div>
