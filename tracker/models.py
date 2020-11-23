@@ -39,16 +39,24 @@ class Gear(models.Model):
     ) """
 
     @property
+    def remaining_to_milestones(self):
+        return {
+            'moving_time': self._moving_time_milestone - self._moving_time,
+            'distance': 1,
+        }
+
+    def send_milestone_notifications(self):
+        #if self.moving_time >= self.moving_time_milestone and self.moving_time_milestone > 0:
+        if self.remaining_to_milestones['moving_time'] <= 0:
+            print(f"SENDING EMAIL FOR GEAR: {self.name}")
+
+    @property
     def moving_time(self):
         return self._moving_time
     
     @moving_time.setter
     def moving_time(self, seconds):
         self._moving_time = seconds
-
-    def send_milestone_notifications(self):
-        if self.moving_time >= self.moving_time_milestone and self.moving_time_milestone > 0:
-            print("SENDING EMAIL")
 
     @property
     def moving_time_milestone(self):
