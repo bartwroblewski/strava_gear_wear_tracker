@@ -44,9 +44,11 @@ class Gear(models.Model):
     
     @moving_time.setter
     def moving_time(self, seconds):
-        if seconds >= self.moving_time_milestone and self.moving_time_milestone > 0:
-            print("SENDING EMAIL")
         self._moving_time = seconds
+
+    def send_milestone_notifications(self):
+        if self.moving_time >= self.moving_time_milestone and self.moving_time_milestone > 0:
+            print("SENDING EMAIL")
 
     @property
     def moving_time_milestone(self):

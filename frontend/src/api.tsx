@@ -90,8 +90,6 @@ const fetchJsonWithErrorHandling = async(url:string) => ErrorEnabledFetch(() => 
 
 const fetchAuthorizationStatus: Promised<{authorized: boolean}> = () => fetchJsonWithErrorHandling(urls.authorizedUrl)
 
-const fetchUserGear: Promised<Gear[]> = () => fetchJsonWithErrorHandling(urls.userGearUrl)
-
 const fetchAthlete: Promised<Athlete> = () => fetchJsonWithErrorHandling(urls.athleteUrl)
 
 const refreshAthleteBikes: Promised<Bike[]> = () => fetchJsonWithErrorHandling(urls.refreshBikesUrl)
@@ -106,20 +104,6 @@ const deleteGear: Promised<any> = async(gearPk: number) => {
     const response = await fetch(urls.deleteGearUrl + `/${gearPk}`)
     const text = await response.text()
     return text
-}
-
-const addGear: Promised<any>  = async(gearName: string, bikeIds: string[],  distance: number, track: boolean) => {
-    let url = urls.addGearUrl +
-        `?gear_name=${gearName}` +
-        `&bike_ids=${bikeIds}` + 
-        `&distance=${distance}` +
-        `&track=${track}`
-    const response = await fetch(url)
-    const text = await response.text()
-    if (response.ok) {
-        return text
-    }
-    alert(text)
 }
 
 const addOrChangeGear: Promised<any> = async(pk, name, distance, days, hours, minutes, seconds, track, bikeIds) => {
@@ -155,11 +139,9 @@ export const changeAthlete: Promised<any> = async(field: string, value: string) 
 
 export { 
     fetchAuthorizationStatus,
-    fetchUserGear,
     fetchAthlete,
     refreshAthleteBikes, 
     toggleGearTracking, 
     deleteGear, 
-    addGear,
     addOrChangeGear
 }
