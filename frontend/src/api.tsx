@@ -8,12 +8,6 @@ export interface GearBike {
     athlete: number,
 }
 
-interface Athlete {
-    pk: number,
-    distance_unit: string,
-    time_unit: string,
-}
-
 interface GearDuration {
     string: string,
     days: number,
@@ -32,6 +26,16 @@ export interface Gear {
     athlete: Athlete,
     bikes: GearBike[],
     distance_in_athlete_unit: number
+}
+
+export interface Athlete {
+    pk: number,
+    firstname: string,
+    lastname: string,
+    distance_unit: string,
+    time_unit: string,
+    gear: Gear[]
+
 }
 
 export interface Bike {
@@ -87,6 +91,8 @@ const fetchJsonWithErrorHandling = async(url:string) => ErrorEnabledFetch(() => 
 const fetchAuthorizationStatus: Promised<{authorized: boolean}> = () => fetchJsonWithErrorHandling(urls.authorizedUrl)
 
 const fetchUserGear: Promised<Gear[]> = () => fetchJsonWithErrorHandling(urls.userGearUrl)
+
+const fetchAthlete: Promised<Athlete> = () => fetchJsonWithErrorHandling(urls.athleteUrl)
 
 const refreshAthleteBikes: Promised<Bike[]> = () => fetchJsonWithErrorHandling(urls.refreshBikesUrl)
 
@@ -147,4 +153,13 @@ export const changeAthlete: Promised<any> = async(field: string, value: string) 
     return text
 }
 
-export { fetchAuthorizationStatus, fetchUserGear, refreshAthleteBikes, toggleGearTracking, deleteGear, addGear, addOrChangeGear }
+export { 
+    fetchAuthorizationStatus,
+    fetchUserGear,
+    fetchAthlete,
+    refreshAthleteBikes, 
+    toggleGearTracking, 
+    deleteGear, 
+    addGear,
+    addOrChangeGear
+}

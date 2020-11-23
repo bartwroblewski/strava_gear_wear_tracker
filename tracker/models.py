@@ -25,10 +25,11 @@ class Bike(models.Model):
 class Gear(models.Model):
     name = models.CharField(max_length=200)
     distance = models.FloatField(default=0, validators=[MinValueValidator(0)])
-    moving_time = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    _moving_time = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    _moving_time_milestone = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     elapsed_time = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     is_tracked = models.BooleanField(default=True)
-    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, default=1)
+    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, default=1, related_name='gear')
     bikes = models.ManyToManyField(Bike)
     """ bike = models.ForeignKey(
         Bike,
@@ -36,6 +37,24 @@ class Gear(models.Model):
         null=True,  # makes the field optional
         blank=True,
     ) """
+
+    @property
+    def moving_time(self):
+        return self._moving_time
+    
+    @moving_time.setter
+    def moving_time(self, seconds):
+        if seconds >= self.moving_time_milestone and self.moving_time_milestone > 0:
+            print("SENDING EMAIL")
+        self._moving_time = seconds
+
+    @property
+    def moving_time_milestone(self):
+        return self._moving_time_milestone
+
+    @moving_time_milestone.setter
+    def moving_time_milestone(self, seconds):
+        self._moving_time_milestone = seconds
 
     @property
     def duration(self):

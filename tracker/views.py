@@ -20,7 +20,7 @@ from rest_framework import viewsets
 from rest_framework.exceptions import NotAuthenticated, NotFound, PermissionDenied
 
 from .models import Gear, Athlete, TokenData, Bike
-from .serializers import GearSerializer
+from .serializers import GearSerializer, AthleteSerializer
 
 from .api import (
     get_authorization_url,
@@ -129,6 +129,18 @@ class GearViewSet(viewsets.ModelViewSet):
         athlete = Athlete.objects.get(ref_id=athlete_id)
         athlete_gear = Gear.objects.filter(athlete=athlete)
         return athlete_gear
+
+class AthleteViewSet(viewsets.ModelViewSet):
+    serializer_class = AthleteSerializer
+
+    def get_queryset(self):
+        try:
+            athlete_id = self.request.session['tokendata']['athlete']['id']
+        except KeyError:
+            # if no token in session, athlete did not authorize with Strava yet
+            raise NotAuthenticated
+        athlete = Athlete.objects.filter(ref_id=athlete_id)
+        return athlete
         
 def toggle_gear_tracking(request, gear_name):
     athlete_id = request.session['tokendata']['athlete']['id']
