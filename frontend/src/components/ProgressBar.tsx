@@ -8,17 +8,16 @@ interface ProgressBarProps {
 
 const ProgressBar = ({met, target}: ProgressBarProps) => {
 
-    const perc = met / target * 100
-    console.log(met, target, perc)
     const outerW = 100
-    const innerW = perc / 100 * outerW
-    const h = 10
+    const innerW = met / target * outerW
+    const h = 3.5
+    const viewBox= `0 0 ${outerW} ${h}`
 
     return (
-            <svg className="progress-bar">
+            <svg className="progress-bar" viewBox={viewBox}>
                 <g>
-                    <rect width={outerW} height={h} stroke="black" fill="none" />
-                    <rect width={innerW} height={h} fill="green" />
+                    <rect width="100%" height="100%" stroke="black" fill="none" />
+                    <rect width={innerW} height="100%" fill="green" fillOpacity="0.5" />
                 </g>
             </svg>
     )
