@@ -7,7 +7,7 @@ interface ProgressCircleProps {
 
 const ProgressCircle = ({met, target}: ProgressCircleProps) => {
 
-    const wh = 75
+    const wh = 10
     const cx = wh * (50 / 100)
     const cy = wh * (50 / 100)
     const r = wh * (40 / 100)

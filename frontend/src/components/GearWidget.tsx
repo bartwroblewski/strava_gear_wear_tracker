@@ -1,6 +1,6 @@
 import React from 'react'
 import { Gear } from '../api'
-import ProgressCircle from './ProgressCircle'
+import ProgressBar from './ProgressBar'
 import './css/GearWidget.css'
 import unitAbbreviations from '../helpers/unitAbbreviations'
 
@@ -14,11 +14,11 @@ interface GearWidgetProps {
 export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
 
     const distanceProgress = gear.milestones.distance.target
-    ? <ProgressCircle met={gear.distance} target={gear.milestones.distance.target} />
+    ? <ProgressBar met={gear.distance} target={gear.milestones.distance.target} />
     : null
 
     const timeProgress = gear.milestones.moving_time.target
-        ? <ProgressCircle met={gear.moving_time} target={gear.milestones.moving_time.target} />
+        ? <ProgressBar met={gear.moving_time} target={gear.milestones.moving_time.target} />
         : null
 
     const distanceAbbreviation = ' ' + unitAbbreviations[distanceUnit]
