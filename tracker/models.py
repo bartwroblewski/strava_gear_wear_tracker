@@ -25,6 +25,7 @@ class Bike(models.Model):
 class Gear(models.Model):
     name = models.CharField(max_length=200)
     distance = models.FloatField(default=0, validators=[MinValueValidator(0)])
+    distance_milestone = models.FloatField(default=0, validators=[MinValueValidator(0)])
     _moving_time = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     _moving_time_milestone = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     elapsed_time = models.IntegerField(default=0, validators=[MinValueValidator(0)])
@@ -46,8 +47,8 @@ class Gear(models.Model):
                 'remaining': self.moving_time_milestone - self.moving_time,
             },
             'distance': {
-                'target': 0,
-                'remaining': 0,
+                'target': self.distance_milestone,
+                'remaining': self.distance_milestone - self.distance,
             }
         }
 
