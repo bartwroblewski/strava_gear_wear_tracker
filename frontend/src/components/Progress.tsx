@@ -29,13 +29,14 @@ const ProgressBar = ({factor}: ProgressBarProps) => {
 const Progress = ({met, target}: ProgressProps) => {
 
     const factor = met / target
-    const percentage = parseFloat(factor * 100).toFixed(0) + '%'
+    const donePercentage = parseFloat(factor * 100).toFixed(0) + '%'
+    const remaining = parseFloat(target - met).toFixed(2)
 
     return (
         target
             ?
                 <div>
-                    <div>{percentage}</div>
+                    <div>{donePercentage} ({remaining} remaining)</div>
                     <ProgressBar factor={factor} />
                 </div>
             : '-'
