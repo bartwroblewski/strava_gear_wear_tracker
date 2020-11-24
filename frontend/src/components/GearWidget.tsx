@@ -1,5 +1,6 @@
 import React from 'react'
 import { Gear } from '../api'
+import ProgressBar from './ProgressBar'
 import './css/GearWidget.css'
 import unitAbbreviations from '../helpers/unitAbbreviations'
 
@@ -11,30 +12,38 @@ interface GearWidgetProps {
 }
 
 export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
+
+    const distanceProgress = gear.milestones.distance.target
+    ? <ProgressBar met={gear.distance} target={gear.milestones.distance.target} />
+    : null
+
+    const timeProgress = gear.milestones.moving_time.target
+        ? <ProgressBar met={gear.moving_time} target={gear.milestones.moving_time.target} />
+        : null
+
+    const distanceAbbreviation = ' ' + unitAbbreviations[distanceUnit]
+    
     return (
         <div className="gear-widget" onClick={() => onClick(gear.pk)}>
             <div className="gear-name">{gear.name}</div>
             <ul className="stats">
                 <li className="stat">
                     <div className="stat-name">Distance</div>
-                    <div>
                         <div className="stat-value">
                             {gear.distance_in_athlete_unit}
-                            <span>{' ' + unitAbbreviations[distanceUnit]}</span>
+                            <span>
+                                {distanceAbbreviation}
+                                {distanceProgress}
+                            </span>
                         </div>
-                    </div>
+                    
                 </li>
                 <li className="stat">
                     <div className="stat-name">Time</div>
-                    <div className="stat-value">{gear.duration.string}</div>
-                </li>
-                <li className="stat">
-                    <div className="stat-name">Time remaining to milestone</div>
-                    <div className="stat-value">{gear.milestones.moving_time.remaining}</div>
-                </li>
-                <li className="stat">
-                    <div className="stat-name">Distance remaining to milestone</div>
-                    <div className="stat-value">{gear.milestones.distance.remaining}</div>
+                    <div className="stat-value">
+                        {gear.duration.string}
+                        {timeProgress}                  
+                    </div>
                 </li>
             </ul>
         </div>

@@ -88,14 +88,14 @@ function App() {
 
   const toggleGearModal = () => setShowGearModal(prev => !prev)
 
-  const gearWidgets = athlete ? athlete.gear.map(g => {
+  const gearWidgets = athlete?.gear.map(g => {
     return <GearWidget
               key={g.pk}
               gear={g}
               distanceUnit={athlete.distance_unit}
               onClick={handleGearWidgetClick}
             />
-  }) : []
+  }) || []
 
   React.useEffect(getAuthorizationStatus, [])
   React.useEffect(() => {
@@ -116,7 +116,7 @@ function App() {
                 toggleGearModal()
               }}>Add gear</button>
               <DistanceSwitch
-                selectedUnit={athlete ? athlete.distance_unit : null}
+                selectedUnit={athlete?.distance_unit || null}
                 onChange={handleAthleteChange}
               />
             </div>
