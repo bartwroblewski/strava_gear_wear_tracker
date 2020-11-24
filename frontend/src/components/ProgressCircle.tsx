@@ -7,14 +7,13 @@ interface ProgressCircleProps {
 
 const ProgressCircle = ({met, target}: ProgressCircleProps) => {
 
-    const width = 25
-    const height = 25
-    const cx = width * (50 / 100)
-    const cy = height * (50 / 100)
-    const r = width * (40 / 100)
+    const wh = 75
+    const cx = wh * (50 / 100)
+    const cy = wh * (50 / 100)
+    const r = wh * (40 / 100)
 
     return (
-        <svg width={width} height={height}>
+        <svg width={wh} height={wh}>
             <circle cx={cx} cy={cy} r={r} stroke="black" fill="white" />
         </svg>
     )
