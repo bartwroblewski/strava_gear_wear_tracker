@@ -41,16 +41,22 @@ class Gear(models.Model):
 
     @property
     def milestones(self):
-        return {
+        moving_time_remaining = self.moving_time_milestone - self.moving_time
+        remaining_distance = self.distance_milestone - self.distance
+        milestones = {
             'moving_time': {
                 'target': self.moving_time_milestone,
-                'remaining': self.moving_time_milestone - self.moving_time,
+                'remaining': moving_time_remaining,
+                'remaining_converted': str(datetime.timedelta(seconds=moving_time_remaining)),
             },
             'distance': {
                 'target': self.distance_milestone,
-                'remaining': self.distance_milestone - self.distance,
+                'remaining': remaining_distance,
+                'remaining_converted': self.meters_to_athlete_unit(remaining_distance),
             }
         }
+        print(milestones)
+        return milestones
 
     def send_milestone_notifications(self):
         #if self.moving_time >= self.moving_time_milestone and self.moving_time_milestone > 0:
@@ -91,7 +97,10 @@ class Gear(models.Model):
 
     @property
     def distance_in_athlete_unit(self):
-        return round(from_meters(self.distance, self.athlete.distance_unit), 2)
+        return self.meters_to_athlete_unit(self.distance)
+
+    def meters_to_athlete_unit(self, meters):
+        return round(from_meters(meters, self.athlete.distance_unit), 2)
 
     def distance_to_meters(self, distance):
         unit = self.athlete.distance_unit

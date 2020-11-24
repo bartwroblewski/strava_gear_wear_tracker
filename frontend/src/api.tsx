@@ -19,6 +19,7 @@ interface GearDuration {
 interface Milestone {
     target: number,
     remaining: number,
+    remaining_converted: string | number
 }
 
 interface Milestones {

@@ -3,6 +3,7 @@ import React from 'react'
 interface ProgressProps {
     met: number,
     target: number,
+    remaining: string | number
 }
 
 interface ProgressBarProps {
@@ -26,17 +27,16 @@ const ProgressBar = ({factor}: ProgressBarProps) => {
     )
 }
 
-const Progress = ({met, target}: ProgressProps) => {
+const Progress = ({met, target, remaining}: ProgressProps) => {
 
     const factor = met / target
-    const donePercentage = parseFloat(factor * 100).toFixed(0) + '%'
-    const remaining = parseFloat(target - met).toFixed(2)
+    const metPercentage = parseFloat(factor * 100).toFixed(0) + '%'
 
     return (
         target
             ?
                 <div>
-                    <div>{donePercentage} ({remaining} remaining)</div>
+                    <div>{metPercentage} ({remaining} remaining)</div>
                     <ProgressBar factor={factor} />
                 </div>
             : '-'
