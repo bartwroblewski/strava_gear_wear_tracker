@@ -13,13 +13,8 @@ interface GearWidgetProps {
 
 export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
 
-    const distanceProgress = gear.milestones.distance.target
-    ? <Progress met={gear.distance} target={gear.milestones.distance.target} />
-    : '-'
-
-    const timeProgress = gear.milestones.moving_time.target
-        ? <Progress met={gear.moving_time} target={gear.milestones.moving_time.target} />
-        : '-'
+    const distanceProgress = <Progress met={gear.distance} target={gear.milestones.distance.target} />
+    const timeProgress = <Progress met={gear.moving_time} target={gear.milestones.moving_time.target} />
 
     const distanceAbbreviation = ' ' + unitAbbreviations[distanceUnit]
     
