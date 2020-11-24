@@ -22,26 +22,30 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
         <div className="gear-widget" onClick={() => onClick(gear.pk)}>
             <div className="gear-name">{gear.name}</div>
             <ul className="stats">
-                <li className="stat">
-                    <div className="stat-name">Distance ridden</div>    
-                    <div className="stat-value">{gear.distance_in_athlete_unit + distanceAbbreviation}</div> 
-                </li>
-                <li className="stat">
-                    <div className="stat-name">Distance goal progress</div>
-                    <div className="stat-value">
-                        {distanceProgress}                       
-                    </div> 
-                </li>
-                <li className="stat">
-                    <div className="stat-name">Time ridden</div>
-                    <div className="stat-value">{gear.duration.string}</div>  
-                </li>             
-                <li className="stat">
-                    <div className="stat-name">Time goal progress</div>
-                    <div className="stat-value">
-                        {timeProgress}                       
-                    </div> 
-                </li>
+                <div className="stats-section">
+                    <li className="stat">
+                        <div className="stat-name">Distance ridden</div>    
+                        <div className="stat-value">{gear.distance_in_athlete_unit + distanceAbbreviation}</div> 
+                    </li>
+                    <li className="stat">
+                        <div className="stat-name">Distance goal progress</div>
+                        <div className="stat-value">
+                            {distanceProgress}                       
+                        </div> 
+                    </li>
+                </div>
+                <div className="stats-section">
+                    <li className="stat">
+                        <div className="stat-name">Time ridden</div>
+                        <div className="stat-value">{gear.duration.string}</div>  
+                    </li>             
+                    <li className="stat">
+                        <div className="stat-name">Time goal progress</div>
+                        <div className="stat-value">
+                            {timeProgress}                       
+                        </div> 
+                    </li>
+                </div>
             </ul>
         </div>
     )
