@@ -49,11 +49,6 @@ class Gear(models.Model):
                 'remaining': moving_time_remaining,
                 'remaining_converted': str(datetime.timedelta(seconds=moving_time_remaining)),
             },
-            'distance': {
-                'target': self.distance_milestone,
-                'remaining': remaining_distance,
-                'remaining_converted': self.meters_to_athlete_unit(remaining_distance),
-            }
         }
         return milestones
 
@@ -100,6 +95,12 @@ class Gear(models.Model):
     @property
     def distance_milestone_in_athlete_unit(self):
         return self.meters_to_athlete_unit(self.distance_milestone)
+
+    @property
+    def distance_remaining_to_milestone(self):
+        remaining_distance = self.distance_milestone - self.distance
+        return self.meters_to_athlete_unit(remaining_distance)
+
 
     def meters_to_athlete_unit(self, meters):
         return round(from_meters(meters, self.athlete.distance_unit), 2)

@@ -16,13 +16,16 @@ class GearSerializer(serializers.ModelSerializer):
             'pk',
             'name',
             'distance',
+            'distance_in_athlete_unit',
+            'distance_milestone',
+            'distance_milestone_in_athlete_unit',
+            'distance_remaining_to_milestone',
             'moving_time', 
             'duration',
             'is_tracked', 
             #'athlete', 
             'bikes',
-            'distance_in_athlete_unit',
-            'distance_milestone_in_athlete_unit',
+            
             'milestones',
         ]
 

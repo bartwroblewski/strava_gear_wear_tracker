@@ -31,13 +31,15 @@ export interface Gear {
     pk: number,
     name: string,
     distance: number,
+    distance_milestone: number,
+    distance_milestone_in_athlete_unit: number,
+    distance_remaining_to_milestone: number,
     moving_time: number,
     duration: GearDuration;
     is_tracked: boolean,
     athlete: Athlete,
     bikes: GearBike[],
     distance_in_athlete_unit: number,
-    distance_milestone_in_athlete_unit: number,
     milestones: Milestones,
 }
 
