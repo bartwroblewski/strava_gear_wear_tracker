@@ -130,6 +130,7 @@ function App() {
                     contents={
                       <GearForm
                         gear={selectedGear || null}
+                        athleteDistanceUnit={athlete.distance_unit}
                         bikes={bikes}
                         onSubmit={handleGearFormSubmit}
                       />

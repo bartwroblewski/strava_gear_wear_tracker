@@ -7,13 +7,14 @@ import { addOrChangeGearUrl } from '../urls'
 
 interface GearFormProps {
     gear: Gear,
+    athleteDistanceUnit: string,
     bikes: Bike[],
     onSubmit: any,
 }
 
-const GearForm = ({gear, bikes, onSubmit}: GearFormProps) => {
+const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) => {
 
-    const distanceAbbreviation =  'test' //' ' + defaults.distanceUnit
+    const distanceAbbreviation =  ' ' + athleteDistanceUnit
 
     const pk = gear?.pk || 0 // 0 pk is not very clean...
 
