@@ -98,6 +98,10 @@ class Gear(models.Model):
     def distance_in_athlete_unit(self):
         return self.meters_to_athlete_unit(self.distance)
 
+    @property
+    def distance_milestone_in_athlete_unit(self):
+        return self.meters_to_athlete_unit(self.distance_milestone)
+
     def meters_to_athlete_unit(self, meters):
         return round(from_meters(meters, self.athlete.distance_unit), 2)
 

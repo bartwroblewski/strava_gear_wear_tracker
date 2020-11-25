@@ -37,6 +37,7 @@ export interface Gear {
     athlete: Athlete,
     bikes: GearBike[],
     distance_in_athlete_unit: number,
+    distance_milestone_in_athlete_unit: number,
     milestones: Milestones,
 }
 

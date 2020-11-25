@@ -5,24 +5,6 @@ import unitAbbreviations from '../helpers/unitAbbreviations'
 import MultiSelect from './MultiSelect'
 import { addOrChangeGearUrl } from '../urls'
 
-interface Duration {
-    days: number,
-    hours: number,
-    minutes: number,
-    seconds: number,
-}
-
-interface GearFormDefaults {
-    pk: number,
-    name: string,
-    distanceUnit: string,
-    distance: number,    
-    distanceMilestone: number,
-    duration: Duration,
-    track: boolean,
-    bikeIds: string[],
-}
-
 interface GearFormProps {
     gear: Gear,
     bikes: Bike[],
@@ -47,8 +29,8 @@ const GearForm = ({gear, bikes, onSubmit}: GearFormProps) => {
 
     const setDefaultInputs = () => {
         setName(gear?.name || '')
-        setDistance(gear?.distance || 0)
-        setDistanceMilestone(gear?.milestones.distance.target || 0)
+        setDistance(gear?.distance_in_athlete_unit || 0)
+        setDistanceMilestone(gear?.distance_milestone_in_athlete_unit || 0)
         setDays(gear?.duration.days || 0)
         setHours(gear?.duration.hours || 0)
         setMinutes(gear?.duration.minutes || 0)

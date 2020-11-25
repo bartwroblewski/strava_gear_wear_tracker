@@ -22,6 +22,7 @@ class GearSerializer(serializers.ModelSerializer):
             #'athlete', 
             'bikes',
             'distance_in_athlete_unit',
+            'distance_milestone_in_athlete_unit',
             'milestones',
         ]
 
