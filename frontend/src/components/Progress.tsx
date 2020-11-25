@@ -1,4 +1,5 @@
 import React from 'react'
+import './css/Progress.css'
 
 interface ProgressProps {
     met: number,
@@ -32,16 +33,17 @@ const Progress = ({met, target, remaining}: ProgressProps) => {
     const factor = met / target
     const metPercentage = factor * 100
     const metPercentageFormatted = parseFloat(metPercentage).toFixed(0) + '%'
-    const message = metPercentage >= 100 
-        ? null
-        : metPercentageFormatted + ' (' + remaining + ' remaining)'
+    
+    const summary = metPercentage >= 100 
+        ? <div className="goal-met">100%</div>
+        : <div>{metPercentageFormatted + ' (' + remaining + ' remaining)'}</div>
    // remaining = metPercentage >= 100 ? null : `(${remaining} remaining)`
 
     return (
         target
             ?
                 <div>
-                    <div>{message}</div>
+                    {summary}
                     <ProgressBar factor={factor} />
                 </div>
             : '-'
