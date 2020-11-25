@@ -28,6 +28,8 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
     const [track, setTrack] = React.useState<boolean>()
     const [bikeIds, setBikeIds] = React.useState<string[]>([])
 
+    React.useEffect(() => console.log('track',gear.is_tracked), [gear])
+
     const setDefaultInputs = () => {
         setName(gear?.name || '')
         setDistance(gear?.distance_in_athlete_unit || 0)
@@ -36,7 +38,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
         setHours(gear?.duration.hours || 0)
         setMinutes(gear?.duration.minutes || 0)
         setSeconds(gear?.duration.seconds || 0)
-        setTrack(gear?.is_tracked || true)
+        setTrack(gear?.is_tracked ?? true)
         setBikeIds(gear?.bikes.map(x => x.ref_id) || [])
     }
 
