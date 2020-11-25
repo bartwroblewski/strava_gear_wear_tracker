@@ -24,7 +24,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
     const [distanceMilestone, setDistanceMilestone] = React.useState<number>()
 
     const [duration, setDuration] = React.useState<GearDuration>({})
-    const [milestoneDuration, setMilestoneDuration ] = React.useState<GearDuration>()
+    const [durationMilestone, setDurationMilestone ] = React.useState<GearDuration>()
 
     const [days, setDays] = React.useState<number>()
     const [hours, setHours] = React.useState<number>()
@@ -42,7 +42,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
         setDistanceMilestone(gear?.distance_milestone_in_athlete_unit || 0)
 
         setDuration(gear?.duration || {days: 0, hours: 0, minutes: 0, seconds: 0})
-        setMilestoneDuration(gear?.duration || {days: 0, hours: 0, minutes: 0, seconds: 0})
+        setDurationMilestone(gear?.duration || {days: 0, hours: 0, minutes: 0, seconds: 0})
 
         setDays(gear?.duration.days || 0)
         setHours(gear?.duration.hours || 0)
@@ -64,6 +64,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
             distance, 
             distanceMilestone, 
             duration, 
+            //durationMilestone
             track, 
             bikeIds
         ])
