@@ -30,13 +30,18 @@ const ProgressBar = ({factor}: ProgressBarProps) => {
 const Progress = ({met, target, remaining}: ProgressProps) => {
 
     const factor = met / target
-    const metPercentage = parseFloat(factor * 100).toFixed(0) + '%'
+    const metPercentage = factor * 100
+    const metPercentageFormatted = parseFloat(metPercentage).toFixed(0) + '%'
+    const message = metPercentage >= 100 
+        ? null
+        : metPercentageFormatted + ' (' + remaining + ' remaining)'
+   // remaining = metPercentage >= 100 ? null : `(${remaining} remaining)`
 
     return (
         target
             ?
                 <div>
-                    <div>{metPercentage} ({remaining} remaining)</div>
+                    <div>{message}</div>
                     <ProgressBar factor={factor} />
                 </div>
             : '-'

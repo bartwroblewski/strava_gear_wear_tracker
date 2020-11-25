@@ -5,6 +5,7 @@
 }
 
 .switch-label {
+    display: none;
     text-align: right;
     padding: 7px;
 }
@@ -12,7 +13,7 @@
 .switch-options {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    box-shadow: 1px 1px 3px;
+    border: 1px solid silver;   
 }
 
 .switch-option {
