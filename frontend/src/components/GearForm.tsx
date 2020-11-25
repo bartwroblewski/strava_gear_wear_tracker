@@ -45,7 +45,7 @@ const GearForm = ({gear, bikes, onSubmit}: GearFormProps) => {
     const [track, setTrack] = React.useState<boolean>()
     const [bikeIds, setBikeIds] = React.useState<string[]>([])
 
-    const setDefaultValues = () => {
+    const setDefaultInputs = () => {
         setName(gear?.name || '')
         setDistance(gear?.distance || 0)
         setDistanceMilestone(gear?.milestones.distance.target || 0)
@@ -57,7 +57,7 @@ const GearForm = ({gear, bikes, onSubmit}: GearFormProps) => {
         setBikeIds(gear?.bikes.map(x => x.ref_id) || [])
     }
 
-    React.useEffect(setDefaultValues, [gear])
+    React.useEffect(setDefaultInputs, [gear])
  
     const handleSubmit = async(e) => {
         e.preventDefault()
