@@ -1,5 +1,5 @@
 import React from 'react'
-import { Bike, Gear } from '../api'
+import { Bike, Gear, GearDuration } from '../api'
 import './css/GearForm.css'
 import unitAbbreviations from '../helpers/unitAbbreviations'
 import MultiSelect from './MultiSelect'
@@ -19,24 +19,38 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
     const pk = gear?.pk || 0 // 0 pk is not very clean...
 
     const [name, setName] = React.useState<string>()
+
     const [distance, setDistance] = React.useState<number>()
     const [distanceMilestone, setDistanceMilestone] = React.useState<number>()
+
+    const [duration, setDuration] = React.useState<GearDuration>({})
+    const [milestoneDuration, setMilestoneDuration ] = React.useState<GearDuration>()
+
     const [days, setDays] = React.useState<number>()
     const [hours, setHours] = React.useState<number>()
     const [minutes, setMinutes] = React.useState<number>()
     const [seconds, setSeconds] = React.useState<number>()
+
     const [track, setTrack] = React.useState<boolean>()
     const [bikeIds, setBikeIds] = React.useState<string[]>([])
+  
 
     const setDefaultInputs = () => {
         setName(gear?.name || '')
+
         setDistance(gear?.distance_in_athlete_unit || 0)
         setDistanceMilestone(gear?.distance_milestone_in_athlete_unit || 0)
+
+        setDuration(gear?.duration || {days: 0, hours: 0, minutes: 0, seconds: 0})
+        setMilestoneDuration(gear?.duration || {days: 0, hours: 0, minutes: 0, seconds: 0})
+
         setDays(gear?.duration.days || 0)
         setHours(gear?.duration.hours || 0)
         setMinutes(gear?.duration.minutes || 0)
         setSeconds(gear?.duration.seconds || 0)
+
         setTrack(gear?.is_tracked ?? true)
+
         setBikeIds(gear?.bikes.map(x => x.ref_id) || [])
     }
 
@@ -49,10 +63,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
             name,
             distance, 
             distanceMilestone, 
-            days, 
-            hours, 
-            minutes, 
-            seconds, 
+            duration, 
             track, 
             bikeIds
         ])
@@ -102,16 +113,16 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
 
             <label>Time: </label>
             <div>
-                <input value={days}type="number" min="0" required onChange={e => setDays(e.target.value)} />
+                <input value={duration.days}type="number" min="0" required onChange={e => setDuration(prev => ({...prev, days: e.target.value}))} />
                 <label>d</label>  
 
-                <input value={hours}type="number" min="0" max="23" required onChange={e => setHours(e.target.value)} />
+                <input value={duration.hours}type="number" min="0" max="23" required onChange={e => setDuration(prev => ({...prev, hours: e.target.value}))} />
                 <label>h</label>  
 
-                <input value={minutes}type="number" min="0" max="59" required onChange={e => setMinutes(e.target.value)} />
+                <input value={duration.minutes}type="number" min="0" max="59" required onChange={e => setDuration(prev => ({...prev, minutes: e.target.value}))} />
                 <label>m</label>  
 
-                <input value={seconds}type="number" min="0" max="59" required onChange={e => setSeconds(e.target.value)} />
+                <input value={duration.seconds}type="number" min="0" max="59" required onChange={e => setDuration(prev => ({...prev, seconds: e.target.value}))} />
                 <label>s</label>  
             </div>
             

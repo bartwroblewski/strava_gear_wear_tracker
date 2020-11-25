@@ -8,8 +8,8 @@ export interface GearBike {
     athlete: number,
 }
 
-interface GearDuration {
-    string: string,
+export interface GearDuration {
+    string?: string,
     days: number,
     hours: number,
     minutes: number,
@@ -124,16 +124,16 @@ const deleteGear: Promised<any> = async(gearPk: number) => {
     return text
 }
 
-const addOrChangeGear: Promised<any> = async(pk, name, distance, distanceMilestone, days, hours, minutes, seconds, track, bikeIds) => {
+const addOrChangeGear: Promised<any> = async(pk, name, distance, distanceMilestone, duration, track, bikeIds) => {
     let url = urls.addOrChangeGearUrl +
     `?pk=${pk}` +
     `&name=${name}` +
     `&distance=${distance}` +
     `&distance_milestone=${distanceMilestone}` +
-    `&days=${days}` +
-    `&hours=${hours}` +
-    `&minutes=${minutes}` +
-    `&seconds=${seconds}` +
+    `&days=${duration.days}` +
+    `&hours=${duration.hours}` +
+    `&minutes=${duration.minutes}` +
+    `&seconds=${duration.seconds}` +
     `&track=${track}` 
 
     if (bikeIds.length) {
