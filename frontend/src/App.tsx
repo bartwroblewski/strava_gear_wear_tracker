@@ -129,39 +129,7 @@ function App() {
                     toggle={toggleGearModal}
                     contents={
                       <GearForm
-                        defaults={
-                          selectedGear
-                            ? {
-                              pk: selectedGear.pk,
-                              name: selectedGear.name,
-                              distanceUnit: athlete.distance_unit,
-                              distance: selectedGear.distance_in_athlete_unit,
-                              distanceMilestone: selectedGear.milestones.distance.target,    
-                              duration: {
-                                days: selectedGear.duration.days,
-                                hours: selectedGear.duration.hours,
-                                minutes: selectedGear.duration.minutes,
-                                seconds: selectedGear.duration.seconds,
-                              },
-                              track: selectedGear.is_tracked,
-                              bikeIds: selectedGear.bikes.map(x => x.ref_id)
-                            }                             
-                            : {
-                              pk: 0,
-                              name: '',
-                              distanceUnit: athlete.distance_unit,
-                              distance: 0,   
-                              distanceMilestone: 0,
-                              duration: {
-                                days: 0,
-                                hours: 0,
-                                minutes: 0,
-                                seconds: 0,
-                              },
-                              track: true,
-                              bikeIds: [],
-                            }            
-                        }
+                        gear={selectedGear || null}
                         bikes={bikes}
                         onSubmit={handleGearFormSubmit}
                       />
