@@ -21,6 +21,8 @@ class GearSerializer(serializers.ModelSerializer):
             'distance_milestone_in_athlete_unit',
             'distance_remaining_to_milestone',
             'moving_time', 
+            'moving_time_milestone',
+            'moving_time_remaining_to_milestone',
             'duration',
             'is_tracked', 
             #'athlete', 

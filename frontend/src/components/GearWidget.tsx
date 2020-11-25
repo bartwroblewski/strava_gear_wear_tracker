@@ -22,8 +22,8 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
     />
     const timeProgress = <Progress 
         met={gear.moving_time}
-        target={gear.milestones.moving_time.target}
-        remaining={gear.milestones.moving_time.remaining_converted}
+        target={gear.moving_time_milestone}
+        remaining={gear.moving_time_remaining_to_milestone}
     />
     
     return (

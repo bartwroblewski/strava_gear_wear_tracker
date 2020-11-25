@@ -39,6 +39,8 @@ class Gear(models.Model):
         blank=True,
     ) """
 
+   
+
     @property
     def milestones(self):
         moving_time_remaining = self.moving_time_milestone - self.moving_time
@@ -46,7 +48,7 @@ class Gear(models.Model):
         milestones = {
             'moving_time': {
                 'target': self.moving_time_milestone,
-                'remaining': moving_time_remaining,
+                #'remaining': moving_time_remaining,
                 'remaining_converted': str(datetime.timedelta(seconds=moving_time_remaining)),
             },
         }
@@ -71,6 +73,12 @@ class Gear(models.Model):
     @moving_time_milestone.setter
     def moving_time_milestone(self, seconds):
         self._moving_time_milestone = seconds
+
+    @property
+    def moving_time_remaining_to_milestone(self):
+        moving_time_remaining = self.moving_time_milestone - self.moving_time
+        delta = str(datetime.timedelta(seconds=moving_time_remaining))
+        return delta
 
     @property
     def duration(self):
