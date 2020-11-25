@@ -101,7 +101,6 @@ class Gear(models.Model):
         remaining_distance = self.distance_milestone - self.distance
         return self.meters_to_athlete_unit(remaining_distance)
 
-
     def meters_to_athlete_unit(self, meters):
         return round(from_meters(meters, self.athlete.distance_unit), 2)
 
