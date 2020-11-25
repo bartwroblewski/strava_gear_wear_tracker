@@ -1,3 +1,19 @@
+from django.contrib.gis.measure import D
+
+def meters_to_unit(meters, unit):
+    return getattr(D(m=meters), unit)
+
+def unit_to_meters(distance, unit):
+    args = {unit: distance}
+    d = D(**args)
+    return d
+
+
+
+
+
+    
+
 meters_in = {
     'kilometer': 1000,
     'mile': 1609,
