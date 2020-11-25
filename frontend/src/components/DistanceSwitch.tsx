@@ -35,7 +35,7 @@ const DistanceSwitch = ({selectedUnit, onChange}: {selectedUnit: string, onChang
     return (
         <Switch 
             label="distance" 
-            options={["kilometer", "mile"]}
+            options={["km", "mi"]}
             selectedUnit={selectedUnit}
             onChange={onChange}
         />

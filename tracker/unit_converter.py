@@ -12,11 +12,11 @@ def unit_to_meters(distance, unit):
 
 
 
-    
+
 
 meters_in = {
-    'kilometer': 1000,
-    'mile': 1609,
+    'km': 1000,
+    'mi': 1609,
 }
 seconds_in = {
     'hour': 3600,
