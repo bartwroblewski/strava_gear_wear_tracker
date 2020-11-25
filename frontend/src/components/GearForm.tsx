@@ -31,6 +31,8 @@ interface GearFormProps {
 
 const GearForm = ({defaults, bikes, onSubmit}: GearFormProps) => {
 
+    const distanceAbbreviation =  ' ' + defaults.distanceUnit
+
     const [name, setName] = React.useState<string>()
     const [distance, setDistance] = React.useState<number>()
     const [distanceGoal, setDistanceGoal] = React.useState<number>()
@@ -91,13 +93,13 @@ const GearForm = ({defaults, bikes, onSubmit}: GearFormProps) => {
             <label>Distance: </label>
             <div>
                 <input value={distance} type="number" min="0" step="0.01" required onChange={e => setDistance(e.target.value)} />
-                <span>{unitAbbreviations[defaults.distanceUnit]}</span>
+                <span>{distanceAbbreviation}</span>
             </div>
 
             <label>Distance goal: </label>
             <div>
                 <input value={distanceGoal} type="number" min="0" step="0.01" required onChange={e => setDistanceGoal(e.target.value)} />
-                <span>{unitAbbreviations[defaults.distanceUnit]}</span>
+                <span>{distanceAbbreviation}</span>
             </div>
 
             <label>Time: </label>

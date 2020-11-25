@@ -13,7 +13,7 @@ interface GearWidgetProps {
 
 export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
 
-    const distanceAbbreviation = ' ' + unitAbbreviations[distanceUnit]
+    const distanceAbbreviation = ' ' + distanceUnit//' ' + unitAbbreviations[distanceUnit]
 
     const distanceProgress = <Progress 
         met={gear.distance} 
