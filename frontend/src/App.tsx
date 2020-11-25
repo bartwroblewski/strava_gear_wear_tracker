@@ -111,7 +111,7 @@ function App() {
         ? 
           <div id="main-page">
             <div id="top-bar">
-              <button type="button" onClick={() => {
+              <button className="add-gear-button"type="button" onClick={() => {
                 setSelectedGear(null)
                 toggleGearModal()
               }}>Add gear</button>

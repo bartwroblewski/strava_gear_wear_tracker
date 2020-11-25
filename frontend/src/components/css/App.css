@@ -3,6 +3,17 @@
     justify-content: space-between;
 }
 
+.add-gear-button {
+    background: none;
+    border: 2px solid silver;
+    color: black;
+    cursor: pointer;
+}
+
+.add-gear-button:hover {
+    border-color: black;
+}
+
 /* .gear-widgets {
     display: flex;
     flex-wrap: wrap;
