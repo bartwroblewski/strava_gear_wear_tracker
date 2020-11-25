@@ -118,11 +118,12 @@ const deleteGear: Promised<any> = async(gearPk: number) => {
     return text
 }
 
-const addOrChangeGear: Promised<any> = async(pk, name, distance, days, hours, minutes, seconds, track, bikeIds) => {
+const addOrChangeGear: Promised<any> = async(pk, name, distance, distanceMilestone, days, hours, minutes, seconds, track, bikeIds) => {
     let url = urls.addOrChangeGearUrl +
     `?pk=${pk}` +
     `&name=${name}` +
     `&distance=${distance}` +
+    `&distance_milestone=${distanceMilestone}` +
     `&days=${days}` +
     `&hours=${hours}` +
     `&minutes=${minutes}` +

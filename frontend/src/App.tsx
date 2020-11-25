@@ -136,7 +136,7 @@ function App() {
                               name: selectedGear.name,
                               distanceUnit: athlete.distance_unit,
                               distance: selectedGear.distance_in_athlete_unit,
-                              distanceGoal: selectedGear.milestones.distance.target,    
+                              distanceMilestone: selectedGear.milestones.distance.target,    
                               duration: {
                                 days: selectedGear.duration.days,
                                 hours: selectedGear.duration.hours,
@@ -151,7 +151,7 @@ function App() {
                               name: '',
                               distanceUnit: athlete.distance_unit,
                               distance: 0,   
-                              distanceGoal: 0,
+                              distanceMilestone: 0,
                               duration: {
                                 days: 0,
                                 hours: 0,

@@ -17,7 +17,7 @@ interface GearFormDefaults {
     name: string,
     distanceUnit: string,
     distance: number,    
-    distanceGoal: number,
+    distanceMilestone: number,
     duration: Duration,
     track: boolean,
     bikeIds: string[],
@@ -35,7 +35,7 @@ const GearForm = ({defaults, bikes, onSubmit}: GearFormProps) => {
 
     const [name, setName] = React.useState<string>()
     const [distance, setDistance] = React.useState<number>()
-    const [distanceGoal, setDistanceGoal] = React.useState<number>()
+    const [distanceMilestone, setDistanceMilestone] = React.useState<number>()
     const [days, setDays] = React.useState<number>()
     const [hours, setHours] = React.useState<number>()
     const [minutes, setMinutes] = React.useState<number>()
@@ -46,7 +46,7 @@ const GearForm = ({defaults, bikes, onSubmit}: GearFormProps) => {
     React.useEffect(() => {
         setName(defaults.name)
         setDistance(defaults.distance)
-        setDistanceGoal(defaults.distanceGoal)
+        setDistanceMilestone(defaults.distanceMilestone)
         setDays(defaults.duration.days)
         setHours(defaults.duration.hours)
         setMinutes(defaults.duration.minutes)
@@ -57,7 +57,7 @@ const GearForm = ({defaults, bikes, onSubmit}: GearFormProps) => {
  
     const handleSubmit = async(e) => {
         e.preventDefault()
-        onSubmit([defaults.pk, name, distance, days, hours, minutes, seconds, track, bikeIds])
+        onSubmit([defaults.pk, name, distance, distanceMilestone, days, hours, minutes, seconds, track, bikeIds])
     }
 
     const handleBikeOptionChange = (bike: Bike) => {
@@ -98,7 +98,7 @@ const GearForm = ({defaults, bikes, onSubmit}: GearFormProps) => {
 
             <label>Distance goal: </label>
             <div>
-                <input value={distanceGoal} type="number" min="0" step="0.01" required onChange={e => setDistanceGoal(e.target.value)} />
+                <input value={distanceMilestone} type="number" min="0" step="0.01" required onChange={e => setDistanceMilestone(e.target.value)} />
                 <span>{distanceAbbreviation}</span>
             </div>
 

@@ -55,7 +55,6 @@ class Gear(models.Model):
                 'remaining_converted': self.meters_to_athlete_unit(remaining_distance),
             }
         }
-        print(milestones)
         return milestones
 
     def send_milestone_notifications(self):
@@ -102,9 +101,13 @@ class Gear(models.Model):
     def meters_to_athlete_unit(self, meters):
         return round(from_meters(meters, self.athlete.distance_unit), 2)
 
-    def distance_to_meters(self, distance):
+    def save_distance_in_meters(self, distance):
         unit = self.athlete.distance_unit
         self.distance = to_meters(distance, unit)
+
+    def save_distance_milestone_in_meters(self, distance):
+        unit = self.athlete.distance_unit
+        self.distance_milestone = to_meters(distance, unit)
 
     def __str__(self):
         return f'{self.name}, athlete: {self.athlete.ref_id}, is tracked: {self.is_tracked}'

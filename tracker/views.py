@@ -163,6 +163,7 @@ def add_or_change_gear(request):
     pk = request.GET.get('pk')
     name = request.GET.get('name')
     distance = float(request.GET.get('distance'))
+    distance_milestone = float(request.GET.get('distance_milestone'))
     days = int(request.GET.get('days'))
     hours = int(request.GET.get('hours'))
     minutes = int(request.GET.get('minutes'))
@@ -177,7 +178,8 @@ def add_or_change_gear(request):
         gear.athlete = athlete  
         
     gear.name = name
-    gear.distance_to_meters(distance)
+    gear.save_distance_in_meters(distance)
+    gear.save_distance_milestone_in_meters(distance_milestone)
     gear.moving_time  = days * 86400 + hours * 3600 + minutes * 60 + seconds
     gear.is_tracked = is_tracked
 
