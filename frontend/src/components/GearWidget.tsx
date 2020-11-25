@@ -31,24 +31,26 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
             <div className="gear-name">{gear.name}</div>
             <ul className="stats">
                 <div className="stats-section">
+                    <div className="stats-section-title">Distance</div>
                     <li className="stat">
-                        <div className="stat-name">Distance ridden</div>    
+                        <div className="stat-name">Ridden</div>    
                         <div className="stat-value">{gear.distance_in_athlete_unit + distanceAbbreviation}</div> 
                     </li>
                     <li className="stat">
-                        <div className="stat-name">Distance goal progress</div>
+                        <div className="stat-name">Goal progress</div>
                         <div className="stat-value">
                             {distanceProgress}                       
                         </div> 
                     </li>
                 </div>
                 <div className="stats-section">
+                    <div className="stats-section-title">Time</div>
                     <li className="stat">
-                        <div className="stat-name">Time ridden</div>
+                        <div className="stat-name">Ridden</div>
                         <div className="stat-value">{gear.duration.string}</div>  
                     </li>             
                     <li className="stat">
-                        <div className="stat-name">Time goal progress</div>
+                        <div className="stat-name">Goal progress</div>
                         <div className="stat-value">
                             {timeProgress}                       
                         </div> 

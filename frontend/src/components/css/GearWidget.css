@@ -30,6 +30,11 @@
     margin-top: 20px;
 }
 
+.stats-section-title {
+    font-weight: bold;
+    text-align: center;
+}
+
 .stat {
     margin-top: 5px;
 }
