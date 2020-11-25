@@ -134,7 +134,8 @@ const addOrChangeGear: Promised<any> = async(pk, name, distance, distanceMilesto
     `&hours=${duration.hours}` +
     `&minutes=${duration.minutes}` +
     `&seconds=${duration.seconds}` +
-    `&track=${track}` 
+    `&track=${track}` +
+    `&duration=${[duration.days, duration.hours, duration.minutes, duration.seconds]}`
 
     if (bikeIds.length) {
         url = url + `&bike_ids=${bikeIds.join()}`

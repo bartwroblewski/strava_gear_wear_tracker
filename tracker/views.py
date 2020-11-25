@@ -164,13 +164,10 @@ def add_or_change_gear(request):
     name = request.GET.get('name')
     distance = float(request.GET.get('distance'))
     distance_milestone = float(request.GET.get('distance_milestone'))
-    days = int(request.GET.get('days'))
-    hours = int(request.GET.get('hours'))
-    minutes = int(request.GET.get('minutes'))
-    seconds = int(request.GET.get('seconds'))
+    days, hours, minutes, seconds = map(int, request.GET.get('duration').split(','))
     is_tracked = json.loads(request.GET.get('track'))
     bike_ids = request.GET.get('bike_ids')
-    
+
     try:
         gear = Gear.objects.get(pk=pk)
     except Gear.DoesNotExist:
