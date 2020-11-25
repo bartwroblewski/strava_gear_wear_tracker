@@ -44,7 +44,18 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
  
     const handleSubmit = async(e) => {
         e.preventDefault()
-        onSubmit([pk, name, distance, distanceMilestone, days, hours, minutes, seconds, track, bikeIds])
+        onSubmit([
+            pk,
+            name,
+            distance, 
+            distanceMilestone, 
+            days, 
+            hours, 
+            minutes, 
+            seconds, 
+            track, 
+            bikeIds
+        ])
     }
 
     const handleBikeOptionChange = (bike: Bike) => {
@@ -90,6 +101,21 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
             </div>
 
             <label>Time: </label>
+            <div>
+                <input value={days}type="number" min="0" required onChange={e => setDays(e.target.value)} />
+                <label>d</label>  
+
+                <input value={hours}type="number" min="0" max="23" required onChange={e => setHours(e.target.value)} />
+                <label>h</label>  
+
+                <input value={minutes}type="number" min="0" max="59" required onChange={e => setMinutes(e.target.value)} />
+                <label>m</label>  
+
+                <input value={seconds}type="number" min="0" max="59" required onChange={e => setSeconds(e.target.value)} />
+                <label>s</label>  
+            </div>
+            
+            <label>Time goal: </label>
             <div>
                 <input value={days}type="number" min="0" required onChange={e => setDays(e.target.value)} />
                 <label>d</label>  
