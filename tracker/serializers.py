@@ -27,8 +27,6 @@ class GearSerializer(serializers.ModelSerializer):
             'is_tracked', 
             #'athlete', 
             'bikes',
-            
-            'milestones',
         ]
 
 class AthleteSerializer(serializers.ModelSerializer):
