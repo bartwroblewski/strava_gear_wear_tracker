@@ -15,8 +15,9 @@ interface Duration {
 interface GearFormDefaults {
     pk: number,
     name: string,
-    distance_unit: string,
-    distance_in_athlete_unit: number,    
+    distanceUnit: string,
+    distance: number,    
+    distanceGoal: number,
     duration: Duration,
     track: boolean,
     bikeIds: string[],
@@ -32,6 +33,7 @@ const GearForm = ({defaults, bikes, onSubmit}: GearFormProps) => {
 
     const [name, setName] = React.useState<string>()
     const [distance, setDistance] = React.useState<number>()
+    const [distanceGoal, setDistanceGoal] = React.useState<number>()
     const [days, setDays] = React.useState<number>()
     const [hours, setHours] = React.useState<number>()
     const [minutes, setMinutes] = React.useState<number>()
@@ -41,7 +43,8 @@ const GearForm = ({defaults, bikes, onSubmit}: GearFormProps) => {
 
     React.useEffect(() => {
         setName(defaults.name)
-        setDistance(defaults.distance_in_athlete_unit)
+        setDistance(defaults.distance)
+        setDistanceGoal(defaults.distanceGoal)
         setDays(defaults.duration.days)
         setHours(defaults.duration.hours)
         setMinutes(defaults.duration.minutes)
@@ -88,7 +91,13 @@ const GearForm = ({defaults, bikes, onSubmit}: GearFormProps) => {
             <label>Distance: </label>
             <div>
                 <input value={distance} type="number" min="0" step="0.01" required onChange={e => setDistance(e.target.value)} />
-                <span>{unitAbbreviations[defaults.distance_unit]}</span>
+                <span>{unitAbbreviations[defaults.distanceUnit]}</span>
+            </div>
+
+            <label>Distance goal: </label>
+            <div>
+                <input value={distanceGoal} type="number" min="0" step="0.01" required onChange={e => setDistanceGoal(e.target.value)} />
+                <span>{unitAbbreviations[defaults.distanceUnit]}</span>
             </div>
 
             <label>Time: </label>

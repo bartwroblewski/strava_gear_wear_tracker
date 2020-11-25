@@ -134,8 +134,9 @@ function App() {
                             ? {
                               pk: selectedGear.pk,
                               name: selectedGear.name,
-                              distance_unit: athlete.distance_unit,
-                              distance_in_athlete_unit: selectedGear.distance_in_athlete_unit,    
+                              distanceUnit: athlete.distance_unit,
+                              distance: selectedGear.distance_in_athlete_unit,
+                              distanceGoal: selectedGear.milestones.distance.target,    
                               duration: {
                                 days: selectedGear.duration.days,
                                 hours: selectedGear.duration.hours,
@@ -148,8 +149,9 @@ function App() {
                             : {
                               pk: 0,
                               name: '',
-                              distance_unit: athlete.distance_unit,
-                              distance_in_athlete_unit: 0,   
+                              distanceUnit: athlete.distance_unit,
+                              distance: 0,   
+                              distanceGoal: 0,
                               duration: {
                                 days: 0,
                                 hours: 0,

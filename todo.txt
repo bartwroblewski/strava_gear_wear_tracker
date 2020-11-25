@@ -1,3 +1,6 @@
+- slidery w GearForm
+- wprowadzic obiekt Distance do modelu Gear zamiast recznych konwersji
+
 - dorobic automatyczne odswiezanie tokenow w bazie danych i wtedy tez pozbyc sie tokenow w sesji?
 - if token is expired (i.e. overnight), why does fetching bikes still work?
 - napisac middleware do sprawdzania tokenow w sesji, ich dat, odswiezania itp.?
