@@ -2,7 +2,6 @@ import React from 'react'
 import { Gear } from '../api'
 import Progress from './Progress'
 import './css/GearWidget.css'
-import unitAbbreviations from '../helpers/unitAbbreviations'
 
 interface GearWidgetProps {
     key: number,

@@ -1,15 +1,20 @@
 import React from 'react'
-import { Bike, Gear, GearDuration } from '../api'
+import { Bike, Gear} from '../api'
 import './css/GearForm.css'
-import unitAbbreviations from '../helpers/unitAbbreviations'
 import MultiSelect from './MultiSelect'
-import { addOrChangeGearUrl } from '../urls'
 
 interface GearFormProps {
     gear: Gear,
     athleteDistanceUnit: string,
     bikes: Bike[],
     onSubmit: any,
+}
+
+interface Duration {
+    d: number,
+    h: number,
+    m: number,
+    s: number,
 }
 
 const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) => {
@@ -23,8 +28,8 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
     const [distance, setDistance] = React.useState<number>()
     const [distanceMilestone, setDistanceMilestone] = React.useState<number>()
 
-    const [duration, setDuration] = React.useState<GearDuration>({})
-    const [durationMilestone, setDurationMilestone ] = React.useState<GearDuration>()
+    const [duration, setDuration] = React.useState<Duration>({})
+    const [durationMilestone, setDurationMilestone ] = React.useState<Duration>({})
 
     const [days, setDays] = React.useState<number>()
     const [hours, setHours] = React.useState<number>()
@@ -33,28 +38,33 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
 
     const [track, setTrack] = React.useState<boolean>()
     const [bikeIds, setBikeIds] = React.useState<string[]>([])
-  
 
-    const setDefaultInputs = () => {
+    const distanceUnits = {
+        km: 1000,
+        mi: 1609.34,
+    }
+    const metersToUnit = (meters, unit) => distanceUnits[unit] / meters
+
+    const setDefaults = () => {
         setName(gear?.name || '')
 
-        setDistance(gear?.distance_in_athlete_unit || 0)
-        setDistanceMilestone(gear?.distance_milestone_in_athlete_unit || 0)
+        setDistance(gear?.distance || 0)
+        setDistanceMilestone(gear?.distance_milestone || 0)
 
-        setDuration(gear?.duration || {days: 0, hours: 0, minutes: 0, seconds: 0})
-        setDurationMilestone(gear?.duration || {days: 0, hours: 0, minutes: 0, seconds: 0})
+        setDuration({d: 0, h: 0, m: 0, s: 0})
+        setDurationMilestone({d: 0, h: 0, m: 0, s: 0})
 
-        setDays(gear?.duration.days || 0)
-        setHours(gear?.duration.hours || 0)
-        setMinutes(gear?.duration.minutes || 0)
-        setSeconds(gear?.duration.seconds || 0)
+        setDays(0)
+        setHours(0)
+        setMinutes(0)
+        setSeconds(0)
 
         setTrack(gear?.is_tracked ?? true)
 
         setBikeIds(gear?.bikes.map(x => x.ref_id) || [])
     }
 
-    React.useEffect(setDefaultInputs, [gear])
+    React.useEffect(setDefaults, [gear])
  
     const handleSubmit = async(e) => {
         e.preventDefault()
