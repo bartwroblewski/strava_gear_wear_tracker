@@ -26,8 +26,8 @@ class Gear(models.Model):
     name = models.CharField(max_length=200)
     distance = models.FloatField(default=0, validators=[MinValueValidator(0)])
     distance_milestone = models.FloatField(default=0, validators=[MinValueValidator(0)])
-    _moving_time = models.IntegerField(default=0, validators=[MinValueValidator(0)])
-    _moving_time_milestone = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    moving_time = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    moving_time_milestone = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     elapsed_time = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     is_tracked = models.BooleanField(default=True)
     athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, default=1, related_name='gear')
@@ -42,68 +42,6 @@ class Gear(models.Model):
     def send_milestone_notifications(self):
         if self.distance >= self.distance_milestone and self.distance_milestone > 0:
             print(f"SENDING EMAIL FOR GEAR: {self.name}")
-
-    @property
-    def moving_time(self):
-        return self._moving_time
-    
-    @moving_time.setter
-    def moving_time(self, seconds):
-        self._moving_time = seconds
-
-    @property
-    def moving_time_milestone(self):
-        return self._moving_time_milestone
-
-    @moving_time_milestone.setter
-    def moving_time_milestone(self, seconds):
-        self._moving_time_milestone = seconds
-
-    @property
-    def moving_time_remaining_to_milestone(self):
-        moving_time_remaining = self.moving_time_milestone - self.moving_time
-        delta = str(datetime.timedelta(seconds=moving_time_remaining))
-        return delta
-
-    @property
-    def duration(self):
-        seconds = self.moving_time
-        delta = datetime.timedelta(seconds=seconds)
-        days = delta.days
-        hours = seconds // 3600 - days * 24
-        minutes = (seconds % 3600) // 60
-        seconds = seconds % 60
-        return {
-            'string': str(delta),
-            'days': days,
-            'hours': hours,
-            'minutes': minutes,
-            'seconds': seconds,
-        }
-
-    @property
-    def distance_in_athlete_unit(self):
-        return self.meters_to_athlete_unit(self.distance)
-
-    @property
-    def distance_milestone_in_athlete_unit(self):
-        return self.meters_to_athlete_unit(self.distance_milestone)
-
-    @property
-    def distance_remaining_to_milestone(self):
-        remaining_distance = self.distance_milestone - self.distance
-        return self.meters_to_athlete_unit(remaining_distance)
-
-    def meters_to_athlete_unit(self, meters):
-        return round(from_meters(meters, self.athlete.distance_unit), 2)
-
-    def save_distance_in_meters(self, distance):
-        unit = self.athlete.distance_unit
-        self.distance = to_meters(distance, unit)
-
-    def save_distance_milestone_in_meters(self, distance):
-        unit = self.athlete.distance_unit
-        self.distance_milestone = to_meters(distance, unit)
 
     def __str__(self):
         return f'{self.name}, athlete: {self.athlete.ref_id}, is tracked: {self.is_tracked}'

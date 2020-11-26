@@ -5,45 +5,17 @@ type Promised<T> = (...args: any[]) => Promise<T>
 export interface GearBike {
     ref_id: string,
     name: string,
-    athlete: number,
-}
-
-export interface GearDuration {
-    string?: string,
-    days: number,
-    hours: number,
-    minutes: number,
-    seconds: number,
-}
-
-interface Milestone {
-    target: number,
-    remaining: number,
-    remaining_converted: string | number
-}
-
-interface Milestones {
-    moving_time: Milestone,
-    distance: Milestone,
 }
 
 export interface Gear {
     pk: number,
     name: string,
     distance: number,
-    distance_in_athlete_unit: number,
     distance_milestone: number,
-    distance_milestone_in_athlete_unit: number,
-    distance_remaining_to_milestone: number,
     moving_time: number,
     moving_time_milestone: number,
-    moving_time_remaining_to_milestone: string,
-    duration: GearDuration;
     is_tracked: boolean,
-    athlete: Athlete,
     bikes: GearBike[],
-   
-    milestones: Milestones,
 }
 
 export interface Athlete {
@@ -52,8 +24,7 @@ export interface Athlete {
     lastname: string,
     distance_unit: string,
     time_unit: string,
-    gear: Gear[]
-
+    gear: Gear[],
 }
 
 export interface Bike {

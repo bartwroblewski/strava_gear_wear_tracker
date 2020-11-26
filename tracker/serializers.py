@@ -5,7 +5,7 @@ from .models import Athlete, Gear, Bike
 class BikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bike
-        fields = ['ref_id', 'name', 'athlete']
+        fields = ['ref_id', 'name']
 
 class GearSerializer(serializers.ModelSerializer):
     bikes = BikeSerializer(many=True)
@@ -16,16 +16,10 @@ class GearSerializer(serializers.ModelSerializer):
             'pk',
             'name',
             'distance',
-            'distance_in_athlete_unit',
             'distance_milestone',
-            'distance_milestone_in_athlete_unit',
-            'distance_remaining_to_milestone',
             'moving_time', 
             'moving_time_milestone',
-            'moving_time_remaining_to_milestone',
-            'duration',
             'is_tracked', 
-            #'athlete', 
             'bikes',
         ]
 
