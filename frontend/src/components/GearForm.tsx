@@ -113,9 +113,10 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
         )
       })
       
-    const changeTime = (increase: boolean, time: number, seconds: number) => {
-        console.log(increase)
-        return increase ? time + seconds : time - seconds
+    const changeTime = (prev: number, curr: number, unit: string) => {
+        const factors = {d: 86400}
+        const factor = factors[unit]
+        return prev - (toDuration(prev)[unit] * factor) + (curr * factor)
     }
 
     React.useEffect(() => console.log(toDuration(time)), [time])
@@ -147,7 +148,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
                     /* onChange={e => setDuration(prev => {
                         return {...prev, ...{d: e.target.value * 86400}}
                     })} */
-                    onChange={e => setTime(prev => (prev - (toDuration(prev).d * 86400) + e.target.value * 86400))}
+                    onChange={e => setTime(prev => changeTime(prev, e.target.value, 'd'))}
                 />
                 <label>d</label>  
 
