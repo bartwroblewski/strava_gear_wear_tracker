@@ -95,19 +95,16 @@ const deleteGear: Promised<any> = async(gearPk: number) => {
     return text
 }
 
-const addOrChangeGear: Promised<any> = async(pk, name, distance, distanceMilestone, duration, track, bikeIds) => {
+const addOrChangeGear: Promised<any> = async(pk, name, distance, distanceMilestone, time, timeMilestone, track, bikeIds) => {
     let url = urls.addOrChangeGearUrl +
     `?pk=${pk}` +
     `&name=${name}` +
     `&distance=${distance}` +
     `&distance_milestone=${distanceMilestone}` +
-    `&days=${duration.days}` +
-    `&hours=${duration.hours}` +
-    `&minutes=${duration.minutes}` +
-    `&seconds=${duration.seconds}` +
-    `&track=${track}` +
-    `&duration=${[duration.days, duration.hours, duration.minutes, duration.seconds]}`
-
+    `&time=${time}` +
+    `&time_milestone=${timeMilestone}` +
+    `&track=${track}` 
+    
     if (bikeIds.length) {
         url = url + `&bike_ids=${bikeIds.join()}`
     }

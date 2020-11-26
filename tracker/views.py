@@ -164,7 +164,8 @@ def add_or_change_gear(request):
     name = request.GET.get('name')
     distance = float(request.GET.get('distance'))
     distance_milestone = float(request.GET.get('distance_milestone'))
-    days, hours, minutes, seconds = map(int, request.GET.get('duration').split(','))
+    moving_time = request.GET.get('time')
+    moving_time_milestone = request.GET.get('time_milestone')
     is_tracked = json.loads(request.GET.get('track'))
     bike_ids = request.GET.get('bike_ids')
 
@@ -175,9 +176,10 @@ def add_or_change_gear(request):
         gear.athlete = athlete  
         
     gear.name = name
-    gear.save_distance_in_meters(distance)
-    gear.save_distance_milestone_in_meters(distance_milestone)
-    gear.moving_time  = days * 86400 + hours * 3600 + minutes * 60 + seconds
+    gear.distance = distance
+    gear.distance_milestone = distance_milestone
+    gear.moving_time  = moving_time
+    gear.moving_time_milestone = moving_time_milestone
     gear.is_tracked = is_tracked
 
     try:

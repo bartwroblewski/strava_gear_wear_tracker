@@ -106,12 +106,12 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
         )
       })
       
-    const changeTime = (e: any) => {
+    const changeTime = (e: any, prev: number) => {
         const curr = e.target.value
         const unit = e.target.name
         const factors = {d: 86400, h: 3600, m: 60, s: 1}
         const factor = factors[unit]
-        setTime(prev => prev - (toDuration(prev)[unit] * factor) + (curr * factor))
+        return prev - (toDuration(prev)[unit] * factor) + (curr * factor)
     }
 
     const duration = {
@@ -146,7 +146,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
                     type="number"
                     min="0"
                     required
-                    onChange={e => changeTime(e)}
+                    onChange={e => setTime(prev => changeTime(e, prev))}
                 />
                 <label>d</label>  
 
@@ -156,7 +156,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
                     type="number"
                     min="0"
                     required
-                    onChange={e => changeTime(e)}
+                    onChange={e => setTime(prev => changeTime(e, prev))}
                 />
                 <label>h</label>  
 
@@ -166,7 +166,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
                     type="number"
                     min="0"
                     required
-                    onChange={e => changeTime(e)}
+                    onChange={e => setTime(prev => changeTime(e, prev))}
                 />
                 <label>m</label>  
 
@@ -176,25 +176,53 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
                     type="number"
                     min="0"
                     required
-                    onChange={e => changeTime(e)}
+                    onChange={e => setTime(prev => changeTime(e, prev))}
                 />
                 <label>s</label>  
             </div>
             
-{/*             <label>Time goal: </label>
+            <label>Time goal: </label>
             <div>
-                <input value={timeMilestoneDuration.d} type="number" min="0" required />
+                <input 
+                    value={duration.milestone.d}
+                    name="d"
+                    type="number"
+                    min="0"
+                    required
+                    onChange={e => setTimeMilestone(prev => changeTime(e, prev))}
+                />
                 <label>d</label>  
 
-                <input value={timeMilestoneDuration.h} type="number" min="0" max="23" required />
+                <input 
+                    value={duration.milestone.h}
+                    name="h"
+                    type="number"
+                    min="0"
+                    required
+                    onChange={e => setTimeMilestone(prev => changeTime(e, prev))}
+                />
                 <label>h</label>  
 
-                <input value={timeMilestoneDuration.m} type="number" min="0" max="59" required />
+                <input 
+                    value={duration.milestone.m}
+                    name="m"
+                    type="number"
+                    min="0"
+                    required
+                    onChange={e => setTimeMilestone(prev => changeTime(e, prev))}
+                />
                 <label>m</label>  
 
-                <input value={timeMilestoneDuration.s} type="number" min="0" max="59" required />
+                <input 
+                    value={duration.milestone.s}
+                    name="s"
+                    type="number"
+                    min="0"
+                    required
+                    onChange={e => setTimeMilestone(prev => changeTime(e, prev))}
+                />
                 <label>s</label>  
-            </div> */}
+            </div>
 
             <label>Track: </label>
             <input type="checkbox" checked={track} onChange={() => setTrack(prev => !prev)} />
