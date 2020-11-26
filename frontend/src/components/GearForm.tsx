@@ -114,6 +114,11 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
         setTime(prev => prev - (toDuration(prev)[unit] * factor) + (curr * factor))
     }
 
+    const duration = {
+        time: toDuration(time),
+        milestone: toDuration(timeMilestone),
+    }
+
     React.useEffect(() => console.log(toDuration(time)), [time])
     return (
         <form onSubmit={handleSubmit}>
@@ -136,7 +141,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
             <label>Time: </label>
             <div>
                 <input 
-                    value={toDuration(time).d}
+                    value={duration.time.d}
                     name="d"
                     type="number"
                     min="0"
@@ -146,7 +151,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
                 <label>d</label>  
 
                 <input 
-                    value={toDuration(time).h}
+                    value={duration.time.h}
                     name="h"
                     type="number"
                     min="0"
@@ -156,7 +161,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
                 <label>h</label>  
 
                 <input 
-                    value={toDuration(time).m}
+                    value={duration.time.m}
                     name="m"
                     type="number"
                     min="0"
@@ -166,7 +171,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
                 <label>m</label>  
 
                 <input 
-                    value={toDuration(time).s}
+                    value={duration.time.s}
                     name="s"
                     type="number"
                     min="0"
