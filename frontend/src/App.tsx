@@ -15,7 +15,6 @@ import {
   Athlete,
   Gear, 
   Bike, 
-  toggleGearTracking,
   deleteGear, 
   addOrChangeGear,
   changeAthlete,

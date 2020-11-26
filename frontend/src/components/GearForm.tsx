@@ -43,15 +43,23 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
         km: 1000,
         mi: 1609.34,
     }
-    const metersToUnit = (meters, unit) => distanceUnits[unit] / meters
+    const metersToUnit = (meters: number, unit: string) => meters / distanceUnits[unit]
+
+    const toDuration = (seconds: number): Duration => {
+        const days = Math.floor(seconds / 86400)
+        const hours = Math.floor(seconds / 3600) - (days * 24)
+        const minutes = Math.floor(seconds / 60) - (hours * 60)
+        console.log(days, hours, minutes)
+        return {d: days, h: hours, m: minutes, s: 0}
+    }
 
     const setDefaults = () => {
         setName(gear?.name || '')
 
-        setDistance(gear?.distance || 0)
+        setDistance(metersToUnit(gear?.distance, athleteDistanceUnit) || 0)
         setDistanceMilestone(gear?.distance_milestone || 0)
 
-        setDuration({d: 0, h: 0, m: 0, s: 0})
+        setDuration(gear? toDuration(gear.moving_time) : {d: 1, h: 1, m: 1, s: 1})
         setDurationMilestone({d: 0, h: 0, m: 0, s: 0})
 
         setDays(0)
@@ -124,16 +132,16 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
 
             <label>Time: </label>
             <div>
-                <input value={duration.days}type="number" min="0" required onChange={e => setDuration(prev => ({...prev, days: e.target.value}))} />
+                <input value={duration.d}type="number" min="0" required onChange={e => setDuration(prev => ({...prev, days: e.target.value}))} />
                 <label>d</label>  
 
-                <input value={duration.hours}type="number" min="0" max="23" required onChange={e => setDuration(prev => ({...prev, hours: e.target.value}))} />
+                <input value={duration.h}type="number" min="0" max="23" required onChange={e => setDuration(prev => ({...prev, hours: e.target.value}))} />
                 <label>h</label>  
 
-                <input value={duration.minutes}type="number" min="0" max="59" required onChange={e => setDuration(prev => ({...prev, minutes: e.target.value}))} />
+                <input value={duration.m}type="number" min="0" max="59" required onChange={e => setDuration(prev => ({...prev, minutes: e.target.value}))} />
                 <label>m</label>  
 
-                <input value={duration.seconds}type="number" min="0" max="59" required onChange={e => setDuration(prev => ({...prev, seconds: e.target.value}))} />
+                <input value={duration.s}type="number" min="0" max="59" required onChange={e => setDuration(prev => ({...prev, seconds: e.target.value}))} />
                 <label>s</label>  
             </div>
             
