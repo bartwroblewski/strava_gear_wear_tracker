@@ -21,6 +21,8 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
 
     const distanceAbbreviation =  ' ' + athleteDistanceUnit
 
+    const noDuration = () => ({d: 0, h: 0, m: 0, s: 0})
+
     const pk = gear?.pk || 0 // 0 pk is not very clean...
 
     const [name, setName] = React.useState<string>()
@@ -30,6 +32,11 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
 
     const [time, setTime] = React.useState<number>()
     const [timeMilestone, setTimeMilestone] = React.useState<number>()
+
+    const [duration, setDuration] = React.useState({
+        time: noDuration(),
+        milestone: noDuration(),
+    })
 
     const [track, setTrack] = React.useState<boolean>()
     const [bikeIds, setBikeIds] = React.useState<string[]>([])
@@ -50,10 +57,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
         s -= m*60;
         return {d, h, m, s}
     }
-
-    const noDuration = {d: 0, h: 0, m: 0, s: 0}
-    const timeDuration = toDuration(time)
-    const timeMilestoneDuration = toDuration(timeMilestone)
+    
 
     const setDefaults = () => {
         setName(gear?.name || '')
@@ -108,11 +112,13 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
          </div>
         )
       })
-
+      
     const changeTime = (increase: boolean, time: number, seconds: number) => {
+        console.log(increase)
         return increase ? time + seconds : time - seconds
     }
 
+    React.useEffect(() => console.log(toDuration(time)), [time])
     return (
         <form onSubmit={handleSubmit}>
 
@@ -134,25 +140,49 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
             <label>Time: </label>
             <div>
                 <input 
-                    defaultValue={toDuration(time).d || 0}
+                    value={toDuration(time).d}
                     type="number"
                     min="0"
                     required
-                    onChange={e => setTime(prev => changeTime(e.target.value > timeDuration.d, prev, 86400))} 
+                    /* onChange={e => setDuration(prev => {
+                        return {...prev, ...{d: e.target.value * 86400}}
+                    })} */
+                    onChange={e => setTime(prev => (prev - (toDuration(prev).d * 86400) + e.target.value * 86400))}
                 />
                 <label>d</label>  
 
-                <input value={timeDuration.h} type="number" min="0" max="23" required />
+                <input 
+                    value={duration.time.h}
+                    type="number"
+                    min="0"
+                    max="23" 
+                    required
+                    onChange={e => setTime(e.target.value * 3600)} 
+                />
                 <label>h</label>  
 
-                <input value={timeDuration.m} type="number" min="0" max="59" required />
+                <input 
+                    value={duration.time.m}
+                    type="number"
+                    min="0"
+                    max="59" 
+                    required
+                    onChange={e => setTime(e.target.value * 60)} 
+                />
                 <label>m</label>  
 
-                <input value={timeDuration.s} type="number" min="0" max="59" required />
+                <input 
+                    value={duration.time.s}
+                    type="number"
+                    min="0"
+                    max="59" 
+                    required
+                    onChange={e => setTime(e.target.value * 1)} 
+                />
                 <label>s</label>  
             </div>
             
-            <label>Time goal: </label>
+{/*             <label>Time goal: </label>
             <div>
                 <input value={timeMilestoneDuration.d} type="number" min="0" required />
                 <label>d</label>  
@@ -165,7 +195,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
 
                 <input value={timeMilestoneDuration.s} type="number" min="0" max="59" required />
                 <label>s</label>  
-            </div>
+            </div> */}
 
             <label>Track: </label>
             <input type="checkbox" checked={track} onChange={() => setTrack(prev => !prev)} />
