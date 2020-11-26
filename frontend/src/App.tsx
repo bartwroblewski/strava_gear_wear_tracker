@@ -148,6 +148,6 @@ function App() {
 }
 
 const container = document.getElementById('app')
-ReactDOM.render(<App />, container)
+ReactDOM.render(<Test />, container)
 
 export default App;
