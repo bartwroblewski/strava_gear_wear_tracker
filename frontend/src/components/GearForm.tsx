@@ -24,18 +24,10 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
     const pk = gear?.pk || 0 // 0 pk is not very clean...
 
     const [name, setName] = React.useState<string>()
-
     const [distance, setDistance] = React.useState<number>()
     const [distanceMilestone, setDistanceMilestone] = React.useState<number>()
-
     const [duration, setDuration] = React.useState<Duration>({})
     const [durationMilestone, setDurationMilestone ] = React.useState<Duration>({})
-
-    const [days, setDays] = React.useState<number>()
-    const [hours, setHours] = React.useState<number>()
-    const [minutes, setMinutes] = React.useState<number>()
-    const [seconds, setSeconds] = React.useState<number>()
-
     const [track, setTrack] = React.useState<boolean>()
     const [bikeIds, setBikeIds] = React.useState<string[]>([])
 
@@ -60,15 +52,11 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
 
     const setDefaults = () => {
         setName(gear?.name || '')
-
         setDistance(gear ? metersToUnit(gear.distance, athleteDistanceUnit) : 0)
         setDistanceMilestone(gear?.distance_milestone || 0)
-
         setDuration(gear? toDuration(gear.moving_time) : noDuration )
         setDurationMilestone(gear? toDuration(gear.moving_time_milestone) : noDuration)
-
         setTrack(gear?.is_tracked ?? true)
-
         setBikeIds(gear?.bikes.map(x => x.ref_id) || [])
     }
 
@@ -82,7 +70,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
             distance, 
             distanceMilestone, 
             duration, 
-            //durationMilestone
+            durationMilestone,
             track, 
             bikeIds
         ])
