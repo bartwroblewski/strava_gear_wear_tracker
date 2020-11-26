@@ -46,11 +46,14 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
     const metersToUnit = (meters: number, unit: string) => meters / distanceUnits[unit]
 
     const toDuration = (seconds: number): Duration => {
-        const days = Math.floor(seconds / 86400)
-        const hours = Math.floor(seconds / 3600) - (days * 24)
-        const minutes = Math.floor(seconds / 60) - (hours * 60)
-        console.log(days, hours, minutes)
-        return {d: days, h: hours, m: minutes, s: 0}
+        let s = seconds
+        const d = Math.floor(s / (3600*24));
+        s -= d*3600*24;
+        const h = Math.floor(s / 3600);
+        s -= h*3600;
+        const m = Math.floor(s / 60);
+        s -= m*60;
+        return {d, h, m, s}
     }
 
     const setDefaults = () => {
