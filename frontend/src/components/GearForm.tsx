@@ -34,10 +34,13 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
     const [track, setTrack] = React.useState<boolean>()
     const [bikeIds, setBikeIds] = React.useState<string[]>([])
 
-    const distanceUnits = {
+    const meterFactors = {
         km: 1000,
         mi: 1609.34,
     }
+
+    const meterFactor = meterFactors[athleteDistanceUnit]
+
     const metersToUnit = (meters: number, unit: string) => meters / distanceUnits[unit]
 
     const toDuration = (seconds: number): Duration => {
@@ -55,7 +58,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
     const setDefaults = () => {
         setName(gear?.name || '')
 
-        setDistance(gear ? metersToUnit(gear.distance, athleteDistanceUnit) : 0)
+        setDistance(gear?.distance || 0)
         setDistanceMilestone(gear?.distance_milestone || 0)
 
         setTime(gear?.moving_time || 0)
@@ -119,7 +122,6 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
         milestone: toDuration(timeMilestone),
     }
 
-    React.useEffect(() => console.log(toDuration(time)), [time])
     return (
         <form onSubmit={handleSubmit}>
 
@@ -128,13 +130,13 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
 
             <label>Distance: </label>
             <div>
-                <input value={distance} type="number" min="0" step="0.01" required onChange={e => setDistance(e.target.value)} />
+                <input value={distance / meterFactor } type="number" min="0" step="0.01" required onChange={e => setDistance(e.target.value * meterFactor)} />
                 <span>{distanceAbbreviation}</span>
             </div>
 
             <label>Distance goal: </label>
             <div>
-                <input value={distanceMilestone} type="number" min="0" step="0.01" required onChange={e => setDistanceMilestone(e.target.value)} />
+                <input value={distanceMilestone / meterFactor} type="number" min="0" step="0.01" required onChange={e => setDistanceMilestone(e.target.value * meterFactor)} />
                 <span>{distanceAbbreviation}</span>
             </div>
 
