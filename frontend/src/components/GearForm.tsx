@@ -1,5 +1,5 @@
 import React from 'react'
-import { Bike, Gear} from '../api'
+import { Bike, changeAthlete, Gear} from '../api'
 import './css/GearForm.css'
 import MultiSelect from './MultiSelect'
 
@@ -24,10 +24,13 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
     const pk = gear?.pk || 0 // 0 pk is not very clean...
 
     const [name, setName] = React.useState<string>()
+
     const [distance, setDistance] = React.useState<number>()
     const [distanceMilestone, setDistanceMilestone] = React.useState<number>()
-    const [duration, setDuration] = React.useState<Duration>({})
-    const [durationMilestone, setDurationMilestone ] = React.useState<Duration>({})
+
+    const [time, setTime] = React.useState<number>()
+    const [timeMilestone, setTimeMilestone] = React.useState<number>()
+
     const [track, setTrack] = React.useState<boolean>()
     const [bikeIds, setBikeIds] = React.useState<string[]>([])
 
@@ -49,14 +52,20 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
     }
 
     const noDuration = {d: 0, h: 0, m: 0, s: 0}
+    const timeDuration = toDuration(time)
+    const timeMilestoneDuration = toDuration(timeMilestone)
 
     const setDefaults = () => {
         setName(gear?.name || '')
+
         setDistance(gear ? metersToUnit(gear.distance, athleteDistanceUnit) : 0)
         setDistanceMilestone(gear?.distance_milestone || 0)
-        setDuration(gear? toDuration(gear.moving_time) : noDuration )
-        setDurationMilestone(gear? toDuration(gear.moving_time_milestone) : noDuration)
+
+        setTime(gear?.moving_time || 0)
+        setTimeMilestone(gear?.moving_time_milestone || 0)
+
         setTrack(gear?.is_tracked ?? true)
+
         setBikeIds(gear?.bikes.map(x => x.ref_id) || [])
     }
 
@@ -69,8 +78,8 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
             name,
             distance, 
             distanceMilestone, 
-            duration, 
-            durationMilestone,
+            time,
+            timeMilestone,
             track, 
             bikeIds
         ])
@@ -100,6 +109,10 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
         )
       })
 
+    const changeTime = (increase: boolean, time: number, seconds: number) => {
+        return increase ? time + seconds : time - seconds
+    }
+
     return (
         <form onSubmit={handleSubmit}>
 
@@ -120,31 +133,37 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
 
             <label>Time: </label>
             <div>
-                <input value={duration.d}type="number" min="0" required onChange={e => setDuration(prev => ({...prev, d: e.target.value}))} />
+                <input 
+                    defaultValue={toDuration(time).d || 0}
+                    type="number"
+                    min="0"
+                    required
+                    onChange={e => setTime(prev => changeTime(e.target.value > timeDuration.d, prev, 86400))} 
+                />
                 <label>d</label>  
 
-                <input value={duration.h}type="number" min="0" max="23" required onChange={e => setDuration(prev => ({...prev, h: e.target.value}))} />
+                <input value={timeDuration.h} type="number" min="0" max="23" required />
                 <label>h</label>  
 
-                <input value={duration.m}type="number" min="0" max="59" required onChange={e => setDuration(prev => ({...prev, m: e.target.value}))} />
+                <input value={timeDuration.m} type="number" min="0" max="59" required />
                 <label>m</label>  
 
-                <input value={duration.s}type="number" min="0" max="59" required onChange={e => setDuration(prev => ({...prev, s: e.target.value}))} />
+                <input value={timeDuration.s} type="number" min="0" max="59" required />
                 <label>s</label>  
             </div>
             
             <label>Time goal: </label>
             <div>
-                <input value={durationMilestone.d}type="number" min="0" required onChange={e => setDurationMilestone(prev => ({...prev, d: e.target.value}))} />
+                <input value={timeMilestoneDuration.d} type="number" min="0" required />
                 <label>d</label>  
 
-                <input value={durationMilestone.h}type="number" min="0" max="23" required onChange={e => setDurationMilestone(prev => ({...prev, h: e.target.value}))} />
+                <input value={timeMilestoneDuration.h} type="number" min="0" max="23" required />
                 <label>h</label>  
 
-                <input value={durationMilestone.m}type="number" min="0" max="59" required onChange={e => setDurationMilestone(prev => ({...prev, m: e.target.value}))} />
+                <input value={timeMilestoneDuration.m} type="number" min="0" max="59" required />
                 <label>m</label>  
 
-                <input value={durationMilestone.s}type="number" min="0" max="59" required onChange={e => setDurationMilestone(prev => ({...prev, s: e.target.value}))} />
+                <input value={timeMilestoneDuration.s} type="number" min="0" max="59" required />
                 <label>s</label>  
             </div>
 
