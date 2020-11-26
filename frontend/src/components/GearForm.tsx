@@ -21,8 +21,6 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
 
     const distanceAbbreviation =  ' ' + athleteDistanceUnit
 
-    const noDuration = () => ({d: 0, h: 0, m: 0, s: 0})
-
     const pk = gear?.pk || 0 // 0 pk is not very clean...
 
     const [name, setName] = React.useState<string>()
@@ -32,11 +30,6 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
 
     const [time, setTime] = React.useState<number>()
     const [timeMilestone, setTimeMilestone] = React.useState<number>()
-
-    const [duration, setDuration] = React.useState({
-        time: noDuration(),
-        milestone: noDuration(),
-    })
 
     const [track, setTrack] = React.useState<boolean>()
     const [bikeIds, setBikeIds] = React.useState<string[]>([])
@@ -113,10 +106,12 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
         )
       })
       
-    const changeTime = (prev: number, curr: number, unit: string) => {
-        const factors = {d: 86400}
+    const changeTime = (e: any) => {
+        const curr = e.target.value
+        const unit = e.target.name
+        const factors = {d: 86400, h: 3600, m: 60, s: 1}
         const factor = factors[unit]
-        return prev - (toDuration(prev)[unit] * factor) + (curr * factor)
+        setTime(prev => prev - (toDuration(prev)[unit] * factor) + (curr * factor))
     }
 
     React.useEffect(() => console.log(toDuration(time)), [time])
@@ -142,43 +137,41 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
             <div>
                 <input 
                     value={toDuration(time).d}
+                    name="d"
                     type="number"
                     min="0"
                     required
-                    /* onChange={e => setDuration(prev => {
-                        return {...prev, ...{d: e.target.value * 86400}}
-                    })} */
-                    onChange={e => setTime(prev => changeTime(prev, e.target.value, 'd'))}
+                    onChange={e => changeTime(e)}
                 />
                 <label>d</label>  
 
                 <input 
-                    value={duration.time.h}
+                    value={toDuration(time).h}
+                    name="h"
                     type="number"
                     min="0"
-                    max="23" 
                     required
-                    onChange={e => setTime(e.target.value * 3600)} 
+                    onChange={e => changeTime(e)}
                 />
                 <label>h</label>  
 
                 <input 
-                    value={duration.time.m}
+                    value={toDuration(time).m}
+                    name="m"
                     type="number"
                     min="0"
-                    max="59" 
                     required
-                    onChange={e => setTime(e.target.value * 60)} 
+                    onChange={e => changeTime(e)}
                 />
                 <label>m</label>  
 
                 <input 
-                    value={duration.time.s}
+                    value={toDuration(time).s}
+                    name="s"
                     type="number"
                     min="0"
-                    max="59" 
                     required
-                    onChange={e => setTime(e.target.value * 1)} 
+                    onChange={e => changeTime(e)}
                 />
                 <label>s</label>  
             </div>
