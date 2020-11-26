@@ -18,12 +18,11 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
     const distanceProgress = <Progress 
         met={gear.distance} 
         target={gear.distance_milestone}
-        remaining={gear.distance_remaining_to_milestone + distanceAbbreviation}
+        unit={distanceUnit}
     />
     const timeProgress = <Progress 
         met={gear.moving_time}
         target={gear.moving_time_milestone}
-        remaining={gear.moving_time_remaining_to_milestone}
     />
     
     return (
@@ -34,7 +33,7 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
                     <div className="stats-section-title">Distance</div>
                     <li className="stat">
                         <div className="stat-name">Ridden</div>    
-                        <div className="stat-value">{gear.distance_in_athlete_unit + distanceAbbreviation}</div> 
+                        <div className="stat-value">{gear.distance + ' ' +distanceUnit}</div> 
                     </li>
                     <li className="stat">
                         <div className="stat-name">Goal progress</div>
@@ -47,7 +46,7 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
                     <div className="stats-section-title">Time</div>
                     <li className="stat">
                         <div className="stat-name">Ridden</div>
-                        <div className="stat-value">{gear.duration.string}</div>  
+                        <div className="stat-value">{gear.moving_time}</div>  
                     </li>             
                     <li className="stat">
                         <div className="stat-name">Goal progress</div>

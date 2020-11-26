@@ -4,7 +4,7 @@ import './css/Progress.css'
 interface ProgressProps {
     met: number,
     target: number,
-    remaining: string | number
+    unit?: string,
 }
 
 interface ProgressBarProps {
@@ -28,16 +28,17 @@ const ProgressBar = ({factor}: ProgressBarProps) => {
     )
 }
 
-const Progress = ({met, target, remaining}: ProgressProps) => {
+const Progress = ({met, target, unit}: ProgressProps) => {
 
     const factor = met / target
     const metPercentage = factor * 100
     const metPercentageFormatted = parseFloat(metPercentage).toFixed(0) + '%'
+
+    const remaining = target - met
     
-    const summary = metPercentage >= 100 
+    const summary = remaining <= 0 
         ? <div className="goal-met">100%</div>
         : <div>{metPercentageFormatted + ' (' + remaining + ' remaining)'}</div>
-   // remaining = metPercentage >= 100 ? null : `(${remaining} remaining)`
 
     return (
         target
