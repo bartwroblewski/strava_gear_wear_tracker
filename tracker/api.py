@@ -37,6 +37,7 @@ def get_activity(activity_id, access_token):
     }
     r = requests.get(url, headers=headers)
     activity = r.json()
+    print(activity)
     return activity
 
 def get_authenticated_athlete(access_token):
