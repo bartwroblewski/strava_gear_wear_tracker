@@ -93,113 +93,133 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
     return (
         <form onSubmit={handleSubmit}>
 
-            <label>Name :</label>
-            <input value={name} type="text" required onChange={e => setName(e.target.value)} />
-
-            <label>Distance: </label>
-            <div>
-                <input value={distanceToUnit(distance)} type="number" min="0" step="0.01" required onChange={e => setDistance(distanceFromUnit(e.target.value))} />
-                <span>{distanceAbbreviation}</span>
+    <div className="form-title">{gear ? 'Edit' : 'Add'} gear</div>
+            
+            <div className="form-section">
+                <label>Name</label>
+                <div>
+                    <input value={name} type="text" required onChange={e => setName(e.target.value)} />
+                </div>
             </div>
 
-            <label>Distance goal: </label>
-            <div>
-                <input value={distanceToUnit(distanceMilestone)} type="number" min="0" step="0.01" required onChange={e => distanceFromUnit(e.target.value)} />
-                <span>{distanceAbbreviation}</span>
+            <div className="form-section">
+                <label>Distance</label>
+                <div>
+                    <input value={distanceToUnit(distance)} type="number" min="0" step="0.01" required onChange={e => setDistance(distanceFromUnit(e.target.value))} />
+                    <span>{distanceAbbreviation}</span>
+                </div>
             </div>
 
-            <label>Time: </label>
-            <div>
-                <input 
-                    value={duration.time.d}
-                    name="d"
-                    type="number"
-                    min="0"
-                    required
-                    onChange={e => setTime(prev => changeTime(e, prev))}
-                />
-                <label>d</label>  
+            <div className="form-section">
+                <label>Distance goal</label>
+                <div>
+                    <input value={distanceToUnit(distanceMilestone)} type="number" min="0" step="0.01" required onChange={e => distanceFromUnit(e.target.value)} />
+                    <span>{distanceAbbreviation}</span>
+                </div>
+            </div>
 
-                <input 
-                    value={duration.time.h}
-                    name="h"
-                    type="number"
-                    min="0"
-                    required
-                    onChange={e => setTime(prev => changeTime(e, prev))}
-                />
-                <label>h</label>  
+            <div className="form-section">
+                <label>Time</label>
+                <div>
+                    <input 
+                        value={duration.time.d}
+                        name="d"
+                        type="number"
+                        min="0"
+                        required
+                        onChange={e => setTime(prev => changeTime(e, prev))}
+                    />
+                    <label>d</label>  
 
-                <input 
-                    value={duration.time.m}
-                    name="m"
-                    type="number"
-                    min="0"
-                    required
-                    onChange={e => setTime(prev => changeTime(e, prev))}
-                />
-                <label>m</label>  
+                    <input 
+                        value={duration.time.h}
+                        name="h"
+                        type="number"
+                        min="0"
+                        required
+                        onChange={e => setTime(prev => changeTime(e, prev))}
+                    />
+                    <label>h</label>  
 
-                <input 
-                    value={duration.time.s}
-                    name="s"
-                    type="number"
-                    min="0"
-                    required
-                    onChange={e => setTime(prev => changeTime(e, prev))}
-                />
-                <label>s</label>  
+                    <input 
+                        value={duration.time.m}
+                        name="m"
+                        type="number"
+                        min="0"
+                        required
+                        onChange={e => setTime(prev => changeTime(e, prev))}
+                    />
+                    <label>m</label>  
+
+                    <input 
+                        value={duration.time.s}
+                        name="s"
+                        type="number"
+                        min="0"
+                        required
+                        onChange={e => setTime(prev => changeTime(e, prev))}
+                    />
+                    <label>s</label>  
+                </div>
             </div>
             
-            <label>Time goal: </label>
-            <div>
-                <input 
-                    value={duration.milestone.d}
-                    name="d"
-                    type="number"
-                    min="0"
-                    required
-                    onChange={e => setTimeMilestone(prev => changeTime(e, prev))}
-                />
-                <label>d</label>  
+            <div className="form-section">
+                <label>Time goal</label>
+                <div>
+                    <input 
+                        value={duration.milestone.d}
+                        name="d"
+                        type="number"
+                        min="0"
+                        required
+                        onChange={e => setTimeMilestone(prev => changeTime(e, prev))}
+                    />
+                    <label>d</label>  
 
-                <input 
-                    value={duration.milestone.h}
-                    name="h"
-                    type="number"
-                    min="0"
-                    required
-                    onChange={e => setTimeMilestone(prev => changeTime(e, prev))}
-                />
-                <label>h</label>  
+                    <input 
+                        value={duration.milestone.h}
+                        name="h"
+                        type="number"
+                        min="0"
+                        required
+                        onChange={e => setTimeMilestone(prev => changeTime(e, prev))}
+                    />
+                    <label>h</label>  
 
-                <input 
-                    value={duration.milestone.m}
-                    name="m"
-                    type="number"
-                    min="0"
-                    required
-                    onChange={e => setTimeMilestone(prev => changeTime(e, prev))}
-                />
-                <label>m</label>  
+                    <input 
+                        value={duration.milestone.m}
+                        name="m"
+                        type="number"
+                        min="0"
+                        required
+                        onChange={e => setTimeMilestone(prev => changeTime(e, prev))}
+                    />
+                    <label>m</label>  
 
-                <input 
-                    value={duration.milestone.s}
-                    name="s"
-                    type="number"
-                    min="0"
-                    required
-                    onChange={e => setTimeMilestone(prev => changeTime(e, prev))}
-                />
-                <label>s</label>  
+                    <input 
+                        value={duration.milestone.s}
+                        name="s"
+                        type="number"
+                        min="0"
+                        required
+                        onChange={e => setTimeMilestone(prev => changeTime(e, prev))}
+                    />
+                    <label>s</label>  
+                </div>
             </div>
 
-            <label>Track: </label>
-            <input type="checkbox" checked={track} onChange={() => setTrack(prev => !prev)} />
+            <div className="form-section">
+                <label>Track</label>
+                <input type="checkbox" checked={track} onChange={() => setTrack(prev => !prev)} />
+            </div>
 
-            <MultiSelect options={bikeOptions} />
+            <div className="form-section">
+                <MultiSelect options={bikeOptions} />
+            </div>
 
-            <button type="submit">Save</button>
+            <div className="form-section">
+                <button type="submit">Save</button>
+            </div>
         </form>
     )
 }

@@ -1,4 +1,24 @@
 form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    padding: 15px;
+    background: rgb(247, 247, 247);
+}
+
+.form-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.form-section {
+    margin-top: 20px;
+}
+
+input[name='d'],
+input[name='h'],
+input[name='m'],
+input[name='s'] {
+    width: 5ch;
+}
+
+.form-section div label{
+    margin-right: 5px;
 }
