@@ -2,7 +2,7 @@ import React from 'react'
 import { Gear } from '../api'
 import Progress from './Progress'
 import './css/GearWidget.css'
-import { toHHMMSS, metersToUnit } from '../helpers/units'
+import { toHHMMSS, metersToUnitString } from '../helpers/formatters'
 
 interface GearWidgetProps {
     key: number,
@@ -12,20 +12,20 @@ interface GearWidgetProps {
 }
 
 export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
-
-    const timeFormatter = toHHMMSS
-    const distanceFormatter = metersToUnit
+    
+    const secondsFormatter = toHHMMSS
+    const metersFormatter = metersToUnitString
 
     const distanceProgress = <Progress 
         met={gear.distance} 
         target={gear.distance_milestone}
-        remainingFormatter={(meters) => distanceFormatter(meters, distanceUnit)}
+        remainingFormatter={(meters) => metersFormatter(meters, distanceUnit)}
    
     />
     const timeProgress = <Progress 
         met={gear.moving_time}
         target={gear.moving_time_milestone}
-        remainingFormatter={timeFormatter}
+        remainingFormatter={secondsFormatter}
     />
     
     return (
@@ -36,7 +36,7 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
                     <div className="stats-section-title">Distance</div>
                     <li className="stat">
                         <div className="stat-name">Ridden</div>    
-                        <div className="stat-value">{distanceFormatter(gear.distance, distanceUnit)}</div> 
+                        <div className="stat-value">{metersFormatter(gear.distance, distanceUnit)}</div> 
                     </li>
                     <li className="stat">
                         <div className="stat-name">Goal progress</div>
@@ -49,7 +49,7 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
                     <div className="stats-section-title">Time</div>
                     <li className="stat">
                         <div className="stat-name">Ridden</div>
-                        <div className="stat-value">{timeFormatter(gear.moving_time)}</div>  
+                        <div className="stat-value">{secondsFormatter(gear.moving_time)}</div>  
                     </li>             
                     <li className="stat">
                         <div className="stat-name">Goal progress</div>

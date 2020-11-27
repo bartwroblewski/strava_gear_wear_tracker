@@ -2,7 +2,7 @@ import React from 'react'
 import { Bike, changeAthlete, Gear} from '../api'
 import './css/GearForm.css'
 import MultiSelect from './MultiSelect'
-import { toDuration } from '../helpers/units'
+import { toDuration, metersToUnit, metersFromUnit } from '../helpers/formatters'
 
 interface GearFormProps {
     gear: Gear,
@@ -14,6 +14,8 @@ interface GearFormProps {
 const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) => {
 
     const distanceAbbreviation =  ' ' + athleteDistanceUnit
+    const distanceToUnit = (meters: number) => metersToUnit(meters, athleteDistanceUnit)
+    const distanceFromUnit = (distance: number) => metersFromUnit(distance, athleteDistanceUnit)
 
     const pk = gear?.pk || 0 // 0 pk is not very clean...
 
@@ -27,12 +29,6 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
 
     const [track, setTrack] = React.useState<boolean>()
     const [bikeIds, setBikeIds] = React.useState<string[]>([])
-
-    const meterFactors = {
-        km: 1000,
-        mi: 1609.34,
-    }
-    const meterFactor = meterFactors[athleteDistanceUnit]
 
     const setDefaults = () => {
         setName(gear?.name || '')
@@ -109,13 +105,13 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
 
             <label>Distance: </label>
             <div>
-                <input value={distance / meterFactor } type="number" min="0" step="0.01" required onChange={e => setDistance(e.target.value * meterFactor)} />
+                <input value={distanceToUnit(distance)} type="number" min="0" step="0.01" required onChange={e => setDistance(distanceFromUnit(e.target.value))} />
                 <span>{distanceAbbreviation}</span>
             </div>
 
             <label>Distance goal: </label>
             <div>
-                <input value={distanceMilestone / meterFactor} type="number" min="0" step="0.01" required onChange={e => setDistanceMilestone(e.target.value * meterFactor)} />
+                <input value={distanceToUnit(distanceMilestone)} type="number" min="0" step="0.01" required onChange={e => distanceFromUnit(e.target.value)} />
                 <span>{distanceAbbreviation}</span>
             </div>
 

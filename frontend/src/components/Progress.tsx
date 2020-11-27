@@ -1,6 +1,5 @@
 import React from 'react'
 import './css/Progress.css'
-import { toHHMMSS } from '../helpers/units'
 
 interface ProgressProps {
     met: number,
