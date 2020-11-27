@@ -2,6 +2,7 @@ import React from 'react'
 import { Gear } from '../api'
 import Progress from './Progress'
 import './css/GearWidget.css'
+import { toHHMMSS } from '../helpers/units'
 
 interface GearWidgetProps {
     key: number,
@@ -17,11 +18,13 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
     const distanceProgress = <Progress 
         met={gear.distance} 
         target={gear.distance_milestone}
-        unit={distanceUnit}
+        formatter={toHHMMSS}
+   
     />
     const timeProgress = <Progress 
         met={gear.moving_time}
         target={gear.moving_time_milestone}
+        formatter={toHHMMSS}
     />
     
     return (
@@ -45,7 +48,7 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
                     <div className="stats-section-title">Time</div>
                     <li className="stat">
                         <div className="stat-name">Ridden</div>
-                        <div className="stat-value">{gear.moving_time}</div>  
+                        <div className="stat-value">{toHHMMSS(gear.moving_time)}</div>  
                     </li>             
                     <li className="stat">
                         <div className="stat-name">Goal progress</div>

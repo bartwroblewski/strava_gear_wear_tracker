@@ -1,10 +1,11 @@
 import React from 'react'
 import './css/Progress.css'
+import { toHHMMSS } from '../helpers/units'
 
 interface ProgressProps {
     met: number,
     target: number,
-    unit?: string,
+    formatter: (x: number) => string,
 }
 
 interface ProgressBarProps {
@@ -28,17 +29,17 @@ const ProgressBar = ({factor}: ProgressBarProps) => {
     )
 }
 
-const Progress = ({met, target, unit}: ProgressProps) => {
+const Progress = ({met, target, formatter}: ProgressProps) => {
 
     const factor = met / target
     const metPercentage = factor * 100
-    const metPercentageFormatted = parseFloat(metPercentage).toFixed(0) + '%'
+    const metPercentageString = parseFloat(metPercentage).toFixed(0) + '%'
 
     const remaining = target - met
     
     const summary = remaining <= 0 
         ? <div className="goal-met">100%</div>
-        : <div>{metPercentageFormatted + ' (' + remaining + ' remaining)'}</div>
+        : <div>{metPercentageString + ' (' + formatter(remaining) + ' remaining)'}</div>
 
     return (
         target

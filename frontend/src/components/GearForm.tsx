@@ -2,19 +2,13 @@ import React from 'react'
 import { Bike, changeAthlete, Gear} from '../api'
 import './css/GearForm.css'
 import MultiSelect from './MultiSelect'
+import { toDuration } from '../helpers/units'
 
 interface GearFormProps {
     gear: Gear,
     athleteDistanceUnit: string,
     bikes: Bike[],
     onSubmit: any,
-}
-
-interface Duration {
-    d: number,
-    h: number,
-    m: number,
-    s: number,
 }
 
 const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) => {
@@ -38,22 +32,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
         km: 1000,
         mi: 1609.34,
     }
-
     const meterFactor = meterFactors[athleteDistanceUnit]
-
-    const metersToUnit = (meters: number, unit: string) => meters / distanceUnits[unit]
-
-    const toDuration = (seconds: number): Duration => {
-        let s = seconds
-        const d = Math.floor(s / (3600*24));
-        s -= d*3600*24;
-        const h = Math.floor(s / 3600);
-        s -= h*3600;
-        const m = Math.floor(s / 60);
-        s -= m*60;
-        return {d, h, m, s}
-    }
-    
 
     const setDefaults = () => {
         setName(gear?.name || '')
