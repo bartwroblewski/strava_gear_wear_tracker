@@ -13,18 +13,19 @@ interface GearWidgetProps {
 
 export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
 
-    const distanceAbbreviation = ' ' + distanceUnit//' ' + unitAbbreviations[distanceUnit]
+    const timeFormatter = toHHMMSS
+    const distanceFormatter = metersToUnit
 
     const distanceProgress = <Progress 
         met={gear.distance} 
         target={gear.distance_milestone}
-        remainingFormatter={(meters) => metersToUnit(meters, distanceUnit)}
+        remainingFormatter={(meters) => distanceFormatter(meters, distanceUnit)}
    
     />
     const timeProgress = <Progress 
         met={gear.moving_time}
         target={gear.moving_time_milestone}
-        remainingFormatter={toHHMMSS}
+        remainingFormatter={timeFormatter}
     />
     
     return (
@@ -35,7 +36,7 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
                     <div className="stats-section-title">Distance</div>
                     <li className="stat">
                         <div className="stat-name">Ridden</div>    
-                        <div className="stat-value">{metersToUnit(gear.distance, distanceUnit)}</div> 
+                        <div className="stat-value">{distanceFormatter(gear.distance, distanceUnit)}</div> 
                     </li>
                     <li className="stat">
                         <div className="stat-name">Goal progress</div>
@@ -48,7 +49,7 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
                     <div className="stats-section-title">Time</div>
                     <li className="stat">
                         <div className="stat-name">Ridden</div>
-                        <div className="stat-value">{toHHMMSS(gear.moving_time)}</div>  
+                        <div className="stat-value">{timeFormatter(gear.moving_time)}</div>  
                     </li>             
                     <li className="stat">
                         <div className="stat-name">Goal progress</div>
