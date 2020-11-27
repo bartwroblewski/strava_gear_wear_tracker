@@ -22,6 +22,7 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
         remainingFormatter={(meters) => metersFormatter(meters, distanceUnit)}
    
     />
+    
     const timeProgress = <Progress 
         met={gear.moving_time}
         target={gear.moving_time_milestone}
@@ -30,10 +31,10 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
     
     return (
         <div className="gear-widget" onClick={() => onClick(gear.pk)}>
-            <div className="gear-name">{gear.name}</div>
+            <div className="gear-name bold">{gear.name}</div>
             <ul className="stats">
                 <div className="stats-section">
-                    <div className="stats-section-title">Distance</div>
+                    <div className="stats-section-title bold">Distance</div>
                     <li className="stat">
                         <div className="stat-name">Ridden</div>    
                         <div className="stat-value">{metersFormatter(gear.distance, distanceUnit)}</div> 
@@ -46,7 +47,7 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
                     </li>
                 </div>
                 <div className="stats-section">
-                    <div className="stats-section-title">Time</div>
+                    <div className="stats-section-title bold">Time</div>
                     <li className="stat">
                         <div className="stat-name">Ridden</div>
                         <div className="stat-value">{secondsFormatter(gear.moving_time)}</div>  
