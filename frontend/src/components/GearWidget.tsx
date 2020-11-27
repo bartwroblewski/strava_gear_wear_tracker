@@ -35,7 +35,7 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
                     <div className="stats-section-title">Distance</div>
                     <li className="stat">
                         <div className="stat-name">Ridden</div>    
-                        <div className="stat-value">{gear.distance + ' ' +distanceUnit}</div> 
+                        <div className="stat-value">{metersToUnit(gear.distance, distanceUnit)}</div> 
                     </li>
                     <li className="stat">
                         <div className="stat-name">Goal progress</div>
