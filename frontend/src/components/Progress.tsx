@@ -5,7 +5,7 @@ import { toHHMMSS } from '../helpers/units'
 interface ProgressProps {
     met: number,
     target: number,
-    formatter: (x: number) => string,
+    remainingFormatter: (x: number) => string,
 }
 
 interface ProgressBarProps {
@@ -29,7 +29,7 @@ const ProgressBar = ({factor}: ProgressBarProps) => {
     )
 }
 
-const Progress = ({met, target, formatter}: ProgressProps) => {
+const Progress = ({met, target, remainingFormatter}: ProgressProps) => {
 
     const factor = met / target
     const metPercentage = factor * 100
@@ -39,7 +39,7 @@ const Progress = ({met, target, formatter}: ProgressProps) => {
     
     const summary = remaining <= 0 
         ? <div className="goal-met">100%</div>
-        : <div>{metPercentageString + ' (' + formatter(remaining) + ' remaining)'}</div>
+        : <div>{metPercentageString + ' (' + remainingFormatter(remaining) + ' remaining)'}</div>
 
     return (
         target
