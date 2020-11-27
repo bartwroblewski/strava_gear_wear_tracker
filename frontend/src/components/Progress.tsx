@@ -38,7 +38,7 @@ const Progress = ({met, target, remainingFormatter}: ProgressProps) => {
     
     const summary = remaining <= 0 
         ? <div className="goal-met">100%</div>
-        : <div>{metPercentageString + ' (' + remainingFormatter(remaining) + ' remaining)'}</div>
+        : <div>{metPercentageString + ' (' + remainingFormatter(remaining) + ' left)'}</div>
 
     return (
         target
