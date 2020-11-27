@@ -21,3 +21,11 @@ export const toHHMMSS = (seconds: number): string => {
     const hhmmss = `${d.d} days, ${d.h}:${d.m}:${d.s}`
     return hhmmss
 }
+
+const meterFactors = {
+    km: 1000,
+    mi: 1609.34,
+}
+
+export const metersToUnit = (meters: number, unit: string): string =>
+   meters / meterFactors[unit] + ' ' + unit
