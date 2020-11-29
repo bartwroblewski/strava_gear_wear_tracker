@@ -113,7 +113,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
             <div className="form-section">
                 <label>Distance goal</label>
                 <div>
-                    <input value={distanceToUnit(distanceMilestone)} type="number" min="0" step="0.01" required onChange={e => distanceFromUnit(e.target.value)} />
+                    <input value={distanceToUnit(distanceMilestone)} type="number" min="0" step="0.01" required onChange={e => setDistanceMilestone(distanceFromUnit(e.target.value))} />
                     <span>{distanceAbbreviation}</span>
                 </div>
             </div>
