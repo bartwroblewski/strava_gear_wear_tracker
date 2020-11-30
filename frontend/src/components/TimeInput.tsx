@@ -1,5 +1,5 @@
 import React from 'react'
-import { toDuration } from '../helpers/formatters'
+import { toDuration, timeFactors } from '../helpers/formatters'
 
 interface TimeInputProps {
     time: any,
@@ -16,11 +16,11 @@ interface Duration {
 const TimeInput = ({time, setTime} : TimeInputProps) => {
 
     const duration = toDuration(time)
-    const factors = {d: 86400, h: 3600, m: 60, s: 1}
-
+    
     const changeTime = (prev: number, curr: number, unit: string) => {
-            const factor = factors[unit]
-            return prev - (toDuration(prev)[unit] * factor) + (curr * factor)
+            const factor = timeFactors[unit]
+            const newTime = prev - (toDuration(prev)[unit] * factor) + (curr * factor)
+            return newTime
     }
 
     const handleChange = e => {

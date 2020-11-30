@@ -30,6 +30,8 @@ export const toHHMMSS = (seconds: number): string => {
     return hhmmss
 }
 
+export const timeFactors = {d: 86400, h: 3600, m: 60, s: 1}
+
 export const metersIn = {
     km: 1000,
     mi: 1609.34,
