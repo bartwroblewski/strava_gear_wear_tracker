@@ -93,6 +93,7 @@ function App() {
               gear={g}
               distanceUnit={athlete.distance_unit}
               onClick={handleGearWidgetClick}
+              onDelete={handleGearWidgetDelete}
             />
   }) || []
 

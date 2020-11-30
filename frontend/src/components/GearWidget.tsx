@@ -9,9 +9,10 @@ interface GearWidgetProps {
     gear: Gear,
     distanceUnit: string,
     onClick: any,
+    onDelete: any,
 }
 
-export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
+export const GearWidget = ({gear, distanceUnit, onClick, onDelete}: GearWidgetProps) => {
     
     const secondsFormatter = toHHMMSS
     const metersFormatter = metersToUnitString
@@ -30,12 +31,12 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
     />
     
     return (
-        <div className="gear-widget" onClick={() => onClick(gear.pk)}>
+        <div className="gear-widget">
             <div className="gear-widget-delete-container">
-                <div className="gear-widget-delete">X</div>
+                <div className="gear-widget-delete" onClick={() => onDelete(gear.pk)}>X</div>
             </div>
             <div className="gear-name-container">
-                <span className="gear-name">{gear.name}</span>
+                <div className="gear-name" onClick={() => onClick(gear.pk)}>{gear.name}</div>
             </div>
             <ul className="stats">
                 <div className="stats-section">
