@@ -29,6 +29,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 5px;
+    display: flex;
 }
 
 .gear-name:hover {
