@@ -122,7 +122,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
                 <label>Time</label>
                 <div>
                     <input 
-                        value={duration.time.d}
+                        defaultValue={duration.time.d}
                         name="d"
                         type="number"
                         min="0"
@@ -132,7 +132,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
                     <label>d</label>  
 
                     <input 
-                        value={duration.time.h}
+                        defaultValue={duration.time.h}
                         name="h"
                         type="number"
                         min="0"
@@ -142,7 +142,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
                     <label>h</label>  
 
                     <input 
-                        value={duration.time.m}
+                        defaultValue={duration.time.m}
                         name="m"
                         type="number"
                         min="0"
@@ -152,7 +152,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
                     <label>m</label>  
 
                     <input 
-                        value={duration.time.s}
+                        defaultValue={duration.time.s}
                         name="s"
                         type="number"
                         min="0"

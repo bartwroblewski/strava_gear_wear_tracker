@@ -1,16 +1,13 @@
-- slidery w GearForm
-- wprowadzic obiekt Distance do modelu Gear zamiast recznych konwersji
-
-- dorobic automatyczne odswiezanie tokenow w bazie danych i wtedy tez pozbyc sie tokenow w sesji?
+- dorobic automatyczne odswiezanie tokenow w bazie danych (bo jak wygasna to webhookowy callback nie bedzie dzialac) i wtedy tez pozbyc sie tokenow w sesji?
 - if token is expired (i.e. overnight), why does fetching bikes still work?
 - napisac middleware do sprawdzania tokenow w sesji, ich dat, odswiezania itp.?
+- napisac zmyślny system logowania zamiast sprawdzania, czy są już tokeny w sesji (użyc django login?)
 - only take cycling activities into account, no running etc.?
 - on Strava webhook callback increase the mileage only if the event is new activity creation
 - handle activity deletion on strava
-- add hours tracking
 - add method to TokenData model to refresh it (cron)
 - add gear categories and alerts for each categories
 - visuals/dashboard to show the wear of particular components/categories?
-- napisac zmyślny system logowania zamiast sprawdzania, czy są już tokeny w sesji (użyc django login?)
+
 
 
