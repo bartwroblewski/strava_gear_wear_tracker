@@ -2,6 +2,7 @@ import React from 'react'
 import { Bike, changeAthlete, Gear} from '../api'
 import './css/GearForm.css'
 import MultiSelect from './MultiSelect'
+import TimeInput from './TimeInput'
 import { toDuration, metersToUnit, metersFromUnit } from '../helpers/formatters'
 
 interface GearFormProps {
@@ -120,92 +121,12 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
 
             <div className="form-section">
                 <label>Time</label>
-                <div>
-                    <input 
-                        defaultValue={duration.time.d}
-                        name="d"
-                        type="number"
-                        min="0"
-                        required
-                        onChange={e => setTime(prev => changeTime(e, prev))}
-                    />
-                    <label>d</label>  
-
-                    <input 
-                        defaultValue={duration.time.h}
-                        name="h"
-                        type="number"
-                        min="0"
-                        required
-                        onChange={e => setTime(prev => changeTime(e, prev))}
-                    />
-                    <label>h</label>  
-
-                    <input 
-                        defaultValue={duration.time.m}
-                        name="m"
-                        type="number"
-                        min="0"
-                        required
-                        onChange={e => setTime(prev => changeTime(e, prev))}
-                    />
-                    <label>m</label>  
-
-                    <input 
-                        defaultValue={duration.time.s}
-                        name="s"
-                        type="number"
-                        min="0"
-                        required
-                        onChange={e => setTime(prev => changeTime(e, prev))}
-                    />
-                    <label>s</label>  
-                </div>
+                <TimeInput time={time} setTime={setTime} />
             </div>
             
             <div className="form-section">
                 <label>Time goal</label>
-                <div>
-                    <input 
-                        value={duration.milestone.d}
-                        name="d"
-                        type="number"
-                        min="0"
-                        required
-                        onChange={e => setTimeMilestone(prev => changeTime(e, prev))}
-                    />
-                    <label>d</label>  
-
-                    <input 
-                        value={duration.milestone.h}
-                        name="h"
-                        type="number"
-                        min="0"
-                        required
-                        onChange={e => setTimeMilestone(prev => changeTime(e, prev))}
-                    />
-                    <label>h</label>  
-
-                    <input 
-                        value={duration.milestone.m}
-                        name="m"
-                        type="number"
-                        min="0"
-                        required
-                        onChange={e => setTimeMilestone(prev => changeTime(e, prev))}
-                    />
-                    <label>m</label>  
-
-                    <input 
-                        value={duration.milestone.s}
-                        name="s"
-                        type="number"
-                        min="0"
-                        required
-                        onChange={e => setTimeMilestone(prev => changeTime(e, prev))}
-                    />
-                    <label>s</label>  
-                </div>
+                <TimeInput time={timeMilestone} setTime={setTimeMilestone} />
             </div>
 
             <div className="form-section">

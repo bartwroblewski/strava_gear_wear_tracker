@@ -147,6 +147,6 @@ function App() {
 }
 
 const container = document.getElementById('app')
-ReactDOM.render(<Test />, container)
+ReactDOM.render(<App />, container)
 
 export default App;
