@@ -3,13 +3,13 @@ import './css/Modal.css'
 
 interface ModalProps {
     contents: any,
-    toggle: any,
+    hide: any,
 }
 
-const Modal = ({contents, toggle}: ModalProps) => {
+const Modal = ({contents, hide}: ModalProps) => {
 
     const handleClick = e => {
-        if (e.target.className === 'modal') toggle()
+        if (e.target.className === 'modal') hide()
     }
 
     return (

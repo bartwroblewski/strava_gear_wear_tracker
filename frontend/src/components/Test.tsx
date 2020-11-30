@@ -34,7 +34,7 @@ const App = () => {
             {action
                 ?
                     <Modal 
-                        toggle={() => setAction('')} 
+                        hide={() => setAction('')} 
                         contents={() => {
                             const form = actionForms[action]
                             return form

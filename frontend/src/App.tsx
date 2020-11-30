@@ -90,14 +90,7 @@ function App() {
   const handleGearWidgetDelete = (pk: number) => {
     selectGear(pk)
     setAction('delete')
-   /*  const run = async() => {
-      await deleteGear(gearPk)
-      getAthlete()
-    }
-    run() */
   }
-
-  const toggleGearModal = () => setShowGearModal(prev => !prev)
 
   const gearWidgets = athlete?.gear.map(g => {
     return <GearWidget
@@ -167,7 +160,7 @@ function App() {
             <div>
               {action 
                 ? <Modal
-                    toggle={hideModal}
+                    hide={hideModal}
                     contents={actions[action]}        
                   />
                 : null
