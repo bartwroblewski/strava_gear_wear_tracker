@@ -11,13 +11,20 @@
     transition: background-color .2s;
 }
 
-.gear-widget-delete {
+.gear-widget-delete-container {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
+    align-items: center;;
 }
+
+.gear-widget-delete:hover {
+    color: red;
+    cursor: pointer;
+}
+
 .gear-name-container {
     font-size: 1.5rem;
+    font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -26,7 +33,7 @@
 
 .gear-name:hover {
     cursor: pointer;
-    color: rgb(30, 255, 79);
+    color: rgb(131, 131, 131);
 }
 
 .stats {

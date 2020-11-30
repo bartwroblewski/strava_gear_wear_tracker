@@ -31,8 +31,10 @@ export const GearWidget = ({gear, distanceUnit, onClick}: GearWidgetProps) => {
     
     return (
         <div className="gear-widget" onClick={() => onClick(gear.pk)}>
-            <div className="gear-widget-delete">X</div>
-            <div className="gear-name-container bold">
+            <div className="gear-widget-delete-container">
+                <div className="gear-widget-delete">X</div>
+            </div>
+            <div className="gear-name-container">
                 <span className="gear-name">{gear.name}</span>
             </div>
             <ul className="stats">
