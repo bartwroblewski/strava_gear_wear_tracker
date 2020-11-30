@@ -6,18 +6,10 @@ const DeleteGearForm = () => {
 
     return (
         <form onSubmit={() => {}}>
-
-            <div className="form-title">{'Really delete gear?'} gear</div>
-            
+            <div className="form-title">Really?</div>
             <div className="form-section">
-                <label>Name</label>
-                <div>
-                    <input />
-                </div>
-            </div>
-
-            <div className="form-section">
-                <button type="submit">Save</button>
+                <button type="submit">Yes, delete gear</button>
+                <button type="submit">Cancel</button>
             </div>
         </form>
     )

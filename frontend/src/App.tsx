@@ -118,7 +118,7 @@ function App() {
   const deleteGearForm = (
     <DeleteGearForm />
   )
-  
+
   const [action, setAction] = React.useState<string>('')
   const hideModal = () => setAction('')
   const actions = {
@@ -134,7 +134,7 @@ function App() {
             <div id="top-bar">
               <button className="add-gear-button"type="button" onClick={() => {
                 setSelectedGear(null)
-                toggleGearModal()
+                setAction('edit/add')
               }}>Add gear</button>
               <DistanceSwitch
                 selectedUnit={athlete?.distance_unit || null}
