@@ -20,26 +20,14 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
 
     const pk = gear?.pk || 0 // 0 pk is not very clean...
     
-    const [name, setName] = React.useState<string>()
-    const [distance, setDistance] = React.useState<number>()
-    const [distanceMilestone, setDistanceMilestone] = React.useState<number>()
-    const [time, setTime] = React.useState<number>()
-    const [timeMilestone, setTimeMilestone] = React.useState<number>()
-    const [track, setTrack] = React.useState<boolean>()
-    const [bikeIds, setBikeIds] = React.useState<string[]>([])
+    const [name, setName] = React.useState<string>(gear?.name || '')
+    const [distance, setDistance] = React.useState<number>(gear?.distance || 0)
+    const [distanceMilestone, setDistanceMilestone] = React.useState<number>(gear?.distance_milestone || 0)
+    const [time, setTime] = React.useState<number>(gear?.moving_time || 0)
+    const [timeMilestone, setTimeMilestone] = React.useState<number>(gear?.moving_time_milestone || 0)
+    const [track, setTrack] = React.useState<boolean>(gear?.is_tracked ?? true)
+    const [bikeIds, setBikeIds] = React.useState<string[]>(gear?.bikes.map(x => x.ref_id) || [])
 
-    const setDefaults = () => {
-        setName(gear?.name || '')
-        setDistance(gear?.distance || 0)
-        setDistanceMilestone(gear?.distance_milestone || 0)
-        setTime(gear?.moving_time || 0)
-        setTimeMilestone(gear?.moving_time_milestone || 0)
-        setTrack(gear?.is_tracked ?? true)
-        setBikeIds(gear?.bikes.map(x => x.ref_id) || [])
-    }
-
-    React.useEffect(setDefaults, [gear])
- 
     const handleSubmit = async(e) => {
         e.preventDefault()
         onSubmit([
@@ -77,19 +65,6 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
          </div>
         )
       })
-      
-    const changeTime = (e: any, prev: number) => {
-        const curr = e.target.value
-        const unit = e.target.name
-        const factors = {d: 86400, h: 3600, m: 60, s: 1}
-        const factor = factors[unit]
-        return prev - (toDuration(prev)[unit] * factor) + (curr * factor)
-    }
-
-    const duration = {
-        time: toDuration(time),
-        milestone: toDuration(timeMilestone),
-    }
 
     return (
         <form onSubmit={handleSubmit}>
