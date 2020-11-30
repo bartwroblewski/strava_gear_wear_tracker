@@ -8,19 +8,16 @@ html {
     justify-content: space-between;
 }
 
-.add-gear-button {
-    background: white;
-    border: 2px solid rgb(12, 252, 140);
+button {
+    background: none;
+    border: 2px solid black;
+    padding: 10px;
+}
+
+button:hover {
     cursor: pointer;
-    transition: border .2s;
+}
+
+#top-bar button {
     margin-left: 10px;
 }
-
-.add-gear-button:hover {
-    border-color: black;
-}
-
-/* .gear-widgets {
-    display: flex;
-    flex-wrap: wrap;
-} */
