@@ -1,3 +1,7 @@
+html {
+    background: rgb(247, 247, 247);
+}
+
 #top-bar {
     display: flex;
     justify-content: space-between;
