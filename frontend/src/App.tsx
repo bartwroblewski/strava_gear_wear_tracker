@@ -27,7 +27,7 @@ function App() {
   const [athlete, setAthlete] = React.useState<Athlete>()
   const [selectedGear, setSelectedGear] = React.useState<Gear>()
   const [bikes, setBikes] = React.useState<Bike[]>([])
-  const [showGearModal, setShowGearModal] = React.useState<boolean>()
+  const [action, setAction] = React.useState<string>('')
 
   const getAuthorizationStatus = () => {
     const run = async() => {
@@ -82,7 +82,12 @@ function App() {
     setAction('')
   }
 
-  const handleGearWidgetClick = (pk: number) => {
+  const selectGear = (pk?: number) => {
+    const gear = athlete.gear.filter(x => x.pk === pk)[0]
+    setSelectedGear(gear)
+  }
+
+  const handleGearWidgetClick = (pk?: number) => {
     selectGear(pk)
     setAction('edit/add')
   }
@@ -92,26 +97,17 @@ function App() {
     setAction('delete')
   }
 
+  const hideModal = () => setAction('')
+
   const gearWidgets = athlete?.gear.map(g => {
     return <GearWidget
               key={g.pk}
               gear={g}
               distanceUnit={athlete.distance_unit}
               onClick={handleGearWidgetClick}
-              onDelete={(pk: number) => {
-                selectGear(pk)
-                setAction('delete')
-              }}
+              onDelete={handleGearWidgetDelete}
             />
   }) || []
-
-  React.useEffect(getAuthorizationStatus, [])
-  React.useEffect(() => {
-    if (authorized) {
-      getAthlete()
-      refreshAthBikes()
-    }
-  }, [authorized])
 
   const gearForm = (
     <GearForm
@@ -127,14 +123,15 @@ function App() {
     />
   )
 
-  const selectGear = (pk: number) => {
-    const gear = athlete.gear.filter(x => x.pk === pk)[0]
-    setSelectedGear(gear)
-  }
+  React.useEffect(getAuthorizationStatus, [])
+  React.useEffect(() => {
+    if (authorized) {
+      getAthlete()
+      refreshAthBikes()
+    }
+  }, [authorized])
 
-  const [action, setAction] = React.useState<string>('')
-  const hideModal = () => setAction('')
-  const actions = {
+  const actionMap = {
     'edit/add': gearForm,
     'delete': deleteGearForm,
   }
@@ -145,10 +142,7 @@ function App() {
         ? 
           <div id="main-page">
             <div id="top-bar">
-              <button className="add-gear-button"type="button" onClick={() => {
-                setSelectedGear(null)
-                setAction('edit/add')
-              }}>Add gear</button>
+              <button className="add-gear-button"type="button" onClick={handleGearWidgetClick}>Add gear</button>
               <DistanceSwitch
                 selectedUnit={athlete?.distance_unit || null}
                 onChange={handleAthleteChange}
@@ -161,7 +155,7 @@ function App() {
               {action 
                 ? <Modal
                     hide={hideModal}
-                    contents={actions[action]}        
+                    contents={actionMap[action]}        
                   />
                 : null
               }
