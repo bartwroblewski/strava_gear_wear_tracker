@@ -120,6 +120,7 @@ function App() {
   const deleteGearForm = (
     <DeleteGearForm
       onSubmit={handleDeleteGearFormSubmit}
+      onCancel={hideModal}
     />
   )
 
@@ -159,7 +160,6 @@ function App() {
                   />
                 : null
               }
-              
             </div>
           </div>
         : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>

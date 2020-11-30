@@ -2,9 +2,10 @@ import React from 'react'
 
 interface DeleteGearFormProps {
     onSubmit: any,
+    onCancel: any,
 }
 
-const DeleteGearForm = ({onSubmit}: DeleteGearFormProps) => {
+const DeleteGearForm = ({onSubmit, onCancel}: DeleteGearFormProps) => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
@@ -17,7 +18,7 @@ const DeleteGearForm = ({onSubmit}: DeleteGearFormProps) => {
             <div className="form-title">Really?</div>
             <div className="form-section">
                 <button type="submit">Yes, delete gear</button>
-                <button type="button">Cancel</button>
+                <button type="button" onClick={onCancel}>Cancel</button>
             </div>
         </form>
     )
