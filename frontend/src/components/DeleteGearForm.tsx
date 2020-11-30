@@ -16,7 +16,7 @@ const DeleteGearForm = ({onSubmit, onCancel}: DeleteGearFormProps) => {
     return (
         <form onSubmit={handleSubmit}>
             <div className="form-title">Really?</div>
-            <div className="form-section">
+            <div className="form-section form-buttons">
                 <button type="submit">Yes, delete gear</button>
                 <button type="button" onClick={onCancel}>Cancel</button>
             </div>

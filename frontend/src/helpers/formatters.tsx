@@ -25,7 +25,7 @@ const pad = (int: number, size: number): string => {
 export const toHHMMSS = (seconds: number): string => {
     const { d, h, m, s } = toDuration(seconds)
     const dayString = d === 1 ? 'day' : 'days'
-    const days = d ? d + ` ${dayString}, ` : ''
+    const days = d ? d.toLocaleString() + ` ${dayString}, ` : ''
     const [hh, mm, ss] = [h, m, s].map(x => pad(x, 2))
     const hhmmss = `${days}${hh}:${mm}:${ss}`
     return hhmmss
