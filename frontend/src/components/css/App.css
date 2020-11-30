@@ -9,10 +9,11 @@ html {
 }
 
 .add-gear-button {
-    background: none;
-    border: 2px solid silver;
-    color: black;
+    background: white;
+    border: 2px solid rgb(12, 252, 140);
     cursor: pointer;
+    transition: border .2s;
+    margin-left: 10px;
 }
 
 .add-gear-button:hover {
