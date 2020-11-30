@@ -1,23 +1,47 @@
 import React from 'react'
 import './css/Test.css'
+import Modal from './Modal'
 
-const TimeInput = ({time, setTime}: {time: any, setTime: any}) => {
+const Form1 = () => {
+    return (
+        <form>
+            <input value="Edit" />
+        </form>
+    )
+}
 
-    const [t, setT] = React.useState<any>(time)
-
-    React.useEffect(() => setT(time), [time])
-
-    return <input value={t} />
+const Form2 = () => {
+    return (
+        <form>
+            <input value="Delete" />
+        </form>
+    )
 }
 
 const App = () => {
-    
-    const [time, setTime] = React.useState<number>(10000)
+
+    const [action, setAction] = React.useState<string>()
+
+    const actionForms = {
+        edit: Form1,
+        delete: Form2,
+}
 
     return (
         <div>
-            <TimeInput time={time} setTime={setTime} />
-            <button onClick={() => setTime(500000)}>Change</button>
+            <button onClick={() => setAction('edit')}>Edit form</button>
+            <button onClick={() => setAction('delete')}>Delete form</button>
+            {action
+                ?
+                    <Modal 
+                        toggle={() => setAction('')} 
+                        contents={() => {
+                            const form = actionForms[action]
+                            return form
+                        }}
+                    />
+                : null
+            }
         </div>
     )
 }

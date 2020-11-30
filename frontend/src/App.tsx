@@ -7,6 +7,7 @@ import { GearWidget } from './components/GearWidget'
 import DistanceSwitch from './components/DistanceSwitch'
 import Modal from './components/Modal'
 import GearForm from './components/GearForm'
+import DeleteGearForm from './components/DeleteGearForm'
 
 import { 
   fetchAuthorizationStatus,  
@@ -74,15 +75,16 @@ function App() {
 
   const handleGearWidgetClick = (pk: number) => {
     setSelectedGear(athlete.gear.filter(x => x.pk === pk)[0])
-    toggleGearModal()
+    setAction('edit/add')
   }
 
   const handleGearWidgetDelete = (gearPk: number) => {
-    const run = async() => {
+    setAction('delete')
+   /*  const run = async() => {
       await deleteGear(gearPk)
       getAthlete()
     }
-    run()
+    run() */
   }
 
   const toggleGearModal = () => setShowGearModal(prev => !prev)
@@ -105,6 +107,25 @@ function App() {
     }
   }, [authorized])
 
+  const gearForm = (
+    <GearForm
+      gear={selectedGear}
+      athleteDistanceUnit={athlete?.distance_unit}
+      bikes={bikes}
+      onSubmit={handleGearFormSubmit}
+    />
+  )
+  const deleteGearForm = (
+    <DeleteGearForm />
+  )
+  
+  const [action, setAction] = React.useState<string>('')
+  const hideModal = () => setAction('')
+  const actions = {
+    'edit/add': gearForm,
+    'delete': deleteGearForm,
+  }
+
   return (
     <div>
       {authorized
@@ -124,17 +145,10 @@ function App() {
               {gearWidgets}   
             </div>
             <div>
-              {showGearModal
+              {action 
                 ? <Modal
-                    toggle={toggleGearModal}
-                    contents={
-                      <GearForm
-                        gear={selectedGear || null}
-                        athleteDistanceUnit={athlete.distance_unit}
-                        bikes={bikes}
-                        onSubmit={handleGearFormSubmit}
-                      />
-                    }         
+                    toggle={hideModal}
+                    contents={actions[action]}        
                   />
                 : null
               }
