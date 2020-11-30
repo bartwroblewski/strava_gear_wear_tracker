@@ -11,17 +11,22 @@
     transition: background-color .2s;
 }
 
-.gear-widget:hover {
-    cursor: pointer;
-    background: rgb(247, 246, 246);
+.gear-widget-delete {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
-
-.gear-name {
+.gear-name-container {
     font-size: 1.5rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 5px;
+}
+
+.gear-name:hover {
+    cursor: pointer;
+    color: rgb(30, 255, 79);
 }
 
 .stats {
@@ -42,6 +47,7 @@
 
 .stat {
     margin-top: 5px;
+    padding: 5px;
 }
 
 .stat-name {
@@ -50,6 +56,7 @@
 
 .stat-value {
     font-size: 1.2rem;
+   
 }
 
 .bold {
