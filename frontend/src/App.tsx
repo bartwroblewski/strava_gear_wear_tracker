@@ -68,17 +68,27 @@ function App() {
     const run = async() => {
       await addOrChangeGear(...params)
       getAthlete()
-      toggleGearModal()
+      setAction('')
     }
     run()
   }
 
+  const handleDeleteGearFormSubmit = () => {
+    const run = async() => {
+      await deleteGear(selectedGear.pk)
+      getAthlete()
+    }
+    run() 
+    setAction('')
+  }
+
   const handleGearWidgetClick = (pk: number) => {
-    setSelectedGear(athlete.gear.filter(x => x.pk === pk)[0])
+    selectGear(pk)
     setAction('edit/add')
   }
 
-  const handleGearWidgetDelete = (gearPk: number) => {
+  const handleGearWidgetDelete = (pk: number) => {
+    selectGear(pk)
     setAction('delete')
    /*  const run = async() => {
       await deleteGear(gearPk)
@@ -95,7 +105,10 @@ function App() {
               gear={g}
               distanceUnit={athlete.distance_unit}
               onClick={handleGearWidgetClick}
-              onDelete={handleGearWidgetDelete}
+              onDelete={(pk: number) => {
+                selectGear(pk)
+                setAction('delete')
+              }}
             />
   }) || []
 
@@ -116,8 +129,15 @@ function App() {
     />
   )
   const deleteGearForm = (
-    <DeleteGearForm />
+    <DeleteGearForm
+      onSubmit={handleDeleteGearFormSubmit}
+    />
   )
+
+  const selectGear = (pk: number) => {
+    const gear = athlete.gear.filter(x => x.pk === pk)[0]
+    setSelectedGear(gear)
+  }
 
   const [action, setAction] = React.useState<string>('')
   const hideModal = () => setAction('')
