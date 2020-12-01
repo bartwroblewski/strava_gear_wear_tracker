@@ -57,28 +57,19 @@ def authorize(request):
     return redirect(authorization_url)
 
 def sessionize_tokendata(request):
+    '''Callback URL for Strava auth mechanism. Receives code that
+    can be exchange for tokens.'''
     code = request.GET.get('code')
     tokendata = exchange_code_for_tokendata(code)
     TokenData.objects.first().update(tokendata)   # update tokendata stored in DB with the new one received
     refresh_athlete(tokendata)
     request.session['tokendata'] = tokendata
-    return redirect(reverse('tracker:react'))
+    return redirect(reverse('tracker:index'))
 
 def refresh_athlete_bikes(request):
     tokendata = request.session['tokendata'] 
     athlete_bikes = refresh_athlete(tokendata)
     return JsonResponse(athlete_bikes, safe=False)
-
-def show_activity(request):
-    access_token = request.session['tokendata']['access_token']
-    activity_id = 4067853651
-    activity = get_activity(activity_id, access_token)
-    response = {'activity': activity}
-    return JsonResponse(response)
-
-# this is where Strava webhook event will post activity id once activity is created
-def handle_new_activity_creation(request):
-    return HttpResponse('OK')
 
 class GearViewSet(viewsets.ModelViewSet):
     serializer_class = GearSerializer
@@ -108,7 +99,6 @@ class AthleteViewSet(viewsets.ModelViewSet):
 def toggle_gear_tracking(request, gear_name):
     athlete_id = request.session['tokendata']['athlete']['id']
     athlete = Athlete.objects.get(ref_id=athlete_id)
-
     gear = Gear.objects.get(athlete=athlete, name=gear_name)
     gear.is_tracked = not gear.is_tracked
     gear.save()
@@ -272,26 +262,6 @@ def get_authorization_status(request):
             return authorized(True)
     return authorized(False)
 
-def token_expired(tokendata):
-    return time.time() > tokendata['expires_at'] 
-
-def view_session(request):
-    print(request.body)
-    response = dict(
-        session=dict(request.session.items())
-    )
-    return JsonResponse(response)
-
 def flush_session(request):
     request.session.flush()
     return redirect(reverse('tracker:view_session'))
-
-def test(request):
-    todos = [
-        {'id': 1, 'text': 'clean house'},
-        {'id': 2, 'text': 'go shopping'},
-        {'id': 3, 'text': 'do work'},
-    ]
-    response = {'todos': todos}
-    return JsonResponse(response, safe=False)
-
