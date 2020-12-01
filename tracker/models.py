@@ -14,7 +14,7 @@ class Athlete(models.Model):
     distance_unit = models.CharField(default="km", max_length=255)
     time_unit = models.CharField(default="hour", max_length=255)
 
-    def refresh(self, tokendata):
+    def refresh_bikes(self, tokendata):
         athlete_data = get_authenticated_athlete(tokendata['access_token'])
         athlete_bikes = athlete_data.get('bikes')
         if athlete_bikes:

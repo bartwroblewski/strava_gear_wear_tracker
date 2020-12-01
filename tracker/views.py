@@ -27,20 +27,7 @@ from .api import (
     get_activity,
     CLIENT_ID, 
     CLIENT_SECRET,
-    get_authenticated_athlete,
 )
-
-def refresh_athlete(tokendata):
-    athlete, created = Athlete.objects.get_or_create(
-        ref_id=tokendata['athlete']['id'],
-        firstname=tokendata['athlete']['firstname'],
-        lastname=tokendata['athlete']['lastname'],
-    )
-    athlete_bikes = athlete.refresh(tokendata)
-    return athlete_bikes
-
-def token_expired(tokendata):
-    return time.time() > tokendata['expires_at'] 
 
 def index(request):
     return render(request, 'frontend/index.html')
@@ -51,44 +38,26 @@ def authorize(request):
     return redirect(authorization_url)
 
 def sessionize_tokendata(request):
-    '''Callback URL for Strava auth mechanism. Receives code that
-    can be exchange for tokens.'''
+    '''Callback URL for Strava auth mechanism.
+    Receives code that can be exchanged for API access tokens.'''
     code = request.GET.get('code')
     tokendata = exchange_code_for_tokendata(code)
-    TokenData.objects.first().update(tokendata)   # update tokendata stored in DB with the new one received
-
-    athlete, created = Athlete.objects.get_or_create(
-        ref_id=tokendata['athlete']['id'],
-        firstname=tokendata['athlete']['firstname'],
-        lastname=tokendata['athlete']['lastname'],
-    )
-    athlete_bikes = athlete.refresh(tokendata)
-
+    TokenData.objects.first().update(tokendata) # update tokendata stored in DB with the new one receive
     request.session['tokendata'] = tokendata
     return redirect(reverse('tracker:index'))
 
-def refresh_athlete_bikes(request):
-    tokendata = request.session['tokendata'] 
-    athlete, created = Athlete.objects.get_or_create(
-        ref_id=tokendata['athlete']['id'],
-        firstname=tokendata['athlete']['firstname'],
-        lastname=tokendata['athlete']['lastname'],
-    )
-    athlete_bikes = athlete.refresh(tokendata)
-    return JsonResponse(athlete_bikes, safe=False)
-
-class GearViewSet(viewsets.ModelViewSet):
-    serializer_class = GearSerializer
-
-    def get_queryset(self):
-        try:
-            athlete_id = self.request.session['tokendata']['athlete']['id']
-        except KeyError:
-            # if no token in session, athlete did not authorize with Strava yet
-            raise NotAuthenticated
-        athlete = Athlete.objects.get(ref_id=athlete_id)
-        athlete_gear = Gear.objects.filter(athlete=athlete)
-        return athlete_gear
+def get_authorization_status(request):
+    '''Check if:
+        1. Token is in session (i.e. user has authorized already);
+        2. The token is not expired.
+    '''
+    response = lambda x: JsonResponse({'authorized': x})
+    tokendata = request.session.get('tokendata')
+    if tokendata:
+        expired = time.time() > tokendata['expires_at']
+        if not expired:
+            return response(True)
+    return response(False)
 
 class AthleteViewSet(viewsets.ModelViewSet):
     serializer_class = AthleteSerializer
@@ -97,10 +66,20 @@ class AthleteViewSet(viewsets.ModelViewSet):
         try:
             athlete_id = self.request.session['tokendata']['athlete']['id']
         except KeyError:
-            # if no token in session, athlete did not authorize with Strava yet
+            # if no token in session, athlete did not authorize with Strava yet - raise error
             raise NotAuthenticated
         athlete = Athlete.objects.filter(ref_id=athlete_id)
         return athlete
+
+def refresh_athlete_bikes(request):
+    tokendata = request.session['tokendata'] 
+    athlete, created = Athlete.objects.get_or_create(
+        ref_id=tokendata['athlete']['id'],
+        firstname=tokendata['athlete']['firstname'],
+        lastname=tokendata['athlete']['lastname'],
+    )
+    athlete_bikes = athlete.refresh_bikes(tokendata)
+    return JsonResponse(athlete_bikes, safe=False)
         
 def toggle_gear_tracking(request, gear_name):
     athlete_id = request.session['tokendata']['athlete']['id']
@@ -191,19 +170,19 @@ def receive_mock(request):
 
 @csrf_exempt # allow Strava webhook event POST request
 def callback(request):
-    print('CALLBACK REQUEST METHOD: ', request.method)
-    # This url is called by Strava either on creating the subscription 
-    # or when webhook event occurs
+    '''This url is called by Strava either on creating the subscription 
+    or when webhook event occurs.'''
     if request.method == 'GET':
         hub_challenge = request.GET.get('hub.challenge')
+
         # if callback called while creating a webhook subsription,
         # just echo hub.challenge in the response
         verify_token = request.GET.get('hub.verify_token')
-        print(f'VERIFY TOKEN: {verify_token}')
         response = {
             'hub.challenge': hub_challenge,
         }
         return JsonResponse(response)
+
     if request.method == 'POST':
         body = json.loads(request.body)
 
@@ -211,7 +190,6 @@ def callback(request):
         activity_id = body['object_id']
         activity = get_activity(activity_id, access_token)
 
-        #increase the distance of all tracked gear by the activity distance
         athlete_id = body['owner_id']
         athlete = Athlete.objects.get(ref_id=athlete_id)
 
@@ -221,12 +199,12 @@ def callback(request):
         except Bike.DoesNotExist:
             bike = None
 
+        # update only gear that has tracking enabled
         tracked_athlete_gear = Gear.objects.filter(
             athlete=athlete, 
             is_tracked=True,
             bikes=bike,
         )
-
         for gear in tracked_athlete_gear:
             gear.distance += activity['distance']
             gear.moving_time += activity['moving_time']
@@ -255,21 +233,16 @@ def delete_subscription(request):
     r = requests.delete(url, params=params)
     return HttpResponse(r.text)
 
-def get_authorization_status(request):
-    '''Check if:
-        1. Token is in session (i.e. user has authorized already);
-        2. The token is not expired.
-    '''
-    response = lambda x: JsonResponse({'authorized': x})
-    tokendata = request.session.get('tokendata')
-    if tokendata:
-        expired = token_expired(tokendata)
-        if not expired:
-            return response(True)
-    return response(False)
-
 def flush_session(request):
     request.session.flush()
     return HttpResponse('Session flushed!')
+
+def test1(request):
+    test2(request)
+    return HttpResponse('test1')
+
+def test2(request):
+    print('test2')
+    return HttpResponse('test2')
 
 

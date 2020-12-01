@@ -6,7 +6,6 @@ app_name = 'tracker'
 urlpatterns = [
     path('authorize', views.authorize, name='authorize'),
     path('sessionize_tokendata', views.sessionize_tokendata, name='sessionize_tokendata'),
-    path('user_gear', views.GearViewSet.as_view({'get': 'list'}), name='user_gear'),
     path('athlete', views.AthleteViewSet.as_view({'get': 'list'}), name='athlete'),
     path('toggle_gear_tracking/<str:gear_name>', views.toggle_gear_tracking, name='toggle_gear_tracking'),
     path('delete_gear/<int:gear_pk>', views.delete_gear, name='delete_gear'),
@@ -21,6 +20,8 @@ urlpatterns = [
     path('get_authorization_status', views.get_authorization_status, name='get_authorization_status'),
     path('refresh_athlete_bikes', views.refresh_athlete_bikes, name='refresh_athlete_bikes'),
     path('flush_session', views.flush_session, name='flush_session'),
+    path('test1', views.test1, name='test1'),
+    path('test2', views.test2, name='test2'),
     path('', views.index, name='index'),
     
     
