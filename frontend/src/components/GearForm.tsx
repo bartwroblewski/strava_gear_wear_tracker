@@ -58,7 +58,6 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
             <input 
                 type="checkbox"
                 checked={bikeIds.includes(bike.id)}
-                /* onChange={e => onSubmit({name: gear.name, bikeId: bike.id, pk: gear.pk})} */
                 onChange={() => handleBikeOptionChange(bike)}
             />
             <div>{bike.name}</div>
@@ -69,7 +68,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
     return (
         <form onSubmit={handleSubmit}>
 
-    <div className="form-title">{gear ? 'Edit' : 'Add'} gear</div>
+            <div className="form-title">{gear ? 'Edit' : 'Add'} gear</div>
             
             <div className="form-section">
                 <label>Name</label>

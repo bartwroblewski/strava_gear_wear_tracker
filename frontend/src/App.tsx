@@ -167,20 +167,17 @@ function App() {
   }, [authorized])
 
   return (
-    <div>
-      {authorized
-        ? 
-          <div id="main-page">
+    authorized
+        ? <div id="main-page">
+            {modal}
             <div id="top-bar">
               {addGearButton}
               {distanceSwitch}
             </div>
-            {gearWidgets}   
-            {modal}
+            {gearWidgets}    
           </div>
         : authorizeButton
-      }
-    </div>
+      
   )
 }
 
