@@ -80,12 +80,19 @@ def refresh_athlete_bikes(request):
     )
     athlete_bikes = athlete.refresh_bikes(tokendata)
     return JsonResponse(athlete_bikes, safe=False)
-        
-def delete_gear(request, gear_pk):
-    gear = Gear.objects.get(pk=gear_pk)
-    gear.delete()
-    return HttpResponse('OK')
 
+def change_athlete_field(request):
+    athlete_id = request.session['tokendata']['athlete']['id']
+    athlete = Athlete.objects.get(ref_id=athlete_id)
+
+    field = request.GET.get('field')
+    value = request.GET.get('value')
+
+    setattr(athlete, field, value)
+    athlete.save()
+
+    return HttpResponse(getattr(athlete, field))
+ 
 def add_or_change_gear(request):
     athlete_id = request.session['tokendata']['athlete']['id']
     athlete = Athlete.objects.get(ref_id=athlete_id)
@@ -126,17 +133,10 @@ def add_or_change_gear(request):
             gear.bikes.add(bike)
     return HttpResponse('OK')
 
-def change_athlete_field(request):
-    athlete_id = request.session['tokendata']['athlete']['id']
-    athlete = Athlete.objects.get(ref_id=athlete_id)
-
-    field = request.GET.get('field')
-    value = request.GET.get('value')
-
-    setattr(athlete, field, value)
-    athlete.save()
-
-    return HttpResponse(getattr(athlete, field))
+def delete_gear(request, gear_pk):
+    gear = Gear.objects.get(pk=gear_pk)
+    gear.delete()
+    return HttpResponse('OK')
 
 def subscribe(request):
     url = 'https://www.strava.com/api/v3/push_subscriptions'
