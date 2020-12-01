@@ -77,9 +77,9 @@ function App() {
     const run = async() => {
       await deleteGear(selectedGear.pk)
       getAthlete()
+      setAction('')
     }
     run() 
-    setAction('')
   }
 
   const selectGear = (pk?: number) => {
@@ -175,18 +175,13 @@ function App() {
               {addGearButton}
               {distanceSwitch}
             </div>
-            <div className="gear-widgets">
-              {gearWidgets}   
-            </div>
-            <div>
-              {modal}
-            </div>
+            {gearWidgets}   
+            {modal}
           </div>
         : authorizeButton
       }
     </div>
-    
-  );
+  )
 }
 
 const container = document.getElementById('app')

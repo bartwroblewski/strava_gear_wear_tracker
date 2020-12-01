@@ -42,8 +42,7 @@ const Progress = ({met, target, remainingFormatter}: ProgressProps) => {
 
     return (
         target
-            ?
-                <div>
+            ?   <div>
                     {summary}
                     <ProgressBar factor={factor} />
                 </div>

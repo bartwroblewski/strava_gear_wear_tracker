@@ -9,7 +9,6 @@ const DeleteGearForm = ({onSubmit, onCancel}: DeleteGearFormProps) => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
-        console.log('fgfg')
         onSubmit()
     }
 

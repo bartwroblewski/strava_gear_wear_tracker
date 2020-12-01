@@ -24,11 +24,10 @@ const MultiSelect = ({options}: MultiSelectProps) => {
             <div>{'\u25BE'}</div>
           </div>
           {show 
-              ?
-                <div className="multi-select-options-container">
-                    {options}
-                </div>
-              : null
+            ? <div className="multi-select-options-container">
+                {options}
+              </div>
+            : null
           }
       </div>
   )
