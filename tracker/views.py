@@ -143,14 +143,14 @@ def subscribe(request):
     params = {
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
-        'callback_url': f'http://{settings.DOMAIN}/callback',
+        'callback_url': f'http://{settings.DOMAIN}/strava_webhook_callback',
         'verify_token': 'STRAVA',
     }
     r = requests.post(url, params=params)
     return HttpResponse(r.text)
 
 def mock_callback_post(request):
-    url = request.build_absolute_uri(reverse('tracker:callback'))
+    url = request.build_absolute_uri(reverse('tracker:strava_webhook_callback'))
     print(url)
     r = requests.post(url, json={'object_id': '4397165165', 'owner_id': '5303167'})
     return HttpResponse(r.text)
@@ -161,7 +161,7 @@ def receive_mock(request):
     return HttpResponse('OK')
 
 @csrf_exempt # allow Strava webhook event POST request
-def callback(request):
+def strava_webhook_callback(request):
     '''This url is called by Strava either on creating the subscription 
     or when webhook event occurs.'''
     if request.method == 'GET':
