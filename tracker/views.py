@@ -48,6 +48,9 @@ def refresh_athlete(tokendata):
             )
     return athlete_bikes
 
+def token_expired(tokendata):
+    return time.time() > tokendata['expires_at'] 
+
 def index(request):
     return render(request, 'frontend/index.html')
 
@@ -264,4 +267,6 @@ def get_authorization_status(request):
 
 def flush_session(request):
     request.session.flush()
-    return redirect(reverse('tracker:view_session'))
+    return HttpResponse('Session flushed!')
+
+
