@@ -99,6 +99,22 @@ function App() {
 
   const hideModal = () => setAction('')
 
+  const addGearButton = (
+    <button 
+      className="add-gear-button"
+      type="button"
+      onClick={handleGearWidgetClick}>
+      Add gear
+    </button>
+  )
+
+  const distanceSwitch = (
+    <DistanceSwitch
+      selectedUnit={athlete?.distance_unit}
+      onChange={handleAthleteChange}
+    />
+  )
+
   const gearWidgets = athlete?.gear.map(g => {
     return <GearWidget
               key={g.pk}
@@ -124,6 +140,24 @@ function App() {
     />
   )
 
+  const actionMap = {
+    'edit/add': gearForm,
+    'delete': deleteGearForm,
+  }
+
+  const modal = action
+    ? <Modal
+        hide={hideModal}
+        contents={actionMap[action]}        
+      />
+    : null
+
+  const authorizeButton = 
+    <button 
+      onClick={() => window.location.href=authorizeUrl}>
+      Authorize
+    </button>
+
   React.useEffect(getAuthorizationStatus, [])
   React.useEffect(() => {
     if (authorized) {
@@ -132,37 +166,23 @@ function App() {
     }
   }, [authorized])
 
-  const actionMap = {
-    'edit/add': gearForm,
-    'delete': deleteGearForm,
-  }
-
   return (
     <div>
       {authorized
         ? 
           <div id="main-page">
             <div id="top-bar">
-              <button className="add-gear-button"type="button" onClick={handleGearWidgetClick}>Add gear</button>
-              <DistanceSwitch
-                selectedUnit={athlete?.distance_unit || null}
-                onChange={handleAthleteChange}
-              />
+              {addGearButton}
+              {distanceSwitch}
             </div>
             <div className="gear-widgets">
               {gearWidgets}   
             </div>
             <div>
-              {action 
-                ? <Modal
-                    hide={hideModal}
-                    contents={actionMap[action]}        
-                  />
-                : null
-              }
+              {modal}
             </div>
           </div>
-        : <button onClick={() => window.location.href=authorizeUrl}>Authorize</button>
+        : authorizeButton
       }
     </div>
     
