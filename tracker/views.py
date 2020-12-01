@@ -81,14 +81,6 @@ def refresh_athlete_bikes(request):
     athlete_bikes = athlete.refresh_bikes(tokendata)
     return JsonResponse(athlete_bikes, safe=False)
         
-def toggle_gear_tracking(request, gear_name):
-    athlete_id = request.session['tokendata']['athlete']['id']
-    athlete = Athlete.objects.get(ref_id=athlete_id)
-    gear = Gear.objects.get(athlete=athlete, name=gear_name)
-    gear.is_tracked = not gear.is_tracked
-    gear.save()
-    return HttpResponse('OK')
-
 def delete_gear(request, gear_pk):
     gear = Gear.objects.get(pk=gear_pk)
     gear.delete()

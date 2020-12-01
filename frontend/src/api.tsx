@@ -83,12 +83,6 @@ const fetchAthlete: Promised<Athlete> = () => fetchJsonWithErrorHandling(urls.at
 
 const refreshAthleteBikes: Promised<Bike[]> = () => fetchJsonWithErrorHandling(urls.refreshBikesUrl)
 
-const toggleGearTracking: (arg: string) => Promise<any> = async(gearName: string) => {
-    const response = await fetch(urls.toggleGearTrackingUrl + `/${gearName}`)
-    const text = await response.text()
-    return text
-}
-
 const deleteGear: Promised<any> = async(gearPk: number) => {
     const response = await fetch(urls.deleteGearUrl + `/${gearPk}`)
     const text = await response.text()
@@ -129,7 +123,6 @@ export {
     fetchAuthorizationStatus,
     fetchAthlete,
     refreshAthleteBikes, 
-    toggleGearTracking, 
     deleteGear, 
     addOrChangeGear
 }
