@@ -19,7 +19,5 @@ urlpatterns = [
     path('get_authorization_status', views.get_authorization_status, name='get_authorization_status'),
     path('refresh_athlete_bikes', views.refresh_athlete_bikes, name='refresh_athlete_bikes'),
     path('flush_session', views.flush_session, name='flush_session'),
-    path('', views.index, name='index'),
-    
-    
+    path('', views.index, name='index'),   
 ]

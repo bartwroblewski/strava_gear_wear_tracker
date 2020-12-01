@@ -1,11 +1,7 @@
-import datetime
-
 from django.db import models
 from django.core.validators import MinValueValidator
 
 from .api import get_authenticated_athlete
-from .unit_converter import from_meters, from_seconds, to_meters, to_seconds
-
 
 class Athlete(models.Model):
     ref_id = models.IntegerField()
@@ -47,12 +43,6 @@ class Gear(models.Model):
     is_tracked = models.BooleanField(default=True)
     athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, default=1, related_name='gear')
     bikes = models.ManyToManyField(Bike)
-    """ bike = models.ForeignKey(
-        Bike,
-        on_delete=models.CASCADE,
-        null=True,  # makes the field optional
-        blank=True,
-    ) """
 
     def send_milestone_notifications(self):
         if self.distance >= self.distance_milestone and self.distance_milestone > 0:
