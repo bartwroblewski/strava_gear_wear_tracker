@@ -2,7 +2,10 @@ import datetime
 
 from django.db import models
 from django.core.validators import MinValueValidator
+
+from .api import get_authenticated_athlete
 from .unit_converter import from_meters, from_seconds, to_meters, to_seconds
+
 
 class Athlete(models.Model):
     ref_id = models.IntegerField()
@@ -10,6 +13,18 @@ class Athlete(models.Model):
     lastname = models.CharField(max_length=255)
     distance_unit = models.CharField(default="km", max_length=255)
     time_unit = models.CharField(default="hour", max_length=255)
+
+    def refresh(self, tokendata):
+        athlete_data = get_authenticated_athlete(tokendata['access_token'])
+        athlete_bikes = athlete_data.get('bikes')
+        if athlete_bikes:
+            for b in athlete_bikes:
+                bike, created = Bike.objects.get_or_create(
+                    ref_id=b['id'],
+                    name=b['name'],
+                    athlete=self,
+                )
+        return athlete_bikes
 
     def __str__(self):
         return f'{self.firstname} {self.lastname}'

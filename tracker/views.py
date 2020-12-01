@@ -31,21 +31,12 @@ from .api import (
 )
 
 def refresh_athlete(tokendata):
-    # create or get athlete
     athlete, created = Athlete.objects.get_or_create(
         ref_id=tokendata['athlete']['id'],
         firstname=tokendata['athlete']['firstname'],
         lastname=tokendata['athlete']['lastname'],
     )
-    athlete_data = get_authenticated_athlete(tokendata['access_token'])
-    athlete_bikes = athlete_data.get('bikes')
-    if athlete_bikes:
-        for b in athlete_bikes:
-            bike, created = Bike.objects.get_or_create(
-                ref_id=b['id'],
-                name=b['name'],
-                athlete=athlete,
-            )
+    athlete_bikes = athlete.refresh(tokendata)
     return athlete_bikes
 
 def token_expired(tokendata):
@@ -65,13 +56,25 @@ def sessionize_tokendata(request):
     code = request.GET.get('code')
     tokendata = exchange_code_for_tokendata(code)
     TokenData.objects.first().update(tokendata)   # update tokendata stored in DB with the new one received
-    refresh_athlete(tokendata)
+
+    athlete, created = Athlete.objects.get_or_create(
+        ref_id=tokendata['athlete']['id'],
+        firstname=tokendata['athlete']['firstname'],
+        lastname=tokendata['athlete']['lastname'],
+    )
+    athlete_bikes = athlete.refresh(tokendata)
+
     request.session['tokendata'] = tokendata
     return redirect(reverse('tracker:index'))
 
 def refresh_athlete_bikes(request):
     tokendata = request.session['tokendata'] 
-    athlete_bikes = refresh_athlete(tokendata)
+    athlete, created = Athlete.objects.get_or_create(
+        ref_id=tokendata['athlete']['id'],
+        firstname=tokendata['athlete']['firstname'],
+        lastname=tokendata['athlete']['lastname'],
+    )
+    athlete_bikes = athlete.refresh(tokendata)
     return JsonResponse(athlete_bikes, safe=False)
 
 class GearViewSet(viewsets.ModelViewSet):
@@ -257,13 +260,13 @@ def get_authorization_status(request):
         1. Token is in session (i.e. user has authorized already);
         2. The token is not expired.
     '''
-    authorized = lambda x: JsonResponse({'authorized': x})
+    response = lambda x: JsonResponse({'authorized': x})
     tokendata = request.session.get('tokendata')
     if tokendata:
         expired = token_expired(tokendata)
         if not expired:
-            return authorized(True)
-    return authorized(False)
+            return response(True)
+    return response(False)
 
 def flush_session(request):
     request.session.flush()
