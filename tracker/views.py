@@ -138,28 +138,6 @@ def delete_gear(request, gear_pk):
     gear.delete()
     return HttpResponse('OK')
 
-def subscribe(request):
-    url = 'https://www.strava.com/api/v3/push_subscriptions'
-    params = {
-        'client_id': CLIENT_ID,
-        'client_secret': CLIENT_SECRET,
-        'callback_url': f'http://{settings.DOMAIN}/strava_webhook_callback',
-        'verify_token': 'STRAVA',
-    }
-    r = requests.post(url, params=params)
-    return HttpResponse(r.text)
-
-def mock_callback_post(request):
-    url = request.build_absolute_uri(reverse('tracker:strava_webhook_callback'))
-    print(url)
-    r = requests.post(url, json={'object_id': '4397165165', 'owner_id': '5303167'})
-    return HttpResponse(r.text)
-
-@csrf_exempt
-def receive_mock(request):
-    print(request.body)
-    return HttpResponse('OK')
-
 @csrf_exempt # allow Strava webhook event POST request
 def strava_webhook_callback(request):
     '''This url is called by Strava either on creating the subscription 
@@ -205,16 +183,29 @@ def strava_webhook_callback(request):
             gear.send_milestone_notifications()
         return HttpResponse('OK')
 
-def view_subscription(request):
+def mock_callback_post(request):
+    url = request.build_absolute_uri(reverse('tracker:strava_webhook_callback'))
+    print(url)
+    r = requests.post(url, json={'object_id': '4397165165', 'owner_id': '5303167'})
+    return HttpResponse(r.text)
+
+@csrf_exempt
+def receive_mock(request):
+    print(request.body)
+    return HttpResponse('OK')
+
+def subscribe_to_strava_webhook(request):
     url = 'https://www.strava.com/api/v3/push_subscriptions'
     params = {
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
+        'callback_url': f'http://{settings.DOMAIN}/strava_webhook_callback',
+        'verify_token': 'STRAVA',
     }
-    r = requests.get(url, params=params)
-    return HttpResponse(r.json())
+    r = requests.post(url, params=params)
+    return HttpResponse(r.text)
 
-def delete_subscription(request):
+def unsubscribe_to_strava_webhook(request):
     id = request.GET.get('id')
     url = f'https://www.strava.com/api/v3/push_subscriptions/{id}'
     params = {
@@ -225,16 +216,15 @@ def delete_subscription(request):
     r = requests.delete(url, params=params)
     return HttpResponse(r.text)
 
+def view_webhook_subscription(request):
+    url = 'https://www.strava.com/api/v3/push_subscriptions'
+    params = {
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+    }
+    r = requests.get(url, params=params)
+    return HttpResponse(r.json())
+
 def flush_session(request):
     request.session.flush()
     return HttpResponse('Session flushed!')
-
-def test1(request):
-    test2(request)
-    return HttpResponse('test1')
-
-def test2(request):
-    print('test2')
-    return HttpResponse('test2')
-
-
