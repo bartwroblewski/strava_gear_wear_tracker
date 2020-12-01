@@ -4,11 +4,8 @@ from . import views
 
 app_name = 'tracker'
 urlpatterns = [
-    path('index', views.index, name='index'),
     path('authorize', views.authorize, name='authorize'),
     path('sessionize_tokendata', views.sessionize_tokendata, name='sessionize_tokendata'),
-    path('tokendata', views.tokendata, name='tokendata'),
-    path('show_activity', views.show_activity, name='show_activity'),
     path('handle_new_activity_creation', views.handle_new_activity_creation, name='handle_new_activity_creation'),
     path('user_gear', views.GearViewSet.as_view({'get': 'list'}), name='user_gear'),
     path('athlete', views.AthleteViewSet.as_view({'get': 'list'}), name='athlete'),
@@ -27,7 +24,7 @@ urlpatterns = [
     path('view_session', views.view_session, name='view_session'),
     path('flush_session', views.flush_session, name='flush_session'),
     path('test', views.test, name='test'),
-    path('', views.react, name='react'),
+    path('', views.index, name='index'),
     
     
 ]

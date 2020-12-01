@@ -30,22 +30,7 @@ from .api import (
     get_authenticated_athlete,
 )
 
-# Create your views here.
-def index(request):
-    return HttpResponse('ok')#render(request, 'frontend/index.html')
-
-def authorize(request):
-    after_auth_url=reverse('tracker:sessionize_tokendata')
-    authorization_url = get_authorization_url(after_auth_url)
-    return redirect(authorization_url)
-
-def sessionize_tokendata(request):
-    code = request.GET.get('code')
-    tokendata = exchange_code_for_tokendata(code)
-
-    # update tokendata pseudo-singleton
-    TokenData.objects.first().update(tokendata)   
-    
+def refresh_athlete(tokendata):
     # create or get athlete
     athlete, created = Athlete.objects.get_or_create(
         ref_id=tokendata['athlete']['id'],
@@ -61,34 +46,28 @@ def sessionize_tokendata(request):
                 name=b['name'],
                 athlete=athlete,
             )
-        
-    print('BIKES', athlete_bikes)
+    return athlete_bikes
 
+def index(request):
+    return render(request, 'frontend/index.html')
+
+def authorize(request):
+    after_auth_url=reverse('tracker:sessionize_tokendata')
+    authorization_url = get_authorization_url(after_auth_url)
+    return redirect(authorization_url)
+
+def sessionize_tokendata(request):
+    code = request.GET.get('code')
+    tokendata = exchange_code_for_tokendata(code)
+    TokenData.objects.first().update(tokendata)   # update tokendata stored in DB with the new one received
+    refresh_athlete(tokendata)
     request.session['tokendata'] = tokendata
-
     return redirect(reverse('tracker:react'))
 
 def refresh_athlete_bikes(request):
     tokendata = request.session['tokendata'] 
-    athlete, created = Athlete.objects.get_or_create(
-        ref_id=tokendata['athlete']['id'],
-        firstname=tokendata['athlete']['firstname'],
-        lastname=tokendata['athlete']['lastname'],
-    )
-    athlete_data = get_authenticated_athlete(tokendata['access_token'])
-    athlete_bikes = athlete_data.get('bikes')
-    if athlete_bikes:
-        for b in athlete_bikes:
-            bike, created = Bike.objects.get_or_create(
-                ref_id=b['id'],
-                name=b['name'],
-                athlete=athlete,
-            )
+    athlete_bikes = refresh_athlete(tokendata)
     return JsonResponse(athlete_bikes, safe=False)
-
-def tokendata(request):
-    response = {'tokendata': request.session['tokendata']}
-    return JsonResponse(response)
 
 def show_activity(request):
     access_token = request.session['tokendata']['access_token']
@@ -100,16 +79,6 @@ def show_activity(request):
 # this is where Strava webhook event will post activity id once activity is created
 def handle_new_activity_creation(request):
     return HttpResponse('OK')
-
-def react(request):
-    return render(request, 'frontend/index.html')
-    """ path = os.path.join(
-        settings.REACT_APP_DIR,
-        'build',
-        'index.html',
-    )
-    with open(path) as f:
-        return HttpResponse(f.read()) """
 
 class GearViewSet(viewsets.ModelViewSet):
     serializer_class = GearSerializer
