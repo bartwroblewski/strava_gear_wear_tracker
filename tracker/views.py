@@ -98,26 +98,18 @@ def add_or_change_gear(request):
     athlete = Athlete.objects.get(ref_id=athlete_id)
 
     pk = request.GET.get('pk')
-    name = request.GET.get('name')
-    distance = float(request.GET.get('distance'))
-    distance_milestone = float(request.GET.get('distance_milestone'))
-    moving_time = request.GET.get('time')
-    moving_time_milestone = request.GET.get('time_milestone')
-    is_tracked = json.loads(request.GET.get('track'))
-    bike_ids = request.GET.get('bike_ids')
-
     try:
         gear = Gear.objects.get(pk=pk)
     except Gear.DoesNotExist:
         gear = Gear()
         gear.athlete = athlete  
         
-    gear.name = name
-    gear.distance = distance
-    gear.distance_milestone = distance_milestone
-    gear.moving_time  = moving_time
-    gear.moving_time_milestone = moving_time_milestone
-    gear.is_tracked = is_tracked
+    gear.name = request.GET.get('name')
+    gear.distance = float(request.GET.get('distance'))
+    gear.distance_milestone = float(request.GET.get('distance_milestone'))
+    gear.moving_time  = request.GET.get('time')
+    gear.moving_time_milestone = request.GET.get('time_milestone')
+    gear.is_tracked = json.loads(request.GET.get('track'))
 
     try:
         gear.full_clean() # validate gear uniqueness per athlete
@@ -126,6 +118,7 @@ def add_or_change_gear(request):
 
     gear.save()
 
+    bike_ids = request.GET.get('bike_ids')
     if bike_ids:
         gear.bikes.clear()
         for bike_id in bike_ids.split(','):
