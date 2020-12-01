@@ -55,3 +55,12 @@ class TokenData(models.Model):
     access_token = models.TextField()
     refresh_token = models.TextField()
 
+    def update(self, tokendata):
+        '''Update with new tokendata received from Strava''' 
+        self.expires_in=tokendata['expires_in']
+        self.expires_at=tokendata['expires_at']
+        self.access_token=tokendata['access_token']
+        self.refresh_token=tokendata['refresh_token']
+        self.save()
+
+

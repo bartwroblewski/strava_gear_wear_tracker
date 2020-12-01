@@ -15,7 +15,6 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
-
 from rest_framework import viewsets
 from rest_framework.exceptions import NotAuthenticated, NotFound, PermissionDenied
 
@@ -45,12 +44,7 @@ def sessionize_tokendata(request):
     tokendata = exchange_code_for_tokendata(code)
 
     # update tokendata pseudo-singleton
-    tokendata_db = TokenData.objects.first()
-    tokendata_db.expires_in=tokendata['expires_in']
-    tokendata_db.expires_at=tokendata['expires_at']
-    tokendata_db.access_token=tokendata['access_token']
-    tokendata_db.refresh_token=tokendata['refresh_token']
-    tokendata_db.save()
+    TokenData.objects.first().update(tokendata)   
     
     # create or get athlete
     athlete, created = Athlete.objects.get_or_create(
