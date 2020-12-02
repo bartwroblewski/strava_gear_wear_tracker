@@ -1,5 +1,5 @@
 import React from 'react'
-import { Bike, changeAthlete, Gear} from '../api'
+import { GearBike, Gear} from '../api'
 import './css/GearForm.css'
 import MultiSelect from './MultiSelect'
 import TimeInput from './TimeInput'
@@ -8,7 +8,7 @@ import { toDuration, metersToUnit, metersFromUnit } from '../helpers/formatters'
 interface GearFormProps {
     gear: Gear,
     athleteDistanceUnit: string,
-    bikes: Bike[],
+    bikes: GearBike[],
     onSubmit: any,
 }
 
@@ -42,12 +42,12 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
         ])
     }
 
-    const handleBikeOptionChange = (bike: Bike) => {
+    const handleBikeOptionChange = (bike: GearBike) => {
         setBikeIds(prev => {
-            if (bikeIds.includes(bike.id)) {
-                return prev.filter(id => id !== bike.id)
+            if (bikeIds.includes(bike.ref_id)) {
+                return prev.filter(id => id !== bike.ref_id)
             } else {
-                return [...prev, bike.id] 
+                return [...prev, bike.ref_id] 
             }
         })
     }
@@ -57,7 +57,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
           <div className="multi-select-option">
             <input 
                 type="checkbox"
-                checked={bikeIds.includes(bike.id)}
+                checked={bikeIds.includes(bike.ref_id)}
                 onChange={() => handleBikeOptionChange(bike)}
             />
             <div>{bike.name}</div>

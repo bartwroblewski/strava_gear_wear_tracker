@@ -78,8 +78,8 @@ def refresh_athlete_bikes(request):
         firstname=tokendata['athlete']['firstname'],
         lastname=tokendata['athlete']['lastname'],
     )
-    athlete_bikes = athlete.refresh_bikes(tokendata['access_token'])
-    return JsonResponse(athlete_bikes, safe=False)
+    athlete.refresh_bikes(tokendata['access_token'])
+    return HttpResponse('OK')
 
 def change_athlete_field(request):
     athlete_id = request.session['tokendata']['athlete']['id']

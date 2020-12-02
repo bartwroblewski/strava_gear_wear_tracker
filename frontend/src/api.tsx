@@ -27,14 +27,6 @@ export interface Athlete {
     gear: Gear[],
 }
 
-export interface Bike {
-    id: string,
-    primary: boolean,
-    name: string,
-    resource_state: number,
-    distance: number,
-}
-
 interface ResponseError {
     type: string,
     message: string,
@@ -81,8 +73,6 @@ const fetchAuthorizationStatus: Promised<{authorized: boolean}> = () => fetchJso
 
 const fetchAthlete: Promised<Athlete> = () => fetchJsonWithErrorHandling(urls.athleteUrl)
 
-const refreshAthleteBikes: Promised<Bike[]> = () => fetchJsonWithErrorHandling(urls.refreshBikesUrl)
-
 const deleteGear: Promised<any> = async(gearPk: number) => {
     const response = await fetch(urls.deleteGearUrl + `/${gearPk}`)
     const text = await response.text()
@@ -122,7 +112,6 @@ export const changeAthlete: Promised<any> = async(field: string, value: string) 
 export { 
     fetchAuthorizationStatus,
     fetchAthlete,
-    refreshAthleteBikes, 
     deleteGear, 
     addOrChangeGear
 }

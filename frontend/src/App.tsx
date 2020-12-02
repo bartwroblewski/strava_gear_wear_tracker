@@ -12,10 +12,9 @@ import DeleteGearForm from './components/DeleteGearForm'
 import { 
   fetchAuthorizationStatus,  
   fetchAthlete,
-  refreshAthleteBikes,
   Athlete,
   Gear, 
-  Bike, 
+  GearBike, 
   deleteGear, 
   addOrChangeGear,
   changeAthlete,
@@ -26,7 +25,7 @@ function App() {
   const [authorized, setAuthorized] = React.useState<boolean>()
   const [athlete, setAthlete] = React.useState<Athlete>()
   const [selectedGear, setSelectedGear] = React.useState<Gear>()
-  const [bikes, setBikes] = React.useState<Bike[]>([])
+  const [bikes, setBikes] = React.useState<GearBike[]>([])
   const [action, setAction] = React.useState<string>('')
 
   const getAuthorizationStatus = () => {
@@ -44,15 +43,7 @@ function App() {
       console.log('Athlete: ', json[0])
       setAthlete(json[0])
       console.log('Athlete bikes DRF ', json[0].bikes)
-    }
-    run()
-  }
-
-  const refreshAthBikes = () => {
-    const run = async() => {
-      const json = await refreshAthleteBikes()    
-      console.log('Athlete bikes: ', json) 
-      setBikes(json)
+      setBikes(json[0].bikes)
     }
     run()
   }
@@ -163,7 +154,6 @@ function App() {
   React.useEffect(() => {
     if (authorized) {
       getAthlete()
-      refreshAthBikes()
     }
   }, [authorized])
 
