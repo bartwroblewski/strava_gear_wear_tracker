@@ -43,6 +43,7 @@ function App() {
       const json = await fetchAthlete()     
       console.log('Athlete: ', json[0])
       setAthlete(json[0])
+      console.log('Athlete bikes DRF ', json[0].bikes)
     }
     run()
   }

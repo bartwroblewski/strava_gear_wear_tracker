@@ -12,15 +12,17 @@ class Athlete(models.Model):
 
     def refresh_bikes(self, strava_access_token):
         athlete_data = get_authenticated_athlete(strava_access_token)
-        athlete_bikes = athlete_data.get('bikes')
-        if athlete_bikes:
-            for b in athlete_bikes:
-                bike, created = Bike.objects.get_or_create(
-                    ref_id=b['id'],
-                    name=b['name'],
-                    athlete=self,
-                )
-        return athlete_bikes
+        strava_bikes = athlete_data.get('bikes') #[x.ref_id for x in athlete_data.get('bikes')]
+        strava_bikes_ids = [x['id'] for x in strava_bikes]
+
+        for bike in self.bikes.all():
+            if not bike.ref_id in strava_bikes_ids:
+                bike.delete()
+        for strava_bike in strava_bikes:
+            if strava_bike['id'] not in [x.ref_id for x in self.bikes.all()]:
+                new_bike = Bike(ref_id=strava_bike['id'], name=strava_bike['name'], athlete=self)
+                new_bike.save()
+        return strava_bikes
 
     def __str__(self):
         return f'{self.firstname} {self.lastname}'
@@ -28,7 +30,7 @@ class Athlete(models.Model):
 class Bike(models.Model):
     ref_id = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
-    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, default=1)
+    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, default=1, related_name='bikes')
 
     def __str__(self):
         return f'{self.name}'
