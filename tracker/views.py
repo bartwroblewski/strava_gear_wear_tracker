@@ -30,10 +30,6 @@ from .api import (
 )
 
 def index(request):
-    tokendata = request.session.get('tokendata')
-    if tokendata:
-        print('ATHLETEEEEEEEEEEEE')
-        create_athlete(tokendata)
     return render(request, 'frontend/index.html')
 
 def authorize(request):
