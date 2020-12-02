@@ -9,7 +9,6 @@ urlpatterns = [
     path('sessionize_tokendata', views.sessionize_tokendata, name='sessionize_tokendata'),
     path('get_athlete', views.AthleteViewSet.as_view({'get': 'list'}), name='get_athlete'),
     path('change_athlete_field', views.change_athlete_field, name='change_athlete_field'),
-    path('refresh_athlete_bikes', views.refresh_athlete_bikes, name='refresh_athlete_bikes'),
     path('delete_gear/<int:gear_pk>', views.delete_gear, name='delete_gear'),
     path('add_or_change_gear', views.add_or_change_gear, name='add_or_change_gear'),
     path('subscribe_to_strava_webhook', views.subscribe_to_strava_webhook, name='subscribe_to_strava_webhook'),

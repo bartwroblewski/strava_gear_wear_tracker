@@ -44,6 +44,14 @@ def sessionize_tokendata(request):
     tokendata = exchange_code_for_tokendata(code)
     TokenData.objects.first().update(tokendata) # update tokendata stored in DB with the new one receive
     request.session['tokendata'] = tokendata
+
+    athlete, created = Athlete.objects.get_or_create(
+        ref_id=tokendata['athlete']['id'],
+        firstname=tokendata['athlete']['firstname'],
+        lastname=tokendata['athlete']['lastname'],
+    )
+    athlete.refresh_bikes(tokendata['access_token'])
+
     return redirect(reverse('tracker:index'))
 
 def get_authorization_status(request):
@@ -70,16 +78,6 @@ class AthleteViewSet(viewsets.ModelViewSet):
             raise NotAuthenticated
         athlete = Athlete.objects.filter(ref_id=athlete_id)
         return athlete
-
-def refresh_athlete_bikes(request):
-    tokendata = request.session['tokendata'] 
-    athlete, created = Athlete.objects.get_or_create(
-        ref_id=tokendata['athlete']['id'],
-        firstname=tokendata['athlete']['firstname'],
-        lastname=tokendata['athlete']['lastname'],
-    )
-    athlete.refresh_bikes(tokendata['access_token'])
-    return HttpResponse('OK')
 
 def change_athlete_field(request):
     athlete_id = request.session['tokendata']['athlete']['id']
