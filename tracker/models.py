@@ -12,7 +12,7 @@ class Athlete(models.Model):
 
     def refresh_bikes(self, strava_access_token):
         athlete_data = get_authenticated_athlete(strava_access_token)
-        strava_bikes = athlete_data.get('bikes') #[x.ref_id for x in athlete_data.get('bikes')]
+        strava_bikes = athlete_data.get('bikes') 
         strava_bikes_ids = [x['id'] for x in strava_bikes]
 
         for bike in self.bikes.all():
@@ -20,7 +20,11 @@ class Athlete(models.Model):
                 bike.delete()
         for strava_bike in strava_bikes:
             if strava_bike['id'] not in [x.ref_id for x in self.bikes.all()]:
-                new_bike = Bike(ref_id=strava_bike['id'], name=strava_bike['name'], athlete=self)
+                new_bike = Bike(
+                    ref_id=strava_bike['id'],
+                    name=strava_bike['name'],
+                    athlete=self
+                )
                 new_bike.save()
 
     def __str__(self):

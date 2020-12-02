@@ -30,6 +30,10 @@ from .api import (
 )
 
 def index(request):
+    tokendata = request.session.get('tokendata')
+    if tokendata:
+        print('ATHLETEEEEEEEEEEEE')
+        create_athlete(tokendata)
     return render(request, 'frontend/index.html')
 
 def authorize(request):
@@ -45,17 +49,18 @@ def sessionize_tokendata(request):
     TokenData.objects.first().update(tokendata) # update tokendata stored in DB with the new one receive
     request.session['tokendata'] = tokendata
 
-    create_athlete(tokendata)
-
-    return redirect(reverse('tracker:index'))
-
-def create_athlete(tokendata):
+    # upon receiving athlete ID from Strava,
+    # sync athlete bikes to the ones on Strava.
+    # This means that athlete bikes will be synced
+    # only on login to app.
     athlete, created = Athlete.objects.get_or_create(
         ref_id=tokendata['athlete']['id'],
         firstname=tokendata['athlete']['firstname'],
         lastname=tokendata['athlete']['lastname'],
     )
     athlete.refresh_bikes(tokendata['access_token'])
+
+    return redirect(reverse('tracker:index'))
 
 def get_authorization_status(request):
     '''Check if:
