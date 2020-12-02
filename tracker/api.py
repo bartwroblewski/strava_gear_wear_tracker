@@ -37,11 +37,9 @@ def get_activity(activity_id, access_token):
     }
     r = requests.get(url, headers=headers)
     activity = r.json()
-    print(activity)
     return activity
 
 def get_authenticated_athlete(access_token):
-    print('asdfsfsadf')
     url = f'https://www.strava.com/api/v3/athlete'
     headers = {
         'Authorization': f'Bearer {access_token}',

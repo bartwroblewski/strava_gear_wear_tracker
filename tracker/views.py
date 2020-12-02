@@ -78,7 +78,7 @@ def refresh_athlete_bikes(request):
         firstname=tokendata['athlete']['firstname'],
         lastname=tokendata['athlete']['lastname'],
     )
-    athlete_bikes = athlete.refresh_bikes(tokendata)
+    athlete_bikes = athlete.refresh_bikes(tokendata['access_token'])
     return JsonResponse(athlete_bikes, safe=False)
 
 def change_athlete_field(request):
@@ -155,6 +155,7 @@ def strava_webhook_callback(request):
 
         athlete_id = body['owner_id']
         athlete = Athlete.objects.get(ref_id=athlete_id)
+        athlete.refresh_bikes(access_token)
 
         bike_id = activity['gear_id']       
         try:
