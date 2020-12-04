@@ -20,11 +20,11 @@ import {
   //changeAthlete,
 } from './api'
 
-import { changeAthlete, Resource } from './testapi'
+import { getAthlete as getAth, changeAthlete, Resource } from './testapi'
 
 function App() {
 
-  const [authorized, setAuthorized] = React.useState<boolean | number>()
+  const [authorized, setAuthorized] = React.useState<{authorized: boolean, athlete_pk: number}>()
   const [athlete, setAthlete] = React.useState<Athlete>()
   const [selectedGear, setSelectedGear] = React.useState<Gear>()
   const [bikes, setBikes] = React.useState<GearBike[]>([])
@@ -33,19 +33,19 @@ function App() {
   const getAuthorizationStatus = () => {
     const run = async() => {
       const json = await fetchAuthorizationStatus()
-      console.log('Authorized?: ',json.authorized)
-      setAuthorized(json.authorized)
+      console.log('Authorized?: ', json)
+      setAuthorized(json)
     }
     run()
   }
 
-  const getAthlete = () => {
+  const getAthlete = (pk: number) => {
     const run = async() => {
-      const json = await fetchAthlete()     
-      console.log('Athlete: ', json[0])
-      setAthlete(json[0])
-      console.log('Athlete bikes DRF ', json[0].bikes)
-      setBikes(json[0].bikes)
+      const json = await getAth(pk)     
+      console.log('Athlete: ', json)
+      setAthlete(json)
+      console.log('Athlete bikes DRF ', json.bikes)
+      setBikes(json.bikes)
     }
     run()
   }
@@ -54,7 +54,7 @@ function App() {
     console.log(newAthlete)
     const run = async() => {
       await changeAthlete(newAthlete)
-      getAthlete()
+      getAthlete(authorized.athlete_pk)
     }
     run()
   }
@@ -62,7 +62,7 @@ function App() {
   const handleGearFormSubmit = (params) => {
     const run = async() => {
       await addOrChangeGear(...params)
-      getAthlete()
+      getAthlete(authorized.athlete_pk)
       setAction('')
     }
     run()
@@ -71,7 +71,7 @@ function App() {
   const handleDeleteGearFormSubmit = () => {
     const run = async() => {
       await deleteGear(selectedGear.pk)
-      getAthlete()
+      getAthlete(authorized.athlete_pk)
       setAction('')
     }
     run() 
@@ -156,7 +156,7 @@ function App() {
   React.useEffect(getAuthorizationStatus, [])
   React.useEffect(() => {
     if (authorized) {
-      getAthlete()
+      getAthlete(authorized.athlete_pk)
     }
   }, [authorized])
 

@@ -64,14 +64,17 @@ def get_authorization_status(request):
     '''Check if:
         1. Token is in session (i.e. user has authorized already);
         2. The token is not expired.
+    Include authorized athlete pk in the response.
     '''
-    response = lambda x: JsonResponse({'authorized': x})
+    response = lambda x, y: JsonResponse({'authorized': x, 'athlete_pk': y})
     tokendata = request.session.get('tokendata')
     if tokendata:
         expired = time.time() > tokendata['expires_at']
         if not expired:
-            return response(True)
-    return response(False)
+            athlete_id = tokendata['athlete']['id']
+            athlete = Athlete.objects.get(ref_id=athlete_id)
+            return response(True, athlete.pk)
+    return response(False, None)
 
 class AthleteViewSet(viewsets.ModelViewSet):
     serializer_class = AthleteSerializer
@@ -94,7 +97,6 @@ class AthleteViewSet(viewsets.ModelViewSet):
         pass
 
 def athlete_detail(request, pk):
-    print(request.body)
     try:
         athlete = Athlete.objects.get(pk=pk)
     except athlete.DoesNotExist:
@@ -107,8 +109,6 @@ def athlete_detail(request, pk):
     elif request.method == "POST":
         form = AthleteForm(json.loads(request.body), instance=athlete)
         if form.is_valid():
-            print('VALID')
-            print(form)
             form.save()
             return HttpResponse(status=201)
 

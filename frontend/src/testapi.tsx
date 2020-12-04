@@ -10,12 +10,25 @@ const gearUrl: string = domain + '/gear'
 const getResource = async(pk: number, url: string): Promise<Resource> => {
     const response = await fetch(url + '/' + pk)
     const json = await response.json()
-    return json
+    if (response.ok) {
+        return json
+    }
+    const responseError = {
+        type: json.type || '',
+        message: json.message || json.detail || '',
+        data: json.data || '',
+        code: json.code || '',
+    }
+
+    let resError = new Error()
+    resError = { ...resError, ...responseError }
+    
+    throw(resError)
 }
 
 const changeResource = async(payload: Resource, url: string) => {
     const URL = athleteUrl + `/${payload.pk}`
-    await fetch(URL, {
+    const response = await fetch(URL, {
         method: 'POST',
         mode: 'same-origin',  // Do not send CSRF token to another domain.
         body: JSON.stringify(payload),
@@ -24,6 +37,8 @@ const changeResource = async(payload: Resource, url: string) => {
             'X-CSRFToken': getCookie('csrftoken'),
         },
     })
+    const status = await response.status
+    return status
 }
 
 export const deleteResource = async(pk: number, url: string) => {
