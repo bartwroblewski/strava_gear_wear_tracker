@@ -27,7 +27,7 @@ const getResource = async(pk: number, url: string): Promise<Resource> => {
 }
 
 const changeResource = async(payload: Resource, url: string) => {
-    const URL = athleteUrl + `/${payload.pk}`
+    const URL = url + `/${payload.pk}`
     const response = await fetch(URL, {
         method: 'POST',
         mode: 'same-origin',  // Do not send CSRF token to another domain.
@@ -43,13 +43,15 @@ const changeResource = async(payload: Resource, url: string) => {
 
 export const deleteResource = async(pk: number, url: string) => {
     const URL = url + '/' + pk
-    await fetch(URL, {
+    const response = await fetch(URL, {
         method: 'DELETE',
         mode: 'same-origin',  // Do not send CSRF token to another domain.
         headers: {
             'X-CSRFToken': getCookie('csrftoken'),
         },
     })
+    const status = await response.status
+    return status
 }
 
 export const getAthlete = (pk: number) => getResource(pk, athleteUrl)

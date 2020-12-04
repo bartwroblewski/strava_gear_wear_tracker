@@ -20,7 +20,7 @@ import {
   //changeAthlete,
 } from './api'
 
-import { getAthlete as getAth, changeAthlete, deleteGear as delGear, Resource } from './testapi'
+import { getAthlete as getAth, changeAthlete, deleteGear as delGear, changeGear,  Resource } from './testapi'
 
 function App() {
 
@@ -61,7 +61,8 @@ function App() {
 
   const handleGearFormSubmit = (params) => {
     const run = async() => {
-      await addOrChangeGear(...params)
+      //await addOrChangeGear(...params)
+      await changeGear(params)
       getAthlete()
       setAction('')
     }

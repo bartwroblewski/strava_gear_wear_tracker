@@ -30,16 +30,16 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
 
     const handleSubmit = async(e) => {
         e.preventDefault()
-        onSubmit([
-            pk,
-            name,
-            distance, 
-            distanceMilestone, 
-            time,
-            timeMilestone,
-            track, 
-            bikeIds
-        ])
+        onSubmit({
+            pk: pk,
+            name: name,
+            distance: distance, 
+            distance_milestone: distanceMilestone, 
+            moving_time: time,
+            moving_time_milestone: timeMilestone,
+            is_tracked: track, 
+            //bikeIds
+        })
     }
 
     const handleBikeOptionChange = (bike: GearBike) => {
