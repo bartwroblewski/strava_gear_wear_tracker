@@ -76,30 +76,10 @@ def get_authorization_status(request):
             return response(True, athlete.pk)
     return response(False, None)
 
-class AthleteViewSet(viewsets.ModelViewSet):
-    serializer_class = AthleteSerializer
-
-    def get_queryset(self):
-        try:
-            athlete_id = self.request.session['tokendata']['athlete']['id']
-        except KeyError:
-            # if no token in session, athlete did not authorize with Strava yet - raise error
-            raise NotAuthenticated
-        athlete = Athlete.objects.filter(ref_id=athlete_id)
-        return athlete
-
-    def update(self, request, *args, **kwargs):
-        kwargs['partial'] = True
-        return super().update(request, *args, **kwargs)
-
-    def partial_update(self, request, *args, **kwargs):
-        print('PARTIAL')
-        pass
-
 def athlete_detail(request, pk):
     try:
         athlete = Athlete.objects.get(pk=pk)
-    except athlete.DoesNotExist:
+    except Athlete.DoesNotExist:
         return HttpResponseServerError(status=404)
 
     if request.method == 'GET':
@@ -119,68 +99,25 @@ def athlete_detail(request, pk):
 def gear_detail(request, pk):
     try:
         gear = Gear.objects.get(pk=pk)
-    except gear.DoesNotExist:
+    except Gear.DoesNotExist:
         return HttpResponseServerError(status=404)
 
     if request.method == "POST":
-        form = GearForm(json.loads(request.body), instance=gear)
+        body = json.loads(request.body)
+        form = GearForm(body, instance=gear)
         if form.is_valid():
-            form.save()
+            gear = form.save()
+            bike_ids = body.get('bike_ids')
+            if bike_ids:
+                gear.bikes.clear()
+                for bike_id in bike_ids:
+                    bike = Bike.objects.get(ref_id=bike_id)
+                    gear.bikes.add(bike)
+            return HttpResponse(status=201)
 
     elif request.method == 'DELETE':
         gear.delete()
         return HttpResponse(status=204)
-
-
-def change_athlete_field(request):
-    athlete_id = request.session['tokendata']['athlete']['id']
-    athlete = Athlete.objects.get(ref_id=athlete_id)
-
-    field = request.GET.get('field')
-    value = request.GET.get('value')
-
-    setattr(athlete, field, value)
-    athlete.save()
-
-    return HttpResponse(getattr(athlete, field))
- 
-def add_or_change_gear(request):
-    athlete_id = request.session['tokendata']['athlete']['id']
-    athlete = Athlete.objects.get(ref_id=athlete_id)
-
-    pk = request.GET.get('pk')
-    try:
-        gear = Gear.objects.get(pk=pk)
-    except Gear.DoesNotExist:
-        gear = Gear()
-        gear.athlete = athlete  
-        
-    gear.name = request.GET.get('name')
-    gear.distance = float(request.GET.get('distance'))
-    gear.distance_milestone = float(request.GET.get('distance_milestone'))
-    gear.moving_time  = request.GET.get('time')
-    gear.moving_time_milestone = request.GET.get('time_milestone')
-    gear.is_tracked = json.loads(request.GET.get('track'))
-
-    try:
-        gear.full_clean() # validate gear uniqueness per athlete
-    except ValidationError as e:
-        return HttpResponseServerError('; '.join(e.messages))
-
-    gear.save()
-
-    bike_ids = request.GET.get('bike_ids')
-    if bike_ids:
-        gear.bikes.clear()
-        for bike_id in bike_ids.split(','):
-            bike = Bike.objects.get(ref_id=bike_id)
-            gear.bikes.add(bike)
-    return HttpResponse('OK')
-
-def delete_gear(request, gear_pk):
-    gear = Gear.objects.get(pk=gear_pk)
-    gear.delete()
-    return HttpResponse('OK')
 
 @csrf_exempt # allow Strava webhook event POST request
 def strava_webhook_callback(request):

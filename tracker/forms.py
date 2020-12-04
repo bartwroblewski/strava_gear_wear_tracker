@@ -10,4 +10,4 @@ class AthleteForm(forms.ModelForm):
 class GearForm(forms.ModelForm):
     class Meta:
         model = Gear
-        fields = ['name']
+        fields = ['name', 'distance', 'distance_milestone', 'moving_time', 'moving_time_milestone', 'is_tracked']

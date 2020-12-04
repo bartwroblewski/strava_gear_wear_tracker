@@ -38,7 +38,7 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
             moving_time: time,
             moving_time_milestone: timeMilestone,
             is_tracked: track, 
-            //bikeIds
+            bike_ids: bikeIds,
         })
     }
 
