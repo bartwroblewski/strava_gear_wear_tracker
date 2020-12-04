@@ -41,7 +41,8 @@ export const getAthlete = (pk: number) => getResource(pk, athleteUrl)
 export const changeAthlete = (payload: Resource) => changeResource(payload, athleteUrl)
 export const deleteAthlete = (pk: number)  => deleteResource(pk, athleteUrl)
 
-export const getGear = (pk: number) => getResource(pk, gearUrl)
+export const changeGear = (payload: Resource) => changeResource(payload, gearUrl)
+export const deleteGear = (pk: number)  => deleteResource(pk, gearUrl)
 
 function getCookie(name) {
     var cookieValue = null;
