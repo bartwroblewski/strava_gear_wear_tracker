@@ -1,4 +1,4 @@
-interface Resource {
+export interface Resource {
     pk: number,
     //other optional here...
 }
@@ -15,7 +15,7 @@ const getResource = async(pk: number, url: string): Promise<Resource> => {
 
 const changeResource = async(payload: Resource, url: string) => {
     const URL = athleteUrl + `/${payload.pk}`
-    fetch(URL, {
+    await fetch(URL, {
         method: 'POST',
         mode: 'same-origin',  // Do not send CSRF token to another domain.
         body: JSON.stringify(payload),
@@ -28,7 +28,7 @@ const changeResource = async(payload: Resource, url: string) => {
 
 export const deleteResource = async(pk: number, url: string) => {
     const URL = url + '/' + pk
-    fetch(URL, {
+    await fetch(URL, {
         method: 'DELETE',
         mode: 'same-origin',  // Do not send CSRF token to another domain.
         headers: {

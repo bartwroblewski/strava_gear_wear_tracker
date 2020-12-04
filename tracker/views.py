@@ -94,6 +94,7 @@ class AthleteViewSet(viewsets.ModelViewSet):
         pass
 
 def athlete_detail(request, pk):
+    print(request.body)
     try:
         athlete = Athlete.objects.get(pk=pk)
     except athlete.DoesNotExist:
@@ -106,7 +107,10 @@ def athlete_detail(request, pk):
     elif request.method == "POST":
         form = AthleteForm(json.loads(request.body), instance=athlete)
         if form.is_valid():
+            print('VALID')
+            print(form)
             form.save()
+            return HttpResponse(status=201)
 
     elif request.method == 'DELETE':
         #athlete.delete()

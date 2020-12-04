@@ -5,7 +5,7 @@ from .models import Athlete, Gear
 class AthleteForm(forms.ModelForm):
     class Meta:
         model = Athlete
-        fields = ['firstname']
+        fields = ['distance_unit']
 
 class GearForm(forms.ModelForm):
     class Meta:

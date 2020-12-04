@@ -17,8 +17,10 @@ import {
   GearBike, 
   deleteGear, 
   addOrChangeGear,
-  changeAthlete,
+  //changeAthlete,
 } from './api'
+
+import { changeAthlete, Resource } from './testapi'
 
 function App() {
 
@@ -48,9 +50,10 @@ function App() {
     run()
   }
 
-  const handleAthleteChange = (field: string, value: string) => {
+  const handleAthleteChange = (newAthlete: Resource) => {
+    console.log(newAthlete)
     const run = async() => {
-      await changeAthlete(field, value)
+      await changeAthlete(newAthlete)
       getAthlete()
     }
     run()
@@ -103,7 +106,7 @@ function App() {
   const distanceSwitch = (
     <DistanceSwitch
       selectedUnit={athlete?.distance_unit}
-      onChange={handleAthleteChange}
+      onChange={(newUnit: string) => handleAthleteChange({...athlete, ...{distance_unit: newUnit}})}
     />
   )
 
@@ -156,6 +159,7 @@ function App() {
       getAthlete()
     }
   }, [authorized])
+
 
   return (
     authorized

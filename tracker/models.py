@@ -8,7 +8,6 @@ class Athlete(models.Model):
     firstname = models.CharField(max_length=255)
     lastname = models.CharField(max_length=255)
     distance_unit = models.CharField(default="km", max_length=255)
-    time_unit = models.CharField(default="hour", max_length=255)
 
     def refresh_bikes(self, strava_access_token):
         athlete_data = get_authenticated_athlete(strava_access_token)

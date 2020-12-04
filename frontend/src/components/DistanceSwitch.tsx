@@ -12,7 +12,7 @@ interface SwitchProps {
 const Switch = ({label, options, selectedUnit, onChange}: SwitchProps) => {
 
     const handleClick = (option: string) => {
-        onChange(`${label}_unit`, option)
+        onChange(option)
 
     }
 
