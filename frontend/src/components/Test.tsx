@@ -1,5 +1,5 @@
 import React from 'react'
-import { athleteUrl, getAthlete, changeAthlete, deleteAthlete } from '../testapi'
+import { getAthlete, changeAthlete, deleteAthlete } from '../testapi'
 
 const App = () => {
 
@@ -20,7 +20,6 @@ const App = () => {
             return {...prev, ...{firstname: e.target.value}}
         })
     }
-
 
     return (
         <div>

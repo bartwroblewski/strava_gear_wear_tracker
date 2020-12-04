@@ -1,20 +1,21 @@
-const domain: string =  'http://localhost:8000'//'http://f918bae6f5b0.ngrok.io'
-export const athleteUrl: string = domain + '/athlete'
-
-export const getAthlete = async(pk: number) => {
-    const response = await fetch(athleteUrl + '/' + pk)
-    const json = await response.json()
-    return json
-}
-
-interface AthletePayload {
+interface Resource {
     pk: number,
     //other optional here...
 }
 
-export const changeAthlete = async(payload: AthletePayload) => {
-    const url = athleteUrl + `/${payload.pk}`
-    fetch(url, {
+const domain: string =  'http://localhost:8000'//'http://f918bae6f5b0.ngrok.io'
+const athleteUrl: string = domain + '/athlete_detail'
+const gearUrl: string = domain + '/gear'
+
+const getResource = async(pk: number, url: string): Promise<Resource> => {
+    const response = await fetch(url + '/' + pk)
+    const json = await response.json()
+    return json
+}
+
+const changeResource = async(payload: Resource, url: string) => {
+    const URL = athleteUrl + `/${payload.pk}`
+    fetch(URL, {
         method: 'POST',
         mode: 'same-origin',  // Do not send CSRF token to another domain.
         body: JSON.stringify(payload),
@@ -25,9 +26,9 @@ export const changeAthlete = async(payload: AthletePayload) => {
     })
 }
 
-export const deleteAthlete = async(pk: number) => {
-    const url = athleteUrl + '/' + pk
-    fetch(url, {
+export const deleteResource = async(pk: number, url: string) => {
+    const URL = url + '/' + pk
+    fetch(URL, {
         method: 'DELETE',
         mode: 'same-origin',  // Do not send CSRF token to another domain.
         headers: {
@@ -35,6 +36,12 @@ export const deleteAthlete = async(pk: number) => {
         },
     })
 }
+
+export const getAthlete = (pk: number) => getResource(pk, athleteUrl)
+export const changeAthlete = (payload: Resource) => changeResource(payload, athleteUrl)
+export const deleteAthlete = (pk: number)  => deleteResource(pk, athleteUrl)
+
+export const getGear = (pk: number) => getResource(pk, gearUrl)
 
 function getCookie(name) {
     var cookieValue = null;

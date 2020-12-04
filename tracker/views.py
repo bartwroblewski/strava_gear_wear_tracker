@@ -20,7 +20,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import NotAuthenticated, NotFound, PermissionDenied
 
 from .models import Gear, Athlete, TokenData, Bike
-from .forms import AthleteForm
+from .forms import AthleteForm, GearForm
 from .serializers import GearSerializer, AthleteSerializer
 
 from .api import (
@@ -93,8 +93,11 @@ class AthleteViewSet(viewsets.ModelViewSet):
         print('PARTIAL')
         pass
 
-def athlete(request, pk):
-    athlete = Athlete.objects.get(pk=pk)
+def athlete_detail(request, pk):
+    try:
+        athlete = Athlete.objects.get(pk=pk)
+    except athlete.DoesNotExist:
+        return HttpResponseServerError(status=404)
 
     if request.method == 'GET':
         serializer = AthleteSerializer(athlete)
@@ -104,11 +107,26 @@ def athlete(request, pk):
         form = AthleteForm(json.loads(request.body), instance=athlete)
         if form.is_valid():
             form.save()
-    elif request.method == 'DELETE':
-        print('deleteing')
-        #athlete.delete()
 
-    return HttpResponse('')
+    elif request.method == 'DELETE':
+        #athlete.delete()
+        return HttpResponse(status=204)
+
+def gear_detail(request, pk):
+    try:
+        gear = Gear.objects.get(pk=pk)
+    except gear.DoesNotExist:
+        return HttpResponseServerError(status=404)
+
+    if request.method == "POST":
+        form = GearForm(json.loads(request.body), instance=gear)
+        if form.is_valid():
+            form.save()
+
+    elif request.method == 'DELETE':
+        #gear.delete()
+        return HttpResponse(status=204)
+
 
 def change_athlete_field(request):
     athlete_id = request.session['tokendata']['athlete']['id']
