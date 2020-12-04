@@ -11,13 +11,9 @@ import DeleteGearForm from './components/DeleteGearForm'
 
 import { 
   fetchAuthorizationStatus,  
-  fetchAthlete,
   Athlete,
   Gear, 
   GearBike, 
-  deleteGear, 
-  addOrChangeGear,
-  //changeAthlete,
 } from './api'
 
 import { getAthlete as getAth, changeAthlete, deleteGear as delGear, changeGear,  Resource } from './testapi'
