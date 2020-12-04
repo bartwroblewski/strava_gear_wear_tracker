@@ -20,7 +20,7 @@ import {
   //changeAthlete,
 } from './api'
 
-import { getAthlete as getAth, changeAthlete, Resource } from './testapi'
+import { getAthlete as getAth, changeAthlete, deleteGear as delGear, Resource } from './testapi'
 
 function App() {
 
@@ -70,7 +70,7 @@ function App() {
 
   const handleDeleteGearFormSubmit = () => {
     const run = async() => {
-      await deleteGear(selectedGear.pk)
+      await delGear(selectedGear.pk)
       getAthlete()
       setAction('')
     }

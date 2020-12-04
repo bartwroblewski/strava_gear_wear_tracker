@@ -4,8 +4,8 @@ from rest_framework.routers import DefaultRouter
 
 from . import views
 
-router = DefaultRouter()
-router.register(r'get_athlete', views.AthleteViewSet, basename='athlete')
+#router = DefaultRouter()
+#router.register(r'get_athlete', views.AthleteViewSet, basename='athlete')
 
 app_name = 'tracker'
 urlpatterns = [
@@ -14,6 +14,7 @@ urlpatterns = [
     path('sessionize_tokendata', views.sessionize_tokendata, name='sessionize_tokendata'),
     #path('get_athlete', views.AthleteViewSet.as_view({'get': 'list'}), name='get_athlete'),
     path('athlete_detail/<int:pk>', views.athlete_detail, name='athlete_detail'),
+    path('gear_detail/<int:pk>', views.gear_detail, name='gear_detail'),
     path('change_athlete_field', views.change_athlete_field, name='change_athlete_field'),
     path('delete_gear/<int:gear_pk>', views.delete_gear, name='delete_gear'),
     path('add_or_change_gear', views.add_or_change_gear, name='add_or_change_gear'),
@@ -27,4 +28,4 @@ urlpatterns = [
     path('', views.index, name='index'),   
 ]
 
-urlpatterns += router.urls
+#urlpatterns += router.urls

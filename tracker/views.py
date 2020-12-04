@@ -128,7 +128,7 @@ def gear_detail(request, pk):
             form.save()
 
     elif request.method == 'DELETE':
-        #gear.delete()
+        gear.delete()
         return HttpResponse(status=204)
 
 
