@@ -100,12 +100,11 @@ def athlete(request, pk):
         serializer = AthleteSerializer(athlete)
         return JsonResponse(serializer.data)
 
-    if request.method == "POST":
+    elif request.method == "POST":
         form = AthleteForm(json.loads(request.body), instance=athlete)
         if form.is_valid():
             form.save()
-
-    if request.method == 'DELETE':
+    elif request.method == 'DELETE':
         print('deleteing')
         #athlete.delete()
 
