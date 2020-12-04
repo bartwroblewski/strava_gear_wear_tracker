@@ -16,9 +16,11 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import viewsets
+from rest_framework.response import Response
 from rest_framework.exceptions import NotAuthenticated, NotFound, PermissionDenied
 
 from .models import Gear, Athlete, TokenData, Bike
+from .forms import AthleteForm
 from .serializers import GearSerializer, AthleteSerializer
 
 from .api import (
@@ -38,7 +40,7 @@ def authorize(request):
     return redirect(authorization_url)
 
 def sessionize_tokendata(request):
-    '''Callback URL for Strava auth mechanism.
+    '''Redirect URL for Strava auth mechanism.
     Receives code that can be exchanged for API access tokens.'''
     code = request.GET.get('code')
     tokendata = exchange_code_for_tokendata(code)
@@ -82,6 +84,32 @@ class AthleteViewSet(viewsets.ModelViewSet):
             raise NotAuthenticated
         athlete = Athlete.objects.filter(ref_id=athlete_id)
         return athlete
+
+    def update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        return super().update(request, *args, **kwargs)
+
+    def partial_update(self, request, *args, **kwargs):
+        print('PARTIAL')
+        pass
+
+def athlete(request, pk):
+    athlete = Athlete.objects.get(pk=pk)
+
+    if request.method == 'GET':
+        serializer = AthleteSerializer(athlete)
+        return JsonResponse(serializer.data)
+
+    if request.method == "POST":
+        form = AthleteForm(json.loads(request.body), instance=athlete)
+        if form.is_valid():
+            form.save()
+
+    if request.method == 'DELETE':
+        print('deleteing')
+        #athlete.delete()
+
+    return HttpResponse('')
 
 def change_athlete_field(request):
     athlete_id = request.session['tokendata']['athlete']['id']

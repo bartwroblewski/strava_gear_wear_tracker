@@ -22,7 +22,7 @@ import {
 
 function App() {
 
-  const [authorized, setAuthorized] = React.useState<boolean>()
+  const [authorized, setAuthorized] = React.useState<boolean | number>()
   const [athlete, setAthlete] = React.useState<Athlete>()
   const [selectedGear, setSelectedGear] = React.useState<Gear>()
   const [bikes, setBikes] = React.useState<GearBike[]>([])
@@ -166,6 +166,7 @@ function App() {
               {distanceSwitch}
             </div>
             {gearWidgets}    
+            <Test />
           </div>
         : authorizeButton
       

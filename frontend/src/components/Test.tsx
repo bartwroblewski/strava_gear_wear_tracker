@@ -1,49 +1,38 @@
 import React from 'react'
-import './css/Test.css'
-import Modal from './Modal'
-
-const Form1 = () => {
-    return (
-        <form>
-            <input value="Edit" />
-        </form>
-    )
-}
-
-const Form2 = () => {
-    return (
-        <form>
-            <input value="Delete" />
-        </form>
-    )
-}
+import { athleteUrl, getAthlete, changeAthlete, deleteAthlete } from '../testapi'
 
 const App = () => {
 
-    const [action, setAction] = React.useState<string>()
+    const [athlete, setAthlete] = React.useState<any>()
 
-    const actionForms = {
-        edit: Form1,
-        delete: Form2,
-}
+    const fetchAthlete = () => {
+        const run = async() => {
+            const athlete = await getAthlete(12)
+            setAthlete(athlete)
+        }
+        run()
+    }
+
+    const patchAthlete = () => changeAthlete(athlete)
+
+    const handleChange = e => {
+        setAthlete(prev => {
+            return {...prev, ...{firstname: e.target.value}}
+        })
+    }
+
 
     return (
         <div>
-            <button onClick={() => setAction('edit')}>Edit form</button>
-            <button onClick={() => setAction('delete')}>Delete form</button>
-            {action
-                ?
-                    <Modal 
-                        hide={() => setAction('')} 
-                        contents={() => {
-                            const form = actionForms[action]
-                            return form
-                        }}
-                    />
-                : null
-            }
+            <div>Athlete: {athlete?.firstname}</div>
+            <label>New name</label>
+            <input type="text" onChange={e => handleChange(e)} />
+            <button onClick={fetchAthlete}>Fetch athlete</button>
+            <button onClick={patchAthlete}>Change name</button>
+            <button onClick={() => deleteAthlete(athlete.pk)}>Delete athlete</button>
         </div>
     )
+
 }
 
 const Test = () => <App />
