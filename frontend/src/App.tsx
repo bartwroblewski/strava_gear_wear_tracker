@@ -39,9 +39,9 @@ function App() {
     run()
   }
 
-  const getAthlete = (pk: number) => {
+  const getAthlete = () => {
     const run = async() => {
-      const json = await getAth(pk)     
+      const json = await getAth(authorized.athlete_pk)     
       console.log('Athlete: ', json)
       setAthlete(json)
       console.log('Athlete bikes DRF ', json.bikes)
@@ -54,7 +54,7 @@ function App() {
     console.log(newAthlete)
     const run = async() => {
       await changeAthlete(newAthlete)
-      getAthlete(authorized.athlete_pk)
+      getAthlete()
     }
     run()
   }
@@ -62,7 +62,7 @@ function App() {
   const handleGearFormSubmit = (params) => {
     const run = async() => {
       await addOrChangeGear(...params)
-      getAthlete(authorized.athlete_pk)
+      getAthlete()
       setAction('')
     }
     run()
@@ -71,7 +71,7 @@ function App() {
   const handleDeleteGearFormSubmit = () => {
     const run = async() => {
       await deleteGear(selectedGear.pk)
-      getAthlete(authorized.athlete_pk)
+      getAthlete()
       setAction('')
     }
     run() 
@@ -156,7 +156,7 @@ function App() {
   React.useEffect(getAuthorizationStatus, [])
   React.useEffect(() => {
     if (authorized) {
-      getAthlete(authorized.athlete_pk)
+      getAthlete()
     }
   }, [authorized])
 
