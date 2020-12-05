@@ -7,7 +7,21 @@ const domain: string =  'http://localhost:8000'//'http://f918bae6f5b0.ngrok.io'
 const athleteUrl: string = domain + '/athlete'
 const gearUrl: string = domain + '/gear'
 
-const getResource = async(pk: number, url: string): Promise<Resource> => {
+const create = async(url: string, payload: Resource) => {
+    const response = await fetch(url, {
+        method: 'POST',
+        mode: 'same-origin',  // Do not send CSRF token to another domain.
+        body: JSON.stringify(payload),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+    })
+    const status = await response.status
+    return status
+}
+
+const retrieve = async(url: string, pk: number): Promise<Resource> => {
     const response = await fetch(url + '/' + pk)
     const json = await response.json()
     if (response.ok) {
@@ -26,7 +40,7 @@ const getResource = async(pk: number, url: string): Promise<Resource> => {
     throw(resError)
 }
 
-const changeResource = async(payload: Resource, url: string) => {
+const update = async(url: string, payload: Resource) => {
     const URL = url + `/${payload.pk}`
     const response = await fetch(URL, {
         method: 'PUT',
@@ -41,7 +55,7 @@ const changeResource = async(payload: Resource, url: string) => {
     return status
 }
 
-const deleteResource = async(pk: number, url: string) => {
+const del = async(url: string, pk: number) => {
     const URL = url + '/' + pk
     const response = await fetch(URL, {
         method: 'DELETE',
@@ -54,27 +68,26 @@ const deleteResource = async(pk: number, url: string) => {
     return status
 }
 
-const createResource = async(payload: Resource, url: string) => {
-    const response = await fetch(url, {
-        method: 'POST',
-        mode: 'same-origin',  // Do not send CSRF token to another domain.
-        body: JSON.stringify(payload),
-        headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-            'X-CSRFToken': getCookie('csrftoken'),
-        },
-    })
-    const status = await response.status
-    return status
+const crud = (url: string) => {
+    return {
+        create: (payload: Resource) => create(url, payload),
+        retrieve: (pk: number) => retrieve(url, pk),
+        update: (payload: Resource) => update(url, payload),
+        del: (pk: number) => del(url, pk),
+    }
 }
 
-export const getAthlete = (pk: number) => getResource(pk, athleteUrl)
-export const changeAthlete = (payload: Resource) => changeResource(payload, athleteUrl)
-export const deleteAthlete = (pk: number)  => deleteResource(pk, athleteUrl)
+export const athleteCrud = crud(athleteUrl)
+export const gearCrud = crud(gearUrl)
 
-export const changeGear = (payload: Resource) => changeResource(payload, gearUrl)
-export const deleteGear = (pk: number)  => deleteResource(pk, gearUrl)
-export const createGear = (payload: Resource)  => createResource(payload, gearUrl)
+
+export const getAthlete = (pk: number) => retrieve(athleteUrl, pk)
+export const changeAthlete = (payload: Resource) => update(athleteUrl, payload)
+export const deleteAthlete = (pk: number)  => del(athleteUrl, pk)
+
+export const changeGear = (payload: Resource) => update(gearUrl, payload)
+export const deleteGear = (pk: number)  => del(gearUrl, pk)
+export const createGear = (payload: Resource)  => create(gearUrl, payload)
 
 function getCookie(name) {
     var cookieValue = null;
