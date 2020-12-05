@@ -143,7 +143,7 @@ def strava_webhook_callback(request):
     if request.method == 'GET':
         hub_challenge = request.GET.get('hub.challenge')
 
-        # if callback called while creating a webhook subsription,
+        # if callback called while creating a webhook subscription,
         # just echo hub.challenge in the response
         verify_token = request.GET.get('hub.verify_token')
         response = {

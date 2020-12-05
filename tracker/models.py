@@ -13,12 +13,13 @@ class Athlete(models.Model):
         athlete_data = get_authenticated_athlete(strava_access_token)
         strava_bikes = athlete_data.get('bikes') 
         strava_bikes_ids = [x['id'] for x in strava_bikes]
+        athlete_bikes_ids = [x.ref_id for x in self.bikes.all()]
 
         for bike in self.bikes.all():
             if not bike.ref_id in strava_bikes_ids:
                 bike.delete()
         for strava_bike in strava_bikes:
-            if strava_bike['id'] not in [x.ref_id for x in self.bikes.all()]:
+            if strava_bike['id'] not in athlete_bikes_ids:
                 new_bike = Bike(
                     ref_id=strava_bike['id'],
                     name=strava_bike['name'],
