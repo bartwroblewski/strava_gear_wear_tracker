@@ -7,13 +7,14 @@ import requests
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse, HttpResponseServerError
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.core.serializers import serialize
 from django.core.exceptions import ValidationError
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from rest_framework import viewsets
 from rest_framework.response import Response
