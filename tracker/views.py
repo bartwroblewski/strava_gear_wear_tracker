@@ -79,22 +79,27 @@ def get_authorization_status(request):
             return response(True, athlete.pk)
     return response(False, None)
 
+@api_view(['GET', 'PUT'])
 def athlete_detail(request, pk):
+    """
+    Get or update athlete.
+    """
     athlete = get_object_or_404(Athlete, pk=pk)
 
     if request.method == 'GET':
         serializer = AthleteSerializer(athlete)
         return JsonResponse(serializer.data)
 
-    elif request.method == "POST":
-        form = AthleteForm(json.loads(request.body), instance=athlete)
+    elif request.method == "PUT":
+        serializer = AthleteSerializer(athlete, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        '''form = AthleteForm(json.loads(request.body), instance=athlete)
         if form.is_valid():
             form.save()
-            return HttpResponse(status=201)
-
-    elif request.method == 'DELETE':
-        #athlete.delete()
-        return HttpResponse(status=204)
+            return HttpResponse(status=201)'''
 
 @api_view(['GET', 'POST'])
 def gear_list(request):
@@ -103,18 +108,17 @@ def gear_list(request):
     """
     if request.method == 'GET':
         gear = Gear.objects.all()
-        serializer = GearSerializer(snippets, many=True)
+        serializer = GearSerializer(gear, many=True)
         return Response(serializer.data)
 
-    elif request.method == 'POST':
-        athlete_id = request.session['tokendata']['athlete']['id'] # better to send the id from frontend...
+    if request.method == 'POST':
+        athlete_id = request.session['tokendata']['athlete']['id']
         athlete = Athlete.objects.get(ref_id=athlete_id)
         serializer = GearSerializer(data=request.data)
         if serializer.is_valid():
             gear = serializer.save(athlete=athlete)
             gear.refresh_bikes(request.data.get('bikes'))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])

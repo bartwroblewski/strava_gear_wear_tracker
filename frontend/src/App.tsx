@@ -50,7 +50,6 @@ function App() {
   }
 
   const handleAthleteChange = (newAthlete: Resource) => {
-    console.log(newAthlete)
     const run = async() => {
       await changeAthlete(newAthlete)
       getAthlete()
