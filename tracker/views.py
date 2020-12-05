@@ -59,10 +59,10 @@ def sessionize_tokendata(request):
 
 def get_authorization_status(request):
     """
-    Check if:
-        1. Token is in session (i.e. user has authorized already);
-        2. The token is not expired.
-    Include authorized athlete pk in the response.
+    1. Check if:
+        A. Token is in session (i.e. user has authorized already);
+        B. The token is not expired.
+    2. Include authorized athlete pk in the response.
     """
     response = lambda x, y: JsonResponse({'authorized': x, 'athlete_pk': y})
     tokendata = request.session.get('tokendata')
