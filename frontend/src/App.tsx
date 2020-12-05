@@ -9,15 +9,19 @@ import Modal from './components/Modal'
 import GearForm from './components/GearForm'
 import DeleteGearForm from './components/DeleteGearForm'
 
-import { 
-  fetchAuthorizationStatus,  
+import {  
   Athlete,
   Gear, 
   Authorized,
   GearBike, 
-} from './api'
+} from './oldapi'
 
-import { Resource, athleteCrud, gearCrud } from './testapi'
+import { 
+  Resource,
+  getAuthStatus,
+  athleteCrud,
+  gearCrud,
+} from './api'
 
 function App() {
 
@@ -29,7 +33,7 @@ function App() {
 
   const getAuthorizationStatus = () => {
     const run = async() => {
-      const json = await fetchAuthorizationStatus()
+      const json = await getAuthStatus()
       console.log('Authorized?: ', json)
       setAuthorized(json)
     }

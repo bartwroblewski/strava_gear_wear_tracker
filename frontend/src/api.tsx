@@ -2,59 +2,32 @@ import * as urls from './urls'
 
 type Promised<T> = (...args: any[]) => Promise<T>
 
+export interface Resource {
+    pk: number,
+    //other optional here...
+}
+
 export interface Authorized {
     authorized: boolean,
     athlete_pk: number,
   }
 
-export interface GearBike {
-    ref_id: string,
-    name: string,
+const create = async(url: string, payload: Resource) => {
+    const response = await fetch(url, {
+        method: 'POST',
+        mode: 'same-origin',  // Do not send CSRF token to another domain.
+        body: JSON.stringify(payload),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+    })
+    const status = await response.status
+    return status
 }
 
-export interface Gear {
-    pk: number,
-    name: string,
-    distance: number,
-    distance_milestone: number,
-    moving_time: number,
-    moving_time_milestone: number,
-    is_tracked: boolean,
-    bikes: GearBike[],
-}
-
-export interface Athlete {
-    pk: number,
-    firstname: string,
-    lastname: string,
-    distance_unit: string,
-    time_unit: string,
-    gear: Gear[],
-}
-
-interface ResponseError {
-    type: string,
-    message: string,
-    data: string,
-    code: string,
-}
-
-const ErrorEnabledFetch: Promised<any> = async(fetchFunc: () => {}) => {
-    try {
-        const result = await fetchFunc()
-        return result
-    } catch(e)  {
-        return handleResponseError(e)
-    }
-}
-
-const handleResponseError = (e: ResponseError) => {
-    alert(e.message)
-    return new Promise((resolve, reject) => resolve([]))
-}
-
-const fetchJson: Promised<any> = async(url: string) => {
-    const response = await fetch(url)
+const retrieve = async(url: string, pk: number): Promise<Resource> => {
+    const response = await fetch(url + '/' + pk)
     const json = await response.json()
     if (response.ok) {
         return json
@@ -72,51 +45,64 @@ const fetchJson: Promised<any> = async(url: string) => {
     throw(resError)
 }
 
-const fetchJsonWithErrorHandling = async(url:string) => ErrorEnabledFetch(() => fetchJson(url))
-
-const fetchAuthorizationStatus: Promised<Authorized> = () => fetchJsonWithErrorHandling(urls.authorizedUrl)
-
-const fetchAthlete: Promised<Athlete> = () => fetchJsonWithErrorHandling(urls.athleteUrl)
-
-const deleteGear: Promised<any> = async(gearPk: number) => {
-    const response = await fetch(urls.deleteGearUrl + `/${gearPk}`)
-    const text = await response.text()
-    return text
+const update = async(url: string, payload: Resource) => {
+    const URL = url + `/${payload.pk}`
+    const response = await fetch(URL, {
+        method: 'PUT',
+        mode: 'same-origin',  // Do not send CSRF token to another domain.
+        body: JSON.stringify(payload),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+    })
+    const status = await response.status
+    return status
 }
 
-const addOrChangeGear: Promised<any> = async(pk, name, distance, distanceMilestone, time, timeMilestone, track, bikeIds) => {
-    let url = urls.addOrChangeGearUrl +
-    `?pk=${pk}` +
-    `&name=${name}` +
-    `&distance=${distance}` +
-    `&distance_milestone=${distanceMilestone}` +
-    `&time=${time}` +
-    `&time_milestone=${timeMilestone}` +
-    `&track=${track}` 
-    
-    if (bikeIds.length) {
-        url = url + `&bike_ids=${bikeIds.join()}`
+const del = async(url: string, pk: number) => {
+    const URL = url + '/' + pk
+    const response = await fetch(URL, {
+        method: 'DELETE',
+        mode: 'same-origin',  // Do not send CSRF token to another domain.
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+    })
+    const status = await response.status
+    return status
+}
+
+const crud = (url: string) => {
+    return {
+        create: (payload: Resource) => create(url, payload),
+        retrieve: (pk: number) => retrieve(url, pk),
+        update: (payload: Resource) => update(url, payload),
+        del: (pk: number) => del(url, pk),
     }
+}
 
-    const response = await fetch(url)
-    const text = await response.text()
-    
-    if (response.ok) {
-        return text
+export const athleteCrud = crud(urls.athleteUrl)
+export const gearCrud = crud(urls.gearUrl)
+
+export const getAuthStatus: Promised<Authorized> = async() => {
+    const response = await fetch(urls.authorizedUrl)
+    const json: Authorized = await response.json()
+    return json
+}
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
     }
-    alert(text)
-}
-
-export const changeAthlete: Promised<any> = async(field: string, value: string) => {
-    let url = urls.changeAthleteUrl + `?field=${field}&value=${value}`
-    const response = await fetch(url)
-    const text = await response.text()
-    return text
-}
-
-export { 
-    fetchAuthorizationStatus,
-    fetchAthlete,
-    deleteGear, 
-    addOrChangeGear
+    return cookieValue;
 }
