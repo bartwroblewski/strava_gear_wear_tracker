@@ -4,17 +4,13 @@ import time
 
 import requests
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse, HttpResponseServerError
-from django.shortcuts import render, redirect
-from django.urls import reverse, reverse_lazy
-from django.core.serializers import serialize
+from django.urls import reverse
 from django.core.exceptions import ValidationError
-from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -23,7 +19,6 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 
 from .models import Gear, Athlete, TokenData, Bike
-from .forms import AthleteForm, GearForm
 from .serializers import GearSerializer, AthleteSerializer
 
 from .api import (
@@ -64,11 +59,12 @@ def sessionize_tokendata(request):
     return redirect(reverse('tracker:index'))
 
 def get_authorization_status(request):
-    '''Check if:
+    """
+    Check if:
         1. Token is in session (i.e. user has authorized already);
         2. The token is not expired.
     Include authorized athlete pk in the response.
-    '''
+    """
     response = lambda x, y: JsonResponse({'authorized': x, 'athlete_pk': y})
     tokendata = request.session.get('tokendata')
     if tokendata:
@@ -96,10 +92,6 @@ def athlete_detail(request, pk):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        '''form = AthleteForm(json.loads(request.body), instance=athlete)
-        if form.is_valid():
-            form.save()
-            return HttpResponse(status=201)'''
 
 @api_view(['GET', 'POST'])
 def gear_list(request):

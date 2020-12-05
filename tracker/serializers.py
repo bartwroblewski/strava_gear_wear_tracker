@@ -9,7 +9,6 @@ class BikeSerializer(serializers.ModelSerializer):
 
 class GearSerializer(serializers.ModelSerializer):
     bikes = BikeSerializer(many=True, read_only=True)
-    #athlete = AthleteSerializer()
     class Meta:
         model = Gear
         fields = [
