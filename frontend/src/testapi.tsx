@@ -4,7 +4,7 @@ export interface Resource {
 }
 
 const domain: string =  'http://localhost:8000'//'http://f918bae6f5b0.ngrok.io'
-const athleteUrl: string = domain + '/athlete_detail'
+const athleteUrl: string = domain + '/athlete'
 const gearUrl: string = domain + '/gear'
 
 const getResource = async(pk: number, url: string): Promise<Resource> => {

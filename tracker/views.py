@@ -96,26 +96,6 @@ def athlete_detail(request, pk):
         #athlete.delete()
         return HttpResponse(status=204)
 
-'''def gear_detail(request, pk):
-    gear = get_object_or_404(Gear, pk=pk)
-
-    if request.method == "POST":
-        body = json.loads(request.body)
-        form = GearForm(body, instance=gear)
-        if form.is_valid():
-            gear = form.save()
-            bike_ids = body.get('bike_ids')
-            if bike_ids:
-                gear.bikes.clear()
-                for bike_id in bike_ids:
-                    bike = Bike.objects.get(ref_id=bike_id)
-                    gear.bikes.add(bike)
-            return HttpResponse(status=201)
-
-    elif request.method == 'DELETE':
-        gear.delete()
-        return HttpResponse(status=204)'''
-
 @api_view(['GET', 'POST'])
 def gear_list(request):
     """
