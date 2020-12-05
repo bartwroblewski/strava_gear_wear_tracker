@@ -16,7 +16,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotAuthenticated, NotFound, PermissionDenied
 from rest_framework import status
-from rest_framework.decorators import api_view
 
 from .models import Gear, Athlete, TokenData, Bike
 from .serializers import GearSerializer, AthleteSerializer
@@ -95,17 +94,16 @@ class AthleteDetail(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET', 'POST'])
-def gear_list(request):
+class GearList(APIView):
     """
     List all gear or create new gear.
     """
-    if request.method == 'GET':
+    def get(self, request):
         gear = Gear.objects.all()
         serializer = GearSerializer(gear, many=True)
         return Response(serializer.data)
 
-    if request.method == 'POST':
+    def post(self, request):
         athlete_id = request.session['tokendata']['athlete']['id']
         athlete = Athlete.objects.get(ref_id=athlete_id)
         serializer = GearSerializer(data=request.data)
@@ -115,18 +113,20 @@ def gear_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET', 'PUT', 'DELETE'])
-def gear_detail(request, pk):
+class GearDetail(APIView):
     """
     Retrieve, update or delete gear.
     """
-    gear = get_object_or_404(Gear, pk=pk)
+    def get_object(self, pk):
+        return get_object_or_404(Gear, pk=pk)
 
-    if request.method == 'GET':
+    def get(self, request, pk):
+        gear = self.get_object(pk)
         serializer = GearSerializer(gear)
         return Response(serializer.data)
 
-    elif request.method == 'PUT':
+    def put(self, request, pk):
+        gear = self.get_object(pk)
         serializer = GearSerializer(gear, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -134,7 +134,8 @@ def gear_detail(request, pk):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    elif request.method == 'DELETE':
+    def delete(self, request, pk):
+        gear = self.get_object(pk)
         gear.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
