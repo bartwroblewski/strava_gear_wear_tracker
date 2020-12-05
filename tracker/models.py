@@ -52,6 +52,12 @@ class Gear(models.Model):
         if self.distance >= self.distance_milestone and self.distance_milestone > 0:
             print(f"SENDING EMAIL FOR GEAR: {self.name}")
 
+    def refresh_bikes(self, bike_ids):       
+        self.bikes.clear()
+        for bike_id in bike_ids:
+            bike = Bike.objects.get(ref_id=bike_id)
+            self.bikes.add(bike)
+
     def __str__(self):
         return f'{self.name}, athlete: {self.athlete.ref_id}, is tracked: {self.is_tracked}'
 

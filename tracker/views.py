@@ -132,11 +132,7 @@ def gear_list(request):
         serializer = GearSerializer(data=request.data)
         if serializer.is_valid():
             gear = serializer.save(athlete=athlete)
-            bike_ids = request.data.get('bikes')
-            gear.bikes.clear()
-            for bike_id in bike_ids:
-                bike = Bike.objects.get(ref_id=bike_id)
-                gear.bikes.add(bike)
+            gear.refresh_bikes(request.data.get('bikes'))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -156,11 +152,7 @@ def gear_detail(request, pk):
         serializer = GearSerializer(gear, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            bike_ids = request.data.get('bikes')
-            gear.bikes.clear()
-            for bike_id in bike_ids:
-                bike = Bike.objects.get(ref_id=bike_id)
-                gear.bikes.add(bike)
+            gear.refresh_bikes(request.data.get('bikes'))
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
