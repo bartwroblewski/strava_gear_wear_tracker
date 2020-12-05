@@ -17,7 +17,7 @@ import {
   GearBike, 
 } from './api'
 
-import { getAthlete as getAth, changeAthlete, deleteGear as delGear, changeGear,  Resource } from './testapi'
+import { getAthlete as getAth, changeAthlete, deleteGear as delGear, changeGear, createGear,  Resource } from './testapi'
 
 
 
@@ -61,7 +61,13 @@ function App() {
   const handleGearFormSubmit = (params) => {
     const run = async() => {
       //await addOrChangeGear(...params)
-      await changeGear(params)
+      if (!params.pk) {
+        //delete params.pk 
+        //delete params.bikes
+        await createGear(params)
+      } else {
+        await changeGear(params)
+      }
       getAthlete()
       setAction('')
     }

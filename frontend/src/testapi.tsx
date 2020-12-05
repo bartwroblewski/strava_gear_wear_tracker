@@ -5,7 +5,7 @@ export interface Resource {
 
 const domain: string =  'http://localhost:8000'//'http://f918bae6f5b0.ngrok.io'
 const athleteUrl: string = domain + '/athlete_detail'
-const gearUrl: string = domain + '/gear_detail'
+const gearUrl: string = domain + '/gear'
 
 const getResource = async(pk: number, url: string): Promise<Resource> => {
     const response = await fetch(url + '/' + pk)
@@ -29,7 +29,7 @@ const getResource = async(pk: number, url: string): Promise<Resource> => {
 const changeResource = async(payload: Resource, url: string) => {
     const URL = url + `/${payload.pk}`
     const response = await fetch(URL, {
-        method: 'POST',
+        method: 'PUT',
         mode: 'same-origin',  // Do not send CSRF token to another domain.
         body: JSON.stringify(payload),
         headers: {
@@ -41,12 +41,26 @@ const changeResource = async(payload: Resource, url: string) => {
     return status
 }
 
-export const deleteResource = async(pk: number, url: string) => {
+const deleteResource = async(pk: number, url: string) => {
     const URL = url + '/' + pk
     const response = await fetch(URL, {
         method: 'DELETE',
         mode: 'same-origin',  // Do not send CSRF token to another domain.
         headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+    })
+    const status = await response.status
+    return status
+}
+
+const createResource = async(payload: Resource, url: string) => {
+    const response = await fetch(url, {
+        method: 'POST',
+        mode: 'same-origin',  // Do not send CSRF token to another domain.
+        body: JSON.stringify(payload),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
             'X-CSRFToken': getCookie('csrftoken'),
         },
     })
@@ -60,6 +74,7 @@ export const deleteAthlete = (pk: number)  => deleteResource(pk, athleteUrl)
 
 export const changeGear = (payload: Resource) => changeResource(payload, gearUrl)
 export const deleteGear = (pk: number)  => deleteResource(pk, gearUrl)
+export const createGear = (payload: Resource)  => createResource(payload, gearUrl)
 
 function getCookie(name) {
     var cookieValue = null;

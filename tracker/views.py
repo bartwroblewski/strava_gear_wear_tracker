@@ -19,6 +19,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.exceptions import NotAuthenticated, NotFound, PermissionDenied
+from rest_framework import status
+from rest_framework.decorators import api_view
 
 from .models import Gear, Athlete, TokenData, Bike
 from .forms import AthleteForm, GearForm
@@ -94,7 +96,7 @@ def athlete_detail(request, pk):
         #athlete.delete()
         return HttpResponse(status=204)
 
-def gear_detail(request, pk):
+'''def gear_detail(request, pk):
     gear = get_object_or_404(Gear, pk=pk)
 
     if request.method == "POST":
@@ -112,7 +114,54 @@ def gear_detail(request, pk):
 
     elif request.method == 'DELETE':
         gear.delete()
-        return HttpResponse(status=204)
+        return HttpResponse(status=204)'''
+
+@api_view(['GET', 'POST'])
+def gear_list(request):
+    """
+    List all gear or create new gear.
+    """
+    if request.method == 'GET':
+        gear = Gear.objects.all()
+        serializer = GearSerializer(snippets, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        athlete_id = request.session['tokendata']['athlete']['id'] # better to send the id from frontend...
+        athlete = Athlete.objects.get(ref_id=athlete_id)
+        serializer = GearSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(athlete=athlete)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def gear_detail(request, pk):
+    """
+    Retrieve, update or delete gear.
+    """
+    gear = get_object_or_404(Gear, pk=pk)
+
+    if request.method == 'GET':
+        serializer = GearSerializer(gear)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = GearSerializer(gear, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            bike_ids = request.data.get('bikes')
+            gear.bikes.clear()
+            for bike_id in bike_ids:
+                bike = Bike.objects.get(ref_id=bike_id)
+                gear.bikes.add(bike)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        gear.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 @csrf_exempt # allow Strava webhook event POST request
 def strava_webhook_callback(request):

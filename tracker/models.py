@@ -46,7 +46,7 @@ class Gear(models.Model):
     elapsed_time = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     is_tracked = models.BooleanField(default=True)
     athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, default=1, related_name='gear')
-    bikes = models.ManyToManyField(Bike)
+    bikes = models.ManyToManyField(Bike, null=True, blank=True)
 
     def send_milestone_notifications(self):
         if self.distance >= self.distance_milestone and self.distance_milestone > 0:

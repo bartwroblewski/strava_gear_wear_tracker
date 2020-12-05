@@ -17,8 +17,6 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
     const distanceAbbreviation =  ' ' + athleteDistanceUnit
     const distanceToUnit = (meters: number) => metersToUnit(meters, athleteDistanceUnit)
     const distanceFromUnit = (distanceInUnit: number) => metersFromUnit(distanceInUnit, athleteDistanceUnit)
-
-    const pk = gear?.pk || 0 // 0 pk is not very clean...
     
     const [name, setName] = React.useState<string>(gear?.name || '')
     const [distance, setDistance] = React.useState<number>(gear?.distance || 0)
@@ -31,14 +29,14 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
     const handleSubmit = async(e) => {
         e.preventDefault()
         onSubmit({
-            pk: pk,
+            pk: gear?.pk,
             name: name,
             distance: distance, 
             distance_milestone: distanceMilestone, 
             moving_time: time,
             moving_time_milestone: timeMilestone,
             is_tracked: track, 
-            bike_ids: bikeIds,
+            bikes: bikeIds,
         })
     }
 
