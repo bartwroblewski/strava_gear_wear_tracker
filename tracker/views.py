@@ -137,9 +137,11 @@ def gear_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @csrf_exempt # allow Strava webhook event POST request
-def strava_webhook_callback(request):
-    '''This url is called by Strava either on creating the subscription 
-    or when webhook event occurs.'''
+def strava_callback(request):
+    """
+    This url is called by Strava either on creating the subscription 
+    or when webhook event occurs.
+    """
     if request.method == 'GET':
         hub_challenge = request.GET.get('hub.challenge')
 
