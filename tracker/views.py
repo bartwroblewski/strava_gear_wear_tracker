@@ -77,7 +77,7 @@ def get_authorization_status(request):
     return response(False, None)
 
 def athlete_detail(request, pk):
-    athlete = Athlete.get_object_or_404(Athlete, pk=pk)
+    athlete = get_object_or_404(Athlete, pk=pk)
 
     if request.method == 'GET':
         serializer = AthleteSerializer(athlete)
