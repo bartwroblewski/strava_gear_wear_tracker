@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
-from rest_framework import viewsets
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotAuthenticated, NotFound, PermissionDenied
 from rest_framework import status
@@ -75,18 +75,20 @@ def get_authorization_status(request):
             return response(True, athlete.pk)
     return response(False, None)
 
-@api_view(['GET', 'PUT'])
-def athlete_detail(request, pk):
+class AthleteDetail(APIView):
     """
     Get or update athlete.
     """
-    athlete = get_object_or_404(Athlete, pk=pk)
+    def get_object(self, pk):
+        return get_object_or_404(Athlete, pk=pk)
 
-    if request.method == 'GET':
+    def get(self, request, pk):
+        athlete = self.get_object(pk)
         serializer = AthleteSerializer(athlete)
         return JsonResponse(serializer.data)
 
-    elif request.method == "PUT":
+    def put(self, request, pk):
+        athlete = self.get_object(pk)
         serializer = AthleteSerializer(athlete, data=request.data)
         if serializer.is_valid():
             serializer.save()
