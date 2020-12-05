@@ -17,9 +17,7 @@ import {
   GearBike, 
 } from './api'
 
-import { getAthlete as getAth, changeAthlete, deleteGear as delGear, changeGear, createGear,  Resource } from './testapi'
-
-
+import { Resource, athleteCrud, gearCrud } from './testapi'
 
 function App() {
 
@@ -40,7 +38,7 @@ function App() {
 
   const getAthlete = () => {
     const run = async() => {
-      const json = await getAth(authorized.athlete_pk)     
+      const json = await athleteCrud.retrieve(authorized.athlete_pk)     
       console.log('Athlete: ', json)
       setAthlete(json)
       console.log('Athlete bikes DRF ', json.bikes)
@@ -51,7 +49,7 @@ function App() {
 
   const handleAthleteChange = (newAthlete: Resource) => {
     const run = async() => {
-      await changeAthlete(newAthlete)
+      await athleteCrud.update(newAthlete)
       getAthlete()
     }
     run()
@@ -59,13 +57,10 @@ function App() {
 
   const handleGearFormSubmit = (params) => {
     const run = async() => {
-      //await addOrChangeGear(...params)
       if (!params.pk) {
-        //delete params.pk 
-        //delete params.bikes
-        await createGear(params)
+        await gearCrud.create(params)
       } else {
-        await changeGear(params)
+        await gearCrud.update(params)
       }
       getAthlete()
       setAction('')
@@ -75,7 +70,7 @@ function App() {
 
   const handleDeleteGearFormSubmit = () => {
     const run = async() => {
-      await delGear(selectedGear.pk)
+      await gearCrud.del(selectedGear.pk)
       getAthlete()
       setAction('')
     }

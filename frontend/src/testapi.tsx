@@ -81,14 +81,6 @@ export const athleteCrud = crud(athleteUrl)
 export const gearCrud = crud(gearUrl)
 
 
-export const getAthlete = (pk: number) => retrieve(athleteUrl, pk)
-export const changeAthlete = (payload: Resource) => update(athleteUrl, payload)
-export const deleteAthlete = (pk: number)  => del(athleteUrl, pk)
-
-export const changeGear = (payload: Resource) => update(gearUrl, payload)
-export const deleteGear = (pk: number)  => del(gearUrl, pk)
-export const createGear = (payload: Resource)  => create(gearUrl, payload)
-
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
