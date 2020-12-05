@@ -13,14 +13,17 @@ import {
   fetchAuthorizationStatus,  
   Athlete,
   Gear, 
+  Authorized,
   GearBike, 
 } from './api'
 
 import { getAthlete as getAth, changeAthlete, deleteGear as delGear, changeGear,  Resource } from './testapi'
 
+
+
 function App() {
 
-  const [authorized, setAuthorized] = React.useState<{authorized: boolean, athlete_pk: number}>()
+  const [authorized, setAuthorized] = React.useState<Authorized>({})
   const [athlete, setAthlete] = React.useState<Athlete>()
   const [selectedGear, setSelectedGear] = React.useState<Gear>()
   const [bikes, setBikes] = React.useState<GearBike[]>([])
@@ -152,14 +155,14 @@ function App() {
 
   React.useEffect(getAuthorizationStatus, [])
   React.useEffect(() => {
-    if (authorized) {
+    if (authorized.authorized) {
       getAthlete()
     }
   }, [authorized])
 
 
   return (
-    authorized
+    authorized.authorized
         ? <div id="main-page">
             {modal}
             <div id="top-bar">

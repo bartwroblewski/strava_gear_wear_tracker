@@ -4,7 +4,7 @@ import time
 
 import requests
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse, HttpResponseServerError
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -77,10 +77,7 @@ def get_authorization_status(request):
     return response(False, None)
 
 def athlete_detail(request, pk):
-    try:
-        athlete = Athlete.objects.get(pk=pk)
-    except Athlete.DoesNotExist:
-        return HttpResponseServerError(status=404)
+    athlete = Athlete.get_object_or_404(Athlete, pk=pk)
 
     if request.method == 'GET':
         serializer = AthleteSerializer(athlete)
@@ -97,10 +94,7 @@ def athlete_detail(request, pk):
         return HttpResponse(status=204)
 
 def gear_detail(request, pk):
-    try:
-        gear = Gear.objects.get(pk=pk)
-    except Gear.DoesNotExist:
-        return HttpResponseServerError(status=404)
+    gear = get_object_or_404(Gear, pk=pk)
 
     if request.method == "POST":
         body = json.loads(request.body)

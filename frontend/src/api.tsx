@@ -2,6 +2,11 @@ import * as urls from './urls'
 
 type Promised<T> = (...args: any[]) => Promise<T>
 
+export interface Authorized {
+    authorized: boolean,
+    athlete_pk: number,
+  }
+
 export interface GearBike {
     ref_id: string,
     name: string,
@@ -69,7 +74,7 @@ const fetchJson: Promised<any> = async(url: string) => {
 
 const fetchJsonWithErrorHandling = async(url:string) => ErrorEnabledFetch(() => fetchJson(url))
 
-const fetchAuthorizationStatus: Promised<{authorized: boolean}> = () => fetchJsonWithErrorHandling(urls.authorizedUrl)
+const fetchAuthorizationStatus: Promised<Authorized> = () => fetchJsonWithErrorHandling(urls.authorizedUrl)
 
 const fetchAthlete: Promised<Athlete> = () => fetchJsonWithErrorHandling(urls.athleteUrl)
 
