@@ -170,7 +170,6 @@ function App() {
               {distanceSwitch}
             </div>
             {gearWidgets}    
-            <Test />
           </div>
         : authorizeButton
       
