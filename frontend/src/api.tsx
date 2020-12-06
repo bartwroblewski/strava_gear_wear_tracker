@@ -28,7 +28,7 @@ export interface Athlete {
     bikes: GearBike[],
 }
 
-const create = async<T,>(url: string, payload: T) => {
+const create = async<T,>(url: string, payload: T): Promise<T> => {
     const response = await fetch(url, {
         method: 'POST',
         mode: 'same-origin',  // Do not send CSRF token to another domain.
@@ -38,26 +38,14 @@ const create = async<T,>(url: string, payload: T) => {
             'X-CSRFToken': getCookie('csrftoken'),
         },
     })
-    return handleResponse(response)
+    const json = await response.json()
+    return json
 }
 
 const retrieve = async<T,>(url: string, pk: number): Promise<T> => {
     const response = await fetch(url + '/' + pk)
     const json = await response.json()
-    if (response.ok) {
-        return json
-    }
-    const responseError = {
-        type: json.type || '',
-        message: json.message || json.detail || '',
-        data: json.data || '',
-        code: json.code || '',
-    }
-
-    let resError = new Error()
-    resError = { ...resError, ...responseError }
-    
-    throw(resError)
+    return json
 }
 
 const update = async<T,>(url: string, payload: T) => {
@@ -71,7 +59,8 @@ const update = async<T,>(url: string, payload: T) => {
             'X-CSRFToken': getCookie('csrftoken'),
         },
     })
-    return response
+    const json = await response.json()
+    return json
 }
 
 const del = async(url: string, pk: number) => {
@@ -83,7 +72,8 @@ const del = async(url: string, pk: number) => {
             'X-CSRFToken': getCookie('csrftoken'),
         },
     })
-    return response
+    const status = await response.status
+    return status
 }
 
 const handleResponse = async(response: any) => {
@@ -110,10 +100,6 @@ const crud = <T,>(url: string) => {
         update: (payload: T) => update<T>(url, payload),
         del: (pk: number) => del(url, pk),
     }
-}
-
-const errorCrud = <T, >(url: string) => {
-    const c = crud<T>(url)
 }
 
 export const athleteCrud = crud<Athlete>(urls.athleteUrl)
