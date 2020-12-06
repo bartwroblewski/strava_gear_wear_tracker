@@ -135,8 +135,16 @@ class GearDetail(APIView):
     def put(self, request, pk):
         gear = self.get_object(pk)
         serializer = GearSerializer(gear, data=request.data)
+        athlete_id = request.session['tokendata']['athlete']['id']
+        athlete = Athlete.objects.get(ref_id=athlete_id)
         if serializer.is_valid():
-            serializer.save()
+            try:
+                gear = serializer.save(athlete=athlete)
+            except IntegrityError as e: # handle "unique together" error on Gear model
+                not_unique_error = {
+                    'message': 'You already have gear by this name, please use another!'
+                }
+                return Response(not_unique_error, status=status.HTTP_400_BAD_REQUEST)
             gear.refresh_bikes(request.data.get('bikes'))
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -39,7 +39,10 @@ const create = async<T,>(url: string, payload: T): Promise<T> => {
         },
     })
     const json = await response.json()
-    if (!response.ok) alert(json.message)
+    if (!response.ok) {
+        alert(json.message)
+        throw new Error(json.message)
+    }
     return json
 }
 
@@ -62,7 +65,10 @@ const update = async<T,>(url: string, payload: T) => {
         },
     })
     const json = await response.json()
-    if (!response.ok) alert(json.message)
+    if (!response.ok) {
+        alert(json.message)
+        throw new Error(json.message)
+    }
     return json
 }
 
