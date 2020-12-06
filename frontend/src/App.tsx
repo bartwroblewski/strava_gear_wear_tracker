@@ -9,12 +9,6 @@ import Modal from './components/Modal'
 import GearForm from './components/GearForm'
 import DeleteGearForm from './components/DeleteGearForm'
 
-import {  
-  Athlete,
-  Gear, 
-  GearBike, 
-} from './oldapi'
-
 import { 
   Resource,
   getAuthStatus,
