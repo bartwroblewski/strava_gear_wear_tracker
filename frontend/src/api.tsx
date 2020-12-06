@@ -39,6 +39,8 @@ const create = async<T,>(url: string, payload: T) => {
         },
     })
     const status = await response.status
+    const text = await response.text()
+    if (!response.ok) alert(text)
     return status
 }
 
