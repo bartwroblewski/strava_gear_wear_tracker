@@ -1,4 +1,5 @@
 import React from 'react'
+import './css/Forms.css'
 
 interface DeleteGearFormProps {
     onSubmit: any,
@@ -14,10 +15,10 @@ const DeleteGearForm = ({onSubmit, onCancel}: DeleteGearFormProps) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="form-title">Really?</div>
+            <div className="form-title">Really delete gear?</div>
             <div className="form-section form-buttons">
-                <button type="submit">Yes, delete gear</button>
-                <button type="button" onClick={onCancel}>Cancel</button>
+                <button type="submit" className="achtung">Yes</button>
+                <button type="button" onClick={onCancel}>No</button>
             </div>
         </form>
     )

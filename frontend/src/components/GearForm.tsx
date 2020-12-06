@@ -1,6 +1,6 @@
 import React from 'react'
 import { GearBike, Gear} from '../api'
-import './css/GearForm.css'
+import './css/Forms.css'
 import MultiSelect from './MultiSelect'
 import TimeInput from './TimeInput'
 import { metersToUnit, metersFromUnit } from '../helpers/formatters'
