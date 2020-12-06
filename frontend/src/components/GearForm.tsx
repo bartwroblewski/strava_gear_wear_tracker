@@ -1,7 +1,6 @@
 import React from 'react'
 import { GearBike, Gear} from '../api'
 import './css/Forms.css'
-import MultiSelect from './MultiSelect'
 import TimeInput from './TimeInput'
 import { metersToUnit, metersFromUnit } from '../helpers/formatters'
 
@@ -40,28 +39,26 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
         })
     }
 
-    const handleBikeOptionChange = (bike: GearBike) => {
-        setBikeIds(prev => {
-            if (bikeIds.includes(bike.ref_id)) {
-                return prev.filter(id => id !== bike.ref_id)
-            } else {
-                return [...prev, bike.ref_id] 
-            }
-        })
+    const handleBikeSelectChange = (e: any) => {
+        const bikeId = e.target.value
+        const selected = Array.from(e.target.selectedOptions, (option: any) => option.id)
+        setBikeIds(selected)
     }
 
-    const bikeOptions = bikes.map(bike => {
-        return (
-          <div className="multi-select-option">
-            <input 
-                type="checkbox"
-                checked={bikeIds.includes(bike.ref_id)}
-                onChange={() => handleBikeOptionChange(bike)}
-            />
-            <div>{bike.name}</div>
-         </div>
-        )
-      })
+    const bikeOptions = 
+        bikes.map(bike => 
+            <option 
+                id={bike.ref_id} 
+                selected={bikeIds.includes(bike.ref_id)}>
+                {bike.name}
+            </option>)
+
+    const bikeSelect = 
+        <select 
+            multiple 
+            onChange={handleBikeSelectChange}>
+            {bikeOptions}
+        </select>
 
     return (
         <form onSubmit={handleSubmit}>
@@ -129,7 +126,11 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
             </div>
 
             <div className="form-section">
-                <MultiSelect options={bikeOptions} />
+                <label>Assigned bike(s)</label>
+                <div>
+                    {bikeSelect}
+                </div>
+                {/* <MultiSelect options={bikeOptions} /> */}
             </div>
 
             <div className="form-section">

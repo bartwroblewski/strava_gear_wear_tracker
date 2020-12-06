@@ -1,5 +1,6 @@
 import React from 'react'
 import { toDuration, timeFactors } from '../helpers/formatters'
+import './css/TimeInput.css'
 
 interface TimeInputProps {
     time: any,
@@ -30,7 +31,7 @@ const TimeInput = ({time, setTime} : TimeInputProps) => {
     }
 
     return (
-        <div>
+        <div className="time-input">
             <input defaultValue={duration.d} name="d" type="number" min="0" onChange={handleChange} />
             <label>d</label>
 
