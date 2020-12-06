@@ -11,11 +11,13 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+from django.db.utils import IntegrityError
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotAuthenticated, NotFound, PermissionDenied
 from rest_framework import status
+from rest_framework import serializers
 
 from .models import Gear, Athlete, TokenData, Bike
 from .serializers import GearSerializer, AthleteSerializer
@@ -107,7 +109,13 @@ class GearList(APIView):
         athlete = Athlete.objects.get(ref_id=athlete_id)
         serializer = GearSerializer(data=request.data)
         if serializer.is_valid():
-            gear = serializer.save(athlete=athlete)
+            try:
+                gear = serializer.save(athlete=athlete)
+            except IntegrityError as e: # handle "unique together" error on Gear model
+                not_unique_error = {
+                    'message': 'You already have gear by this name, please use another!'
+                }
+                return Response(not_unique_error, status=status.HTTP_400_BAD_REQUEST)
             gear.refresh_bikes(request.data.get('bikes'))
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

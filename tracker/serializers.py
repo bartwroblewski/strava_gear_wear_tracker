@@ -2,6 +2,10 @@ from rest_framework import serializers
 
 from .models import Athlete, Gear, Bike
 
+def unique(value):
+    if value % 2 != 0:
+        raise serializers.ValidationError('This field must be an even number.')
+
 class BikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bike

@@ -38,10 +38,7 @@ const create = async<T,>(url: string, payload: T) => {
             'X-CSRFToken': getCookie('csrftoken'),
         },
     })
-    const status = await response.status
-    const text = await response.text()
-    if (!response.ok) alert(text)
-    return status
+    return handleResponse(response)
 }
 
 const retrieve = async<T,>(url: string, pk: number): Promise<T> => {
@@ -74,8 +71,7 @@ const update = async<T,>(url: string, payload: T) => {
             'X-CSRFToken': getCookie('csrftoken'),
         },
     })
-    const status = await response.status
-    return status
+    return response
 }
 
 const del = async(url: string, pk: number) => {
@@ -87,8 +83,24 @@ const del = async(url: string, pk: number) => {
             'X-CSRFToken': getCookie('csrftoken'),
         },
     })
-    const status = await response.status
-    return status
+    return response
+}
+
+const handleResponse = async(response: any) => {
+    const json = await response.json()
+    if (response.ok) {
+        return json
+    } else {
+        const responseError = {
+            type: json.type || '',
+            message: json.message || json.detail || '',
+            data: json.data || '',
+            code: json.code || '',
+        }
+        let resError = new Error()
+        resError = { ...resError, ...responseError }
+        throw(resError)
+    }
 }
 
 const crud = <T,>(url: string) => {
@@ -98,6 +110,10 @@ const crud = <T,>(url: string) => {
         update: (payload: T) => update<T>(url, payload),
         del: (pk: number) => del(url, pk),
     }
+}
+
+const errorCrud = <T, >(url: string) => {
+    const c = crud<T>(url)
 }
 
 export const athleteCrud = crud<Athlete>(urls.athleteUrl)
