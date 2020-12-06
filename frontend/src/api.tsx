@@ -38,7 +38,12 @@ const create = async<T,>(url: string, payload: T): Promise<T> => {
             'X-CSRFToken': getCookie('csrftoken'),
         },
     })
-    const json = await response.json()
+    let json
+    try {
+        json = await checkResponse(response)
+    } catch(e) {
+        alert(e.message)
+    }
     return json
 }
 
@@ -76,21 +81,20 @@ const del = async(url: string, pk: number) => {
     return status
 }
 
-const handleResponse = async(response: any) => {
+const checkResponse = async(response: any) => {
     const json = await response.json()
     if (response.ok) {
         return json
-    } else {
-        const responseError = {
-            type: json.type || '',
-            message: json.message || json.detail || '',
-            data: json.data || '',
-            code: json.code || '',
-        }
-        let resError = new Error()
-        resError = { ...resError, ...responseError }
-        throw(resError)
     }
+    const responseError = {
+        type: json.type || '',
+        message: json.message || json.detail || '',
+        data: json.data || '',
+        code: json.code || '',
+    }
+    let resError = new Error()
+    resError = { ...resError, ...responseError }
+    throw(resError)
 }
 
 const crud = <T,>(url: string) => {
