@@ -31,16 +31,16 @@ const TimeInput = ({time, setTime} : TimeInputProps) => {
 
     return (
         <div>
-            <input defaultValue={duration.d} name="d" type="number" onChange={handleChange} />
+            <input defaultValue={duration.d} name="d" type="number" min="0" onChange={handleChange} />
             <label>d</label>
 
-            <input defaultValue={duration.h} name="h" type="number" onChange={handleChange} />
+            <input defaultValue={duration.h} name="h" type="number" min="0" onChange={handleChange} />
             <label>h</label>
 
-            <input defaultValue={duration.m} name="m" type="number" onChange={handleChange} />
+            <input defaultValue={duration.m} name="m" type="number" min="0" onChange={handleChange} />
             <label>m</label>
 
-            <input defaultValue={duration.s} name="s" type="number" onChange={handleChange} />
+            <input defaultValue={duration.s} name="s" type="number" min="0" onChange={handleChange} />
             <label>s</label>
         </div>
     )
