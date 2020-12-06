@@ -69,31 +69,3 @@ export const GearWidget = ({gear, distanceUnit, onClick, onDelete}: GearWidgetPr
         </div>
     )
 }         
-
-interface AddGearWidgetProps {
-    onSubmit: any,
-}
-
-export const AddGearWidget = ({onSubmit}: AddGearWidgetProps) => {
-
-    const [name, setName] = React.useState<string>()
-
-    const handleSubmit = (e: any) => {
-        e.preventDefault()
-        onSubmit({name: name})
-        setName('')
-    }
-
-    const handleChange = (e: any) => setName(e.target.value)
-
-    return (
-        <form onSubmit={handleSubmit}>
-            <input 
-                value={name}
-                type="text"
-                placeholder="New gear name?"
-                onChange={(e: any) => handleChange(e)}
-            />
-        </form>
-    )
-}
