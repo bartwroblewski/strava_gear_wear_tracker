@@ -1,0 +1,34 @@
+form {
+    padding: 15px;
+    background: rgb(247, 247, 247);
+}
+
+form button {
+    margin-right: 5px;
+}
+
+button.achtung {
+   color: red;
+   border-color: red;
+}
+
+.form-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.form-section {
+    margin-top: 20px;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+input[name='d'],
+input[name='h'],
+input[name='m'],
+input[name='s'] {
+    width: 5ch;
+}
