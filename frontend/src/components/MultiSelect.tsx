@@ -1,6 +1,8 @@
 import React from 'react'
 import './css/MultiSelect.css'
 
+/// NOT USED ///
+
 interface MultiSelectProps {
   options: any[],
 }
