@@ -2,11 +2,6 @@ import * as urls from './urls'
 
 type Promised<T> = (...args: any[]) => Promise<T>
 
-export interface Resource {
-    pk: number,
-    //other optional here...
-}
-
 export interface GearBike {
     ref_id: string,
     name: string,
@@ -30,9 +25,10 @@ export interface Athlete {
     distance_unit: string,
     time_unit: string,
     gear: Gear[],
+    bikes: GearBike[],
 }
 
-const create = async(url: string, payload: Resource) => {
+const create = async<T,>(url: string, payload: T) => {
     const response = await fetch(url, {
         method: 'POST',
         mode: 'same-origin',  // Do not send CSRF token to another domain.
@@ -46,7 +42,7 @@ const create = async(url: string, payload: Resource) => {
     return status
 }
 
-const retrieve = async(url: string, pk: number): Promise<Resource> => {
+const retrieve = async<T,>(url: string, pk: number): Promise<T> => {
     const response = await fetch(url + '/' + pk)
     const json = await response.json()
     if (response.ok) {
@@ -65,7 +61,7 @@ const retrieve = async(url: string, pk: number): Promise<Resource> => {
     throw(resError)
 }
 
-const update = async(url: string, payload: Resource) => {
+const update = async<T,>(url: string, payload: T) => {
     const URL = url + `/${payload.pk}`
     const response = await fetch(URL, {
         method: 'PUT',
@@ -93,17 +89,17 @@ const del = async(url: string, pk: number) => {
     return status
 }
 
-const crud = (url: string) => {
+const crud = <T,>(url: string) => {
     return {
-        create: (payload: Resource) => create(url, payload),
-        retrieve: (pk: number) => retrieve(url, pk),
-        update: (payload: Resource) => update(url, payload),
+        create: (payload: T) => create<T>(url, payload),
+        retrieve: (pk: number) => retrieve<T>(url, pk),
+        update: (payload: T) => update<T>(url, payload),
         del: (pk: number) => del(url, pk),
     }
 }
 
-export const athleteCrud = crud(urls.athleteUrl)
-export const gearCrud = crud(urls.gearUrl)
+export const athleteCrud = crud<Athlete>(urls.athleteUrl)
+export const gearCrud = crud<Gear>(urls.gearUrl)
 
 export const getAuthStatus: Promised<number> = async() => {
     const response = await fetch(urls.authorizedUrl)

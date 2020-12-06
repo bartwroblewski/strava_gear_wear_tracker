@@ -10,10 +10,9 @@ import GearForm from './components/GearForm'
 import DeleteGearForm from './components/DeleteGearForm'
 
 import { 
-  Resource,
+  Athlete, Gear, GearBike, 
+  athleteCrud, gearCrud,
   getAuthStatus,
-  athleteCrud,
-  gearCrud,
 } from './api'
 
 function App() {
@@ -44,21 +43,18 @@ function App() {
     run()
   }
 
-  const handleAthleteChange = (newAthlete: Resource) => {
+  const handleAthleteChange = (athlete: Athlete) => {
     const run = async() => {
-      await athleteCrud.update(newAthlete)
+      await athleteCrud.update(athlete)
       getAthlete()
     }
     run()
   }
 
-  const handleGearFormSubmit = (params) => {
+  const handleGearFormSubmit = (gear: Gear) => {
     const run = async() => {
-      if (!params.pk) {
-        await gearCrud.create(params)
-      } else {
-        await gearCrud.update(params)
-      }
+      const action = gear.pk ? 'update' : 'create'
+      await gearCrud[action](gear)
       getAthlete()
       setAction('')
     }

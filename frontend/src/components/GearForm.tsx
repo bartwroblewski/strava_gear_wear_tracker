@@ -3,7 +3,7 @@ import { GearBike, Gear} from '../api'
 import './css/GearForm.css'
 import MultiSelect from './MultiSelect'
 import TimeInput from './TimeInput'
-import { toDuration, metersToUnit, metersFromUnit } from '../helpers/formatters'
+import { metersToUnit, metersFromUnit } from '../helpers/formatters'
 
 interface GearFormProps {
     gear: Gear,
