@@ -12,7 +12,6 @@ import DeleteGearForm from './components/DeleteGearForm'
 import {  
   Athlete,
   Gear, 
-  Authorized,
   GearBike, 
 } from './oldapi'
 
@@ -25,7 +24,7 @@ import {
 
 function App() {
 
-  const [authorized, setAuthorized] = React.useState<Authorized>({})
+  const [authorized, setAuthorized] = React.useState<number>()
   const [athlete, setAthlete] = React.useState<Athlete>()
   const [selectedGear, setSelectedGear] = React.useState<Gear>()
   const [bikes, setBikes] = React.useState<GearBike[]>([])
@@ -42,7 +41,7 @@ function App() {
 
   const getAthlete = () => {
     const run = async() => {
-      const json = await athleteCrud.retrieve(authorized.athlete_pk)     
+      const json = await athleteCrud.retrieve(authorized)     
       console.log('Athlete: ', json)
       setAthlete(json)
       console.log('Athlete bikes DRF ', json.bikes)
@@ -159,14 +158,14 @@ function App() {
 
   React.useEffect(getAuthorizationStatus, [])
   React.useEffect(() => {
-    if (authorized.authorized) {
+    if (authorized) {
       getAthlete()
     }
   }, [authorized])
 
 
   return (
-    authorized.authorized
+    authorized
         ? <div id="main-page">
             {modal}
             <div id="top-bar">

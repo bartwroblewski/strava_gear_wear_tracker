@@ -62,17 +62,16 @@ def get_authorization_status(request):
     1. Check if:
         A. Token is in session (i.e. user has authorized already);
         B. The token is not expired.
-    2. Include authorized athlete pk in the response.
+    2. If authorized, include athlete.pk in the response, otherwise include 0.
     """
-    response = lambda x, y: JsonResponse({'authorized': x, 'athlete_pk': y})
     tokendata = request.session.get('tokendata')
     if tokendata:
         expired = time.time() > tokendata['expires_at']
         if not expired:
             athlete_id = tokendata['athlete']['id']
             athlete = Athlete.objects.get(ref_id=athlete_id)
-            return response(True, athlete.pk)
-    return response(False, None)
+            return HttpResponse(athlete.pk)
+    return HttpResponse(0)
 
 class AthleteDetail(APIView):
     """

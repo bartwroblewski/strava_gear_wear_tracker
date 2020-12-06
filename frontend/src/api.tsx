@@ -7,11 +7,6 @@ export interface Resource {
     //other optional here...
 }
 
-export interface Authorized {
-    authorized: boolean,
-    athlete_pk: number,
-  }
-
 const create = async(url: string, payload: Resource) => {
     const response = await fetch(url, {
         method: 'POST',
@@ -85,9 +80,9 @@ const crud = (url: string) => {
 export const athleteCrud = crud(urls.athleteUrl)
 export const gearCrud = crud(urls.gearUrl)
 
-export const getAuthStatus: Promised<Authorized> = async() => {
+export const getAuthStatus: Promised<number> = async() => {
     const response = await fetch(urls.authorizedUrl)
-    const json: Authorized = await response.json()
+    const json = await response.json()
     return json
 }
 
