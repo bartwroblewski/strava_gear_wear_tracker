@@ -32,6 +32,10 @@
     display: flex;
 }
 
+.gear-name {
+    transition: color .5s;
+}
+
 .gear-name:hover {
     cursor: pointer;
     color: rgb(32, 209, 127);

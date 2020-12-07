@@ -12,10 +12,13 @@ button {
     background: none;
     border: 2px solid black;
     padding: 10px;
+    transition: color .5s;
 }
 
 button:hover {
     cursor: pointer;
+    border-color: rgb(32, 209, 127);
+    color: rgb(32, 209, 127);
 }
 
 #top-bar button {
