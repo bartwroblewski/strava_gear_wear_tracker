@@ -9,6 +9,15 @@ html {
     margin-left: 10px;
 }
 
+#logout {
+    transition: color .5s;
+}
+
+#logout:hover {
+    color: red;
+    cursor: pointer;
+}
+
 #top-bar {
     display: flex;
     justify-content: space-between;

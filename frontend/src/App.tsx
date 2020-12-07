@@ -12,7 +12,7 @@ import DeleteGearForm from './components/DeleteGearForm'
 import { 
   Athlete, Gear, GearBike, 
   athleteCrud, gearCrud,
-  getAuthStatus,
+  getAuthStatus, logout
 } from './api'
 
 function App() {
@@ -68,6 +68,11 @@ function App() {
       setAction('')
     }
     run() 
+  }
+
+  const handleLogout = async() => {
+    await logout()
+    getAuthorizationStatus()
   }
 
   const selectGear = (pk?: number) => {
@@ -146,8 +151,8 @@ function App() {
       Authorize
     </button>
 
-  const logout = athlete 
-    ? <div>Logout ({athlete.firstname} {athlete.lastname})</div>
+  const log_out = athlete 
+    ? <div id="logout" onClick={handleLogout}>Logout ({athlete.firstname} {athlete.lastname})</div>
     : null
 
   React.useEffect(getAuthorizationStatus, [])
@@ -165,7 +170,7 @@ function App() {
               <div id="app-name">
                 GEAR TRACKER
               </div>
-              {logout}
+              {log_out}
             </div>
             <div id="button-bar">
               {addGearButton}

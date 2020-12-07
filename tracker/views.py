@@ -244,6 +244,6 @@ def view_webhook_subscription(request):
     r = requests.get(url, params=params)
     return HttpResponse(r.json())
 
-def flush_session(request):
+def logout(request):
     request.session.flush()
-    return HttpResponse('Session flushed!')
+    return HttpResponse('OK')

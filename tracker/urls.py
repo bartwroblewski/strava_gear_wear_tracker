@@ -16,6 +16,6 @@ urlpatterns = [
     path('unsubscribe_to_strava_webhook', views.unsubscribe_to_strava_webhook, name='unsubscribe_to_strava_webhook'),
     path('mock_callback_post', views.mock_callback_post, name='mock_callback_post'),
     path('receive_mock', views.receive_mock, name='receive_mock'),
-    path('flush_session', views.flush_session, name='flush_session'),
+    path('logout', views.logout, name='logout'),
     path('', views.index, name='index'),   
 ]
