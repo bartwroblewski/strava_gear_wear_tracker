@@ -146,6 +146,10 @@ function App() {
       Authorize
     </button>
 
+  const logout = athlete 
+    ? <div>Logout ({athlete.firstname} {athlete.lastname})</div>
+    : null
+
   React.useEffect(getAuthorizationStatus, [])
   React.useEffect(() => {
     if (authorized) {
@@ -153,12 +157,17 @@ function App() {
     }
   }, [authorized])
 
-
   return (
     authorized
         ? <div id="main-page">
             {modal}
             <div id="top-bar">
+              <div id="app-name">
+                GEAR TRACKER
+              </div>
+              {logout}
+            </div>
+            <div id="button-bar">
               {addGearButton}
               {distanceSwitch}
             </div>

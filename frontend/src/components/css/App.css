@@ -3,7 +3,19 @@ html {
     font-family: 'Quicksand';
 }
 
+#app-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
 #top-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+#button-bar {
     display: flex;
     justify-content: space-between;
 }
@@ -12,7 +24,7 @@ button {
     background: none;
     border: 2px solid black;
     padding: 10px;
-    transition: color .5s;
+    transition: color .5s, border .5s;
 }
 
 button:hover {
@@ -21,6 +33,6 @@ button:hover {
     color: rgb(32, 209, 127);
 }
 
-#top-bar button {
+#button-bar button {
     margin-left: 10px;
 }
