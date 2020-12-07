@@ -134,7 +134,9 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
             </div>
 
             <div className="form-section">
-                <button type="submit">Save</button>
+                <div className="form-buttons">
+                    <button type="submit">Save</button>
+                </div>
             </div>
         </form>
     )
