@@ -111,8 +111,8 @@ class GearList(APIView):
         if serializer.is_valid():
             try:
                 gear = serializer.save(athlete=athlete)
-            except IntegrityError as e: # handle "unique together" error on Gear model
-                not_unique_error = {
+            except IntegrityError as e: # "unique together" constraint error is set on Gear model,                             
+                not_unique_error = {    # so the error has to be handled manually, not by the serializer
                     'message': 'You already have gear by this name, please use another!'
                 }
                 return Response(not_unique_error, status=status.HTTP_400_BAD_REQUEST)
@@ -140,8 +140,8 @@ class GearDetail(APIView):
         if serializer.is_valid():
             try:
                 gear = serializer.save(athlete=athlete)
-            except IntegrityError as e: # handle "unique together" error on Gear model
-                not_unique_error = {
+            except IntegrityError as e: # "unique together" constraint error is set on Gear model,                             
+                not_unique_error = {    # so the error has to be handled manually, not by the serializer
                     'message': 'You already have gear by this name, please use another!'
                 }
                 return Response(not_unique_error, status=status.HTTP_400_BAD_REQUEST)

@@ -1,5 +1,6 @@
 - dorobic automatyczne odswiezanie tokenow w bazie danych (bo jak wygasna to webhookowy callback nie bedzie dzialac) i wtedy tez pozbyc sie tokenow w sesji?
 - dorobic wylogowanie (flush session?)
+- dodac buttona i logo Stravy
 - if token is expired (i.e. overnight), why does fetching bikes still work?
 - only take cycling activities into account, no running etc.?
 - on Strava webhook callback increase the mileage only if the event is new activity creation
