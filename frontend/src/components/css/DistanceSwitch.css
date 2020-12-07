@@ -17,6 +17,10 @@
 }
 
 .switch-option {
+    transition: background 1s, color 1s;
+}
+
+.switch-option {
     background: white;
     color: black;
     text-align: center;
