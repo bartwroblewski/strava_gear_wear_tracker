@@ -54,11 +54,13 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
             </option>)
 
     const bikeSelect = 
-        <select 
-            multiple 
-            onChange={handleBikeSelectChange}>
-            {bikeOptions}
-        </select>
+        bikes.length
+        ?   <select 
+                multiple 
+                onChange={handleBikeSelectChange}>
+                {bikeOptions}
+            </select>
+        : "(add some bikes on Strava first!)"
 
     return (
         <form onSubmit={handleSubmit}>
