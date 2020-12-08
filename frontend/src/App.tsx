@@ -133,17 +133,28 @@ function App() {
     />
   )
 
+/*   type ModalState = "none" | "gear_edit" | "gear_delete"
+
+  const [modalState, setModalState] = React.useState<ModalState>("none")
+ */
+
+  /*  const getDisplayForm = () => { switch (modalState) {
+    case "gear_edit": return gearForm
+    case "delete": return deleteGearForm
+    default: return null
+  } */
+
   const actionMap = {
     'edit/add': gearForm,
     'delete': deleteGearForm,
   }
 
-  const modal = action
-    ? <Modal
-        hide={hideModal}
-        contents={actionMap[action]}        
-      />
-    : null
+   const modal = action
+     ? <Modal
+         hide={hideModal}
+         contents={actionMap[action]}        
+       />
+     : null
 
   const authorizeButton = 
     <button 

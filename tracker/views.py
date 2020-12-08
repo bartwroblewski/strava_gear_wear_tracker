@@ -45,7 +45,6 @@ def sessionize_tokendata(request):
     tokendata = exchange_code_for_tokendata(code)
     TokenData.objects.first().update(tokendata) # update tokendata stored in DB with the new one receive
     request.session['tokendata'] = tokendata
-
     # upon receiving athlete ID from Strava,
     # sync athlete bikes to the ones on Strava.
     # This means that athlete bikes will be synced
@@ -67,7 +66,9 @@ def get_authorization_status(request):
     2. If authorized, include athlete.pk in the response, otherwise include 0.
     """
     tokendata = request.session.get('tokendata')
+    
     if tokendata:
+        print(tokendata['access_token'])
         expired = time.time() > tokendata['expires_at']
         if not expired:
             athlete_id = tokendata['athlete']['id']
