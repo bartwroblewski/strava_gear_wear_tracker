@@ -118,17 +118,17 @@ const GearForm = ({gear, athleteDistanceUnit, bikes, onSubmit}: GearFormProps) =
                 <TimeInput time={timeMilestone} setTime={setTimeMilestone} />
             </div>
 
-            <div className="form-section">
+           {/*  <div className="form-section">
                 <label>Track</label>
                 <input 
                     type="checkbox" 
                     checked={track} 
                     onChange={() => setTrack(prev => !prev)}
                 />
-            </div>
+            </div> */}
 
             <div className="form-section">
-                <label>Assigned bike(s)</label>
+                <label>Update gear stats when the following bikes <br></br> are used:</label>
                 <div>
                     {bikeSelect}
                 </div>

@@ -202,10 +202,10 @@ def strava_callback(request):
         except Bike.DoesNotExist:
             bike = None
 
-        # update only gear that has tracking enabled
+        # update only gear which bikes include the activity bike
         tracked_athlete_gear = Gear.objects.filter(
             athlete=athlete, 
-            is_tracked=True,
+            #is_tracked=True,
             bikes=bike,
         )
         for gear in tracked_athlete_gear:
