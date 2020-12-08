@@ -25,7 +25,9 @@ from .serializers import GearSerializer, AthleteSerializer
 from .api import (
     get_authorization_url,
     exchange_code_for_tokendata, 
+    get_authenticated_athlete,
     get_activity,
+    get_new_access_token,
     CLIENT_ID, 
     CLIENT_SECRET,
 )
@@ -41,20 +43,26 @@ def authorize(request):
 def sessionize_tokendata(request):
     '''Redirect URL for Strava auth mechanism.
     Receives code that can be exchanged for API access tokens.'''
+
     code = request.GET.get('code')
     tokendata = exchange_code_for_tokendata(code)
-    TokenData.objects.first().update(tokendata) # update tokendata stored in DB with the new one receive
+
+    # store token in session to allow user interactions
     request.session['tokendata'] = tokendata
-    # upon receiving athlete ID from Strava,
-    # sync athlete bikes to the ones on Strava.
-    # This means that athlete bikes will be synced
-    # only on login to app.
+
+    # store token in database for use in webhook callback
     athlete, created = Athlete.objects.get_or_create(
         ref_id=tokendata['athlete']['id'],
         firstname=tokendata['athlete']['firstname'],
         lastname=tokendata['athlete']['lastname'],
     )
-    athlete.refresh_bikes(tokendata['access_token'])
+    athlete_db_tokendata = TokenData.objects.get(athlete=athlete)
+    athlete_db_tokendata.update(tokendata)
+    
+    #refresh athlete bikes
+    athlete_data = get_authenticated_athlete(athlete_db_tokendata.access_token)
+    strava_bikes = athlete_data.get('bikes') 
+    athlete.update_bikes(strava_bikes)
 
     return redirect(reverse('tracker:index'))
 
@@ -68,7 +76,6 @@ def get_authorization_status(request):
     tokendata = request.session.get('tokendata')
     
     if tokendata:
-        print(tokendata['access_token'])
         expired = time.time() > tokendata['expires_at']
         if not expired:
             athlete_id = tokendata['athlete']['id']
@@ -174,15 +181,21 @@ def strava_callback(request):
 
     if request.method == 'POST':
         body = json.loads(request.body)
-
-        access_token = TokenData.objects.first().access_token
         activity_id = body['object_id']
-        activity = get_activity(activity_id, access_token)
-
         athlete_id = body['owner_id']
-        athlete = Athlete.objects.get(ref_id=athlete_id)
-        athlete.refresh_bikes(access_token)
 
+        athlete = Athlete.objects.get(ref_id=athlete_id)
+        athlete_tokendata = TokenData.objects.get(athlete=athlete)
+        if athlete_tokendata.expired:
+            new_tokendata = get_new_access_token(athlete_tokendata.refresh_token)
+            athlete_tokendata.update(new_tokendata)
+
+        # refresh athlete bikes
+        athlete_data = get_authenticated_athlete(athlete_tokendata.access_token)
+        strava_bikes = athlete_data.get('bikes') 
+        athlete.update_bikes(strava_bikes)
+
+        activity = get_activity(activity_id, athlete_tokendata.access_token)
         bike_id = activity['gear_id']       
         try:
             bike = Bike.objects.get(ref_id=bike_id)
@@ -198,13 +211,13 @@ def strava_callback(request):
         for gear in tracked_athlete_gear:
             gear.distance += activity['distance']
             gear.moving_time += activity['moving_time']
-            gear.elapsed_time += activity['elapsed_time']
+            #gear.elapsed_time += activity['elapsed_time']
             gear.save()
             gear.send_milestone_notifications()
         return HttpResponse('OK')
 
 def mock_callback_post(request):
-    url = request.build_absolute_uri(reverse('tracker:strava_webhook_callback'))
+    url = request.build_absolute_uri(reverse('tracker:strava_callback'))
     print(url)
     r = requests.post(url, json={'object_id': '4397165165', 'owner_id': '5303167'})
     return HttpResponse(r.text)
@@ -219,7 +232,7 @@ def subscribe_to_strava_webhook(request):
     params = {
         'client_id': CLIENT_ID,
         'client_secret': CLIENT_SECRET,
-        'callback_url': f'http://{settings.DOMAIN}/strava_webhook_callback',
+        'callback_url': f'http://{settings.DOMAIN}/strava_callback',
         'verify_token': 'STRAVA',
     }
     r = requests.post(url, params=params)

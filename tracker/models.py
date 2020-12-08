@@ -1,7 +1,7 @@
+import time
+
 from django.db import models
 from django.core.validators import MinValueValidator
-
-from .api import get_authenticated_athlete
 
 class Athlete(models.Model):
     ref_id = models.IntegerField()
@@ -9,9 +9,7 @@ class Athlete(models.Model):
     lastname = models.CharField(max_length=255)
     distance_unit = models.CharField(default="km", max_length=255)
 
-    def refresh_bikes(self, strava_access_token):
-        athlete_data = get_authenticated_athlete(strava_access_token)
-        strava_bikes = athlete_data.get('bikes') 
+    def update_bikes(self, strava_bikes):
         strava_bikes_ids = [x['id'] for x in strava_bikes]
         athlete_bikes_ids = [x.ref_id for x in self.bikes.all()]
 
@@ -69,6 +67,7 @@ class TokenData(models.Model):
     expires_in = models.IntegerField()
     access_token = models.TextField()
     refresh_token = models.TextField()
+    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE)
 
     def update(self, tokendata):
         '''Update with new tokendata received from Strava''' 
@@ -77,5 +76,10 @@ class TokenData(models.Model):
         self.access_token=tokendata['access_token']
         self.refresh_token=tokendata['refresh_token']
         self.save()
+
+    @property
+    def expired(self):
+        return time.time() > self.expires_at
+
 
 

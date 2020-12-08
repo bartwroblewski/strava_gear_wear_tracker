@@ -47,3 +47,15 @@ def get_authenticated_athlete(access_token):
     r = requests.get(url, headers=headers)
     athlete = r.json()
     return athlete
+
+def get_new_access_token(refresh_token):
+    url = f'https://www.strava.com/oauth/token'
+    params = {
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+        'refresh_token': refresh_token,
+        'grant_type': 'refresh_token',
+    }
+    r = requests.post(url, params=params)
+    tokendata = r.json()
+    return tokendata
