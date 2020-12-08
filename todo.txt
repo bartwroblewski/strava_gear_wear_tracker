@@ -1,9 +1,10 @@
-- add method to TokenData model to refresh it (cron)
 - dorobic email notification
 - dodac buttona i logo Stravy
+
 - only take cycling activities into account, no running etc.?
 - on Strava webhook callback increase the mileage only if the event is new activity creation
 - handle activity deletion on strava
+
 - add gear categories and alerts for each categories
 - visuals/dashboard to show the wear of particular components/categories?
 
