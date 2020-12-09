@@ -3,12 +3,14 @@ import operator
 
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.core.mail import send_mail
 
 class Athlete(models.Model):
     ref_id = models.IntegerField()
     firstname = models.CharField(max_length=255)
     lastname = models.CharField(max_length=255)
     distance_unit = models.CharField(default="km", max_length=255)
+    email = models.EmailField(max_length=255, default="barti.wroblewski@gmail.com")
 
     def update_bikes(self, strava_bikes):
         strava_bikes_ids = [x['id'] for x in strava_bikes]
@@ -46,10 +48,32 @@ class Gear(models.Model):
     is_tracked = models.BooleanField(default=True)
     athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, default=1, related_name='gear')
     bikes = models.ManyToManyField(Bike, blank=True)
+    milestone_notification_sent = models.BooleanField(default=False)
 
-    def send_milestone_notifications(self):
-        if self.distance >= self.distance_milestone and self.distance_milestone > 0:
-            print(f"SENDING EMAIL FOR GEAR: {self.name}")
+    @property
+    def moving_time_milestone_reached(self):
+        return self.moving_time > self.moving_time_milestone
+
+    @property
+    def distance_milestone_reached(self):
+        return self.distance > self.distance_milestone
+
+    def send_milestone_notification(self):
+        milestone_name = ''
+        if self.moving_time_milestone_reached:
+            milestone_name = 'time'
+        elif self.distance_milestone_reached:
+            milestone_name='distance'
+        if milestone_name and not self.milestone_notification_sent:
+            send_mail(
+                'Gear milestone reached!',
+                f'It seems that {self.name} has reached its {milestone_name} goal! Go to Gear Tracker for details.',
+                'geartracker0@example.com',
+                [self.athlete.email],
+                fail_silently=False,
+            )
+            self.milestone_notification_sent = True
+            self.save()
 
     def refresh_bikes(self, bike_ids):       
         self.bikes.clear()

@@ -217,7 +217,7 @@ def strava_callback(request):
                     activity['distance'],
                     activity['moving_time'],
                 )
-                gear.send_milestone_notifications()
+                #gear.send_milestone_notification()
         return HttpResponse('OK')
 
 def mock_callback_post(request):
@@ -227,7 +227,7 @@ def mock_callback_post(request):
         'object_id': '4397165165',
         'owner_id': '5303167',
         'object_type': 'activity',
-        'aspect_type': 'update',
+        'aspect_type': 'create',
     })
     return HttpResponse(r.text)
 

@@ -127,3 +127,11 @@ REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend', 'frontend')
 STATICFILES_DIRS = [
     os.path.join(REACT_APP_DIR, 'build', 'static'),
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'geartracker0@gmail.com'
+EMAIL_HOST_PASSWORD = 'zshpzozgyugleqpn' #past the key or password app here
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'default from email'
