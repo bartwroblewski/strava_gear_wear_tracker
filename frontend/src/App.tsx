@@ -166,6 +166,11 @@ function App() {
   const log_out = athlete 
     ? <div id="logout" onClick={handleLogout}>Logout ({athlete.firstname} {athlete.lastname})</div>
     : null
+
+  const appName = 
+    <div id="app-name">
+      GEAR TRACKER
+    </div>
     
   React.useEffect(getAuthorizationStatus, [])
   React.useEffect(() => {
@@ -179,9 +184,7 @@ function App() {
         ? <div id="main-page">
             {modal}
             <div id="top-bar">
-              <div id="app-name">
-                GEAR TRACKER
-              </div>
+              {appName}
               {log_out}
             </div>
             <div id="button-bar">
@@ -193,7 +196,10 @@ function App() {
               <img src={urls.poweredByStravaUrl}/> 
             </div>
           </div>
-        : authorizeButton
+        : <div>
+            {appName}
+            {authorizeButton}
+          </div>
   )
 }
 
