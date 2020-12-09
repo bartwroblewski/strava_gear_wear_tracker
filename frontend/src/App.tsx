@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
-import { authorizeUrl } from './urls'
 import './components/css/App.css'
 import Test from './components/Test'
 import { GearWidget } from './components/GearWidget'
@@ -158,10 +157,11 @@ function App() {
      : null
 
   const authorizeButton = 
-    <button 
-      onClick={() => window.location.href=authorizeUrl}>
-      Authorize
-    </button>
+    <img 
+      id="authorize-button"
+      src={urls.stravaButtonUrl}
+      onClick={() => window.location.href=urls.authorizeUrl}
+    />
 
   const log_out = athlete 
     ? <div id="logout" onClick={handleLogout}>Logout ({athlete.firstname} {athlete.lastname})</div>
@@ -191,7 +191,6 @@ function App() {
             {gearWidgets}    
           </div>
         : <div>
-            <img src={urls.stravaButtonUrl}/>
             {authorizeButton}
           </div>
   )
