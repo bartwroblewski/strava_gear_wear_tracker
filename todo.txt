@@ -1,4 +1,3 @@
-- dorobic email notification
 - dodac buttona i logo Stravy
 
 - add gear categories and alerts for each categories
