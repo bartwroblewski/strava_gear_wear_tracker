@@ -8,6 +8,7 @@ import DistanceSwitch from './components/DistanceSwitch'
 import Modal from './components/Modal'
 import GearForm from './components/GearForm'
 import DeleteGearForm from './components/DeleteGearForm'
+import * as urls from './urls'
 
 import { 
   Athlete, Gear, GearBike, 
@@ -189,8 +190,10 @@ function App() {
             </div>
             {gearWidgets}    
           </div>
-        : authorizeButton
-      
+        : <div>
+            <img src={urls.stravaButtonUrl}/>
+            {authorizeButton}
+          </div>
   )
 }
 

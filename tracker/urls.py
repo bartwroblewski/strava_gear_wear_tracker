@@ -18,5 +18,4 @@ urlpatterns = [
     path('receive_mock', views.receive_mock, name='receive_mock'),
     path('logout', views.logout, name='logout'),
     path('', views.index, name='index'),   
-]
-
+] 
