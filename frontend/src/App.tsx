@@ -181,25 +181,25 @@ function App() {
 
   return (
     authorized
-        ? <div id="main-page">
-            {modal}
-            <div id="top-bar">
-              {appName}
-              {log_out}
-            </div>
-            <div id="button-bar">
-              {addGearButton}
-              {distanceSwitch}
-            </div>
-            {gearWidgets}
-            <div id="powered-by-strava-container">   
-              <img src={urls.poweredByStravaUrl}/> 
-            </div>
-          </div>
-        : <div>
+      ? <div id="main-page">
+          {modal}
+          <div id="top-bar">
             {appName}
-            {authorizeButton}
+            {log_out}
           </div>
+          <div id="button-bar">
+            {addGearButton}
+            {distanceSwitch}
+          </div>
+          {gearWidgets}
+          <div id="powered-by-strava-container">   
+            <img src={urls.poweredByStravaUrl}/> 
+          </div>
+        </div>
+      : <div>
+          {appName}
+          {authorizeButton}
+        </div>
   )
 }
 

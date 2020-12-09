@@ -51,6 +51,8 @@ button:hover {
 }
 
 #powered-by-strava-container {
-    display: flex;
-    justify-content: flex-end;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
 }
