@@ -188,11 +188,10 @@ function App() {
               {addGearButton}
               {distanceSwitch}
             </div>
-            {gearWidgets}    
+            {gearWidgets}   
+            <img src={urls.poweredByStravaUrl}/> 
           </div>
-        : <div>
-            {authorizeButton}
-          </div>
+        : authorizeButton
   )
 }
 
