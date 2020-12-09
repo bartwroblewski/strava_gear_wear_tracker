@@ -1,4 +1,5 @@
 import time
+import operator
 
 from django.db import models
 from django.core.validators import MinValueValidator
@@ -55,6 +56,16 @@ class Gear(models.Model):
         for bike_id in bike_ids:
             bike = Bike.objects.get(ref_id=bike_id)
             self.bikes.add(bike)
+    
+    def update(self, event_type, distance, moving_time):
+        operation = {
+            'create': operator.add,
+            'delete': operator.sub,
+            'update': lambda x, y: y,
+        }[event_type]
+        self.distance = operation(self.distance, distance)
+        self.moving_time = operation(self.moving_time, moving_time)
+        self.save()
 
     def __str__(self):
         return f'{self.name}, athlete: {self.athlete.ref_id}, is tracked: {self.is_tracked}'

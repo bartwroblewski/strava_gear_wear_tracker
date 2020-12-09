@@ -181,45 +181,54 @@ def strava_callback(request):
 
     if request.method == 'POST':
         body = json.loads(request.body)
-        activity_id = body['object_id']
-        athlete_id = body['owner_id']
 
-        athlete = Athlete.objects.get(ref_id=athlete_id)
-        athlete_tokendata = TokenData.objects.get(athlete=athlete)
-        if athlete_tokendata.expired:
-            new_tokendata = get_new_access_token(athlete_tokendata.refresh_token)
-            athlete_tokendata.update(new_tokendata)
+        if body['object_type'] == 'activity':
+            activity_id = body['object_id']
+            athlete_id = body['owner_id']
 
-        # refresh athlete bikes
-        athlete_data = get_authenticated_athlete(athlete_tokendata.access_token)
-        strava_bikes = athlete_data.get('bikes') 
-        athlete.update_bikes(strava_bikes)
+            athlete = Athlete.objects.get(ref_id=athlete_id)
+            athlete_tokendata = TokenData.objects.get(athlete=athlete)
+            if athlete_tokendata.expired:
+                new_tokendata = get_new_access_token(athlete_tokendata.refresh_token)
+                athlete_tokendata.update(new_tokendata)
 
-        activity = get_activity(activity_id, athlete_tokendata.access_token)
-        bike_id = activity['gear_id']       
-        try:
-            bike = Bike.objects.get(ref_id=bike_id)
-        except Bike.DoesNotExist:
-            bike = None
+            # refresh athlete bikes
+            athlete_data = get_authenticated_athlete(athlete_tokendata.access_token)
+            strava_bikes = athlete_data.get('bikes') 
+            athlete.update_bikes(strava_bikes)
 
-        # update only gear which bikes include the activity bike
-        tracked_athlete_gear = Gear.objects.filter(
-            athlete=athlete, 
-            #is_tracked=True,
-            bikes=bike,
-        )
-        for gear in tracked_athlete_gear:
-            gear.distance += activity['distance']
-            gear.moving_time += activity['moving_time']
-            #gear.elapsed_time += activity['elapsed_time']
-            gear.save()
-            gear.send_milestone_notifications()
+            activity = get_activity(activity_id, athlete_tokendata.access_token)
+            bike_id = activity['gear_id']       
+            try:
+                bike = Bike.objects.get(ref_id=bike_id)
+            except Bike.DoesNotExist:
+                bike = None
+
+            # update only gear which bikes include the activity bike
+            tracked_athlete_gear = Gear.objects.filter(
+                athlete=athlete, 
+                #is_tracked=True,
+                bikes=bike,
+            )
+            aspect_type = body['aspect_type']
+            for gear in tracked_athlete_gear:
+                gear.update(
+                    aspect_type,
+                    activity['distance'],
+                    activity['moving_time'],
+                )
+                gear.send_milestone_notifications()
         return HttpResponse('OK')
 
 def mock_callback_post(request):
     url = request.build_absolute_uri(reverse('tracker:strava_callback'))
     print(url)
-    r = requests.post(url, json={'object_id': '4397165165', 'owner_id': '5303167'})
+    r = requests.post(url, json={
+        'object_id': '4397165165',
+        'owner_id': '5303167',
+        'object_type': 'activity',
+        'aspect_type': 'update',
+    })
     return HttpResponse(r.text)
 
 @csrf_exempt
