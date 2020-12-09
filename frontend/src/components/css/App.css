@@ -49,3 +49,8 @@ button:hover {
 #button-bar button {
     margin-left: 10px;
 }
+
+#powered-by-strava-container {
+    display: flex;
+    justify-content: flex-end;
+}

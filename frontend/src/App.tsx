@@ -166,7 +166,7 @@ function App() {
   const log_out = athlete 
     ? <div id="logout" onClick={handleLogout}>Logout ({athlete.firstname} {athlete.lastname})</div>
     : null
-
+    
   React.useEffect(getAuthorizationStatus, [])
   React.useEffect(() => {
     if (authorized) {
@@ -188,8 +188,10 @@ function App() {
               {addGearButton}
               {distanceSwitch}
             </div>
-            {gearWidgets}   
-            <img src={urls.poweredByStravaUrl}/> 
+            {gearWidgets}
+            <div id="powered-by-strava-container">   
+              <img src={urls.poweredByStravaUrl}/> 
+            </div>
           </div>
         : authorizeButton
   )
