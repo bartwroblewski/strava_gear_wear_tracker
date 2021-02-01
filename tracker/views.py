@@ -56,7 +56,14 @@ def sessionize_tokendata(request):
         firstname=tokendata['athlete']['firstname'],
         lastname=tokendata['athlete']['lastname'],
     )
-    athlete_db_tokendata = TokenData.objects.get(athlete=athlete)
+    athlete_db_tokendata, created = TokenData.objects.get_or_create(
+        expires_in=tokendata['expires_in'],
+        expires_at=tokendata['expires_at'],
+        access_token=tokendata['access_token'],
+        refresh_token=tokendata['refresh_token'],
+        athlete=athlete,
+    )
+    print('TOKENDATA', athlete_db_tokendata)
     athlete_db_tokendata.update(tokendata)
     
     #refresh athlete bikes
@@ -74,7 +81,6 @@ def get_authorization_status(request):
     2. If authorized, include athlete.pk in the response, otherwise include 0.
     """
     tokendata = request.session.get('tokendata')
-    
     if tokendata:
         expired = time.time() > tokendata['expires_at']
         if not expired:
