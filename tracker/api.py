@@ -1,9 +1,11 @@
+import os
+
 import requests
 
 from django.conf import settings
 
-CLIENT_ID = 53702
-CLIENT_SECRET = '44ffd69ab0611f846b7970b3806640c617eb8127'
+CLIENT_ID = settings.CLIENT_ID
+CLIENT_SECRET = settings.CLIENT_SECRET
 SCOPE = 'activity:read_all,read_all,profile:read_all'
 
 def get_authorization_url(after_auth_url):
@@ -59,3 +61,34 @@ def get_new_access_token(refresh_token):
     r = requests.post(url, params=params)
     tokendata = r.json()
     return tokendata
+
+def subscribe_to_strava_webhook():
+    url = 'https://www.strava.com/api/v3/push_subscriptions'
+    params = {
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+        'callback_url': f'http://{settings.DOMAIN}/strava_callback',
+        'verify_token': 'STRAVA',
+    }
+    r = requests.post(url, params=params)
+    return r.text
+
+def unsubscribe_to_strava_webhook(subscription_id):
+    #id = request.GET.get('id')
+    url = f'https://www.strava.com/api/v3/push_subscriptions/{subscription_id}'
+    params = {
+        'id': subscription_id,
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+    }
+    r = requests.delete(url, params=params)
+    return r.text
+
+def get_webhook_subscription():
+    url = 'https://www.strava.com/api/v3/push_subscriptions'
+    params = {
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+    }
+    r = requests.get(url, params=params)
+    return r.json()

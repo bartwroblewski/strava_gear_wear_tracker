@@ -9,7 +9,6 @@ from django.http import HttpResponse, JsonResponse, HttpResponseServerError
 from django.urls import reverse
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
-from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.db.utils import IntegrityError
 
@@ -241,37 +240,6 @@ def mock_callback_post(request):
 def receive_mock(request):
     print(request.body)
     return HttpResponse('OK')
-
-def subscribe_to_strava_webhook(request):
-    url = 'https://www.strava.com/api/v3/push_subscriptions'
-    params = {
-        'client_id': CLIENT_ID,
-        'client_secret': CLIENT_SECRET,
-        'callback_url': f'http://{settings.DOMAIN}/strava_callback',
-        'verify_token': 'STRAVA',
-    }
-    r = requests.post(url, params=params)
-    return HttpResponse(r.text)
-
-def unsubscribe_to_strava_webhook(request):
-    id = request.GET.get('id')
-    url = f'https://www.strava.com/api/v3/push_subscriptions/{id}'
-    params = {
-        'id': id,
-        'client_id': CLIENT_ID,
-        'client_secret': CLIENT_SECRET,
-    }
-    r = requests.delete(url, params=params)
-    return HttpResponse(r.text)
-
-def view_webhook_subscription(request):
-    url = 'https://www.strava.com/api/v3/push_subscriptions'
-    params = {
-        'client_id': CLIENT_ID,
-        'client_secret': CLIENT_SECRET,
-    }
-    r = requests.get(url, params=params)
-    return HttpResponse(r.json())
 
 def logout(request):
     request.session.flush()

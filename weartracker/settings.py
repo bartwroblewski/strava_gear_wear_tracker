@@ -15,12 +15,15 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '!+c)6u$9toowxg*+wd0$^usqy3atua8!&15jul@i$xj-hxe6&@'
+SECRET_KEY = os.environ['SECRET_KEY']
+
+# Strava credentials
+CLIENT_ID = os.environ['STRAVA_CLIENT_ID']
+CLIENT_SECRET = os.environ['STRAVA_CLIENT_SECRET']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

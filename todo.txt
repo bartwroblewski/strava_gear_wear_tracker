@@ -1,7 +1,6 @@
-- dodac buttona i logo Stravy
-
 - add gear categories and alerts for each categories
 - visuals/dashboard to show the wear of particular components/categories?
+
 
 
 
