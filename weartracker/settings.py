@@ -130,10 +130,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend', 'frontend')
+REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend')
 
 STATICFILES_DIRS = [
-    os.path.join(REACT_APP_DIR, 'build', 'static'),
+    os.path.join(REACT_APP_DIR, 'static', 'frontend'),
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
