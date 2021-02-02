@@ -29,8 +29,7 @@ CLIENT_SECRET = os.environ['STRAVA_CLIENT_SECRET']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-#DEBUG_PROPAGATE_EXCEPTIONS = True
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 DOMAIN = 'stravageartracker.herokuapp.com'#'localhost'#'f918bae6f5b0.ngrok.io'#
 ALLOWED_HOSTS = [DOMAIN]
@@ -129,6 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend')
 
@@ -177,6 +177,5 @@ LOGGING = {
         }
     }
 }
-DEBUG_PROPAGATE_EXCEPTIONS = True
 
 django_heroku.settings(locals())
