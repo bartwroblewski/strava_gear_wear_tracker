@@ -28,7 +28,7 @@ CLIENT_ID = os.environ['STRAVA_CLIENT_ID']
 CLIENT_SECRET = os.environ['STRAVA_CLIENT_SECRET']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 DEBUG_PROPAGATE_EXCEPTIONS = True
 
 DOMAIN = 'stravageartracker.herokuapp.com'#'localhost'#'f918bae6f5b0.ngrok.io'#
@@ -179,4 +179,4 @@ LOGGING = {
     }
 }
 
-django_heroku.settings(locals())
+django_heroku.settings(locals(), logging=False)
