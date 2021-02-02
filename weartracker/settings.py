@@ -30,6 +30,7 @@ CLIENT_SECRET = os.environ['STRAVA_CLIENT_SECRET']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 DEBUG_PROPAGATE_EXCEPTIONS = True
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DOMAIN = 'stravageartracker.herokuapp.com'#'localhost'#'f918bae6f5b0.ngrok.io'#
 ALLOWED_HOSTS = [DOMAIN]
