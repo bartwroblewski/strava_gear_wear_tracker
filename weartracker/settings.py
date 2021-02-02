@@ -135,6 +135,7 @@ REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend')
 STATICFILES_DIRS = [
     os.path.join(REACT_APP_DIR, 'static', 'frontend'),
 ]
+COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
