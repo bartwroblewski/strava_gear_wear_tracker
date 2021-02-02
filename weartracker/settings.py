@@ -31,7 +31,7 @@ CLIENT_SECRET = os.environ['STRAVA_CLIENT_SECRET']
 DEBUG = False
 
 DOMAIN = 'stravageartracker.herokuapp.com'#'localhost'#'f918bae6f5b0.ngrok.io'#
-ALLOWED_HOSTS = ['.herokuapp.com']#[DOMAIN]
+ALLOWED_HOSTS = [DOMAIN]
 
 # Application definition
 
