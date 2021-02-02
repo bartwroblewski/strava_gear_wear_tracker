@@ -192,7 +192,7 @@ def strava_callback(request):
             athlete_id = body['owner_id']
 
             athlete = Athlete.objects.get(ref_id=athlete_id)
-            athlete_tokendata = TokenData.objects.get(athlete=athlete)
+            athlete_tokendata = TokenData.objects.filter(athlete=athlete).last()#get(athlete=athlete)
             if athlete_tokendata.expired:
                 new_tokendata = get_new_access_token(athlete_tokendata.refresh_token)
                 athlete_tokendata.update(new_tokendata)
