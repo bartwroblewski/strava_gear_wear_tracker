@@ -29,4 +29,4 @@ Backend: Python & Django, Django Rest Framework
 Frontend: TypeScript & React hooks
 
 ## Screenshot:
-![Alt text](/screenshots/GearTrackerIndex.PNG?raw=true)
+![Alt text](/screenshots/GearTrackerIndex2.PNG?raw=true)
