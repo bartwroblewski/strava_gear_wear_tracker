@@ -59,7 +59,6 @@ def sessionize_tokendata(request):
         refresh_token=tokendata['refresh_token'],
         athlete=athlete,
     )
-    print('TOKENDATA', athlete_db_tokendata)
     athlete_db_tokendata.update(tokendata)
     
     #refresh athlete bikes
