@@ -15,8 +15,7 @@ from django.db.utils import IntegrityError
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotAuthenticated, NotFound, PermissionDenied
-from rest_framework import status
-from rest_framework import serializers
+from rest_framework import status, serializers
 
 from .models import Gear, Athlete, TokenData, Bike
 from .serializers import GearSerializer, AthleteSerializer
@@ -27,8 +26,6 @@ from .api import (
     get_authenticated_athlete,
     get_activity,
     get_new_access_token,
-    CLIENT_ID, 
-    CLIENT_SECRET,
 )
 
 def index(request):
