@@ -29,4 +29,4 @@ Backend: Python & Django, Django Rest Framework
 Frontend: TypeScript & React hooks
 
 ## Screenshot:
-![Alt text](/screenshots/index.PNG?raw=true)
+![Alt text](/screenshots/index2.PNG?raw=true)
